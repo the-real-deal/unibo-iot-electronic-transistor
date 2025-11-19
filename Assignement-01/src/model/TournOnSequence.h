@@ -38,6 +38,7 @@ struct Game
     int answer[CODE_LENGTH];
     unsigned reductionFactor;
     int answerLength;
+    Difficulty difficulty;
 };
 
 /*

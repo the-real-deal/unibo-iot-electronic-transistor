@@ -58,16 +58,23 @@ void gameMenu()
         stateJustChanged = false;
         printToLcd(2, "Welcome to TOS!", "Press B1 2 Start!");
     }
-    if (millis() - nowTime > 10000)
+    if (millis() - nowTime > SLEEP_TIME)
     {
         g.state = GameState::SLEEP;
     }
 
     ledFading(RED_LED, counter, direction, false);
 
-    Difficulty difficulty = static_cast<Difficulty>(round((MAX_DIFF_VAL / MAX_READ_VAL) * analogRead(ANALOG0)) + 1);
+    int diff = round((MAX_DIFF_VAL / MAX_READ_VAL) * analogRead(ANALOG0)) + 1;
+    Difficulty difficulty = static_cast<Difficulty>(diff);
 
-    changeDifficulty(g, difficulty);
+    if (difficulty != g.difficulty)
+    {
+        changeDifficulty(g, difficulty);
+        char diffStr[10] = "Diff: ";
+        sprintf(diffStr + 6, "%d", static_cast<int>(difficulty));
+        printToLcd(2, "Press B1 2 Start!", diffStr);
+    }
 }
 
 void gameButtonPressed(int i)

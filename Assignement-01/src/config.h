@@ -21,3 +21,5 @@
 #define RED_LED 11
 
 #define FADING_STEP 10
+
+#define SLEEP_TIME 10000

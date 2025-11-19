@@ -17,7 +17,8 @@ Game setupGame(const unsigned long seed)
         10000,
         {0, 0, 0, 0},
         250,
-        0};
+        0,
+        Difficulty::EASY};
 
     return g;
 }
@@ -41,6 +42,7 @@ void changeDifficulty(Game &game, Difficulty d)
     default:
         break;
     }
+    game.difficulty = d;
 }
 
 void shuffle(int *code, int length)
