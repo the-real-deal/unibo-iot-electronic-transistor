@@ -3,6 +3,9 @@
 
 #include "../model/TournOnSequence.h"
 
+/*
+ * Main control function called in the loop
+ */
 void control();
 
 /*
@@ -20,7 +23,7 @@ void gameModel();
  * i: index of the button
  * action: function to be called when the button is pressed
  */
-bool button_no_bouncing(int i); // , void (*action)()
+bool button_no_bouncing(int i);
 
 /*
  * Action to be performed when a game button is pressed

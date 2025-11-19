@@ -16,17 +16,6 @@ void setupLcd()
     lcd.backlight();
 }
 
-// void printToLcd(const int nRows, const char **rows)
-// {
-//     lcd.clear();
-
-//     for (int r = 0; r < nRows && r < LCD_ROWS; r++)
-//     {
-//         lcd.setCursor(0, r);
-//         lcd.print(rows[r]);
-//     }
-// }
-
 void printToLcd(const int nRows, ...)
 {
     va_list args;

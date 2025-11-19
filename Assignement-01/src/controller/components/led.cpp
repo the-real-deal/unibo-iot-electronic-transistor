@@ -12,20 +12,20 @@ void resetLed(int *ledPins, bool *ledsOn, int length)
     }
 }
 
-void ledFading(int ledPin, int &counter, short &direction, bool reset)
+void ledFading(int ledPin, int &brightness, short &direction, bool reset)
 {
     if (reset)
-        counter = 0;
+        brightness = 0;
     else
-        counter += direction;
+        brightness += direction;
 
-    if (counter < 0 || counter > 255)
+    if (brightness < 0 || brightness > 255)
     {
         direction = -direction;
-        counter += direction;
+        brightness += direction;
     }
 
-    analogWrite(ledPin, counter);
+    analogWrite(ledPin, brightness);
 }
 
 int LedShow(int *ledPins, int *answer, int length)
