@@ -20,7 +20,7 @@ void setup()
 
   /* Enable Interrupts */
   interruptButton1();
-  interruptGameButtons();
+  enableInterruptGameButtons();
 
   /* Error LED */
   pinMode(RED_LED, OUTPUT);

@@ -5,7 +5,7 @@
 
 #define DEBOUNCE_TIME 150
 
-#define A0 0
+#define ANALOG0 0
 #define MAX_READ_VAL 1023.0
 #define MAX_DIFF_VAL 3.0
 
@@ -19,3 +19,5 @@
 #define BUTTON_PIN_4 9
 
 #define RED_LED 11
+
+#define FADING_STEP 10

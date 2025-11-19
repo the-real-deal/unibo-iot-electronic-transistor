@@ -56,11 +56,12 @@ void interruptButton1();
 /*
  * Function that enables interrupts for the buttons [BUTTON_PIN_2, BUTTON_PIN_3, BUTTON_PIN_4]
  */
-void interruptGameButtons();
+void enableInterruptGameButtons();
 
 /*
  * Function that puts the microcontroller to sleep
  */
 void sleep();
 
+void resetAllLed();
 #endif
