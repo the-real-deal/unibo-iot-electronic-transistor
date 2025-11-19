@@ -1,4 +1,4 @@
-Automatically normalize line endings to LF for all text files (not for binaries)
+# Automatically normalize line endings to LF for all text files (not for binaries)
 * text=auto eol=lf
 # For files with .cmd (case-insensitive) extension, enforce CRLF (Windows style) line endings.
 *.[cC][mM][dD] text eol=crlf
