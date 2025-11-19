@@ -63,7 +63,7 @@ void setupLcd()
 
 void gameModel()
 {
-    g = setupGame();
+    g = setupGame(analogRead(1));
 }
 
 void gameMenu()

@@ -1,14 +1,15 @@
 #include "TournOnSequence.h"
 #include <stdlib.h>
+#include <time.h>
 // #include <Arduino.h>
 // #include <ctime>
 
 #define CODE_LENGTH 4
 #define SHUFFLE_COUNT 16
 
-Game setupGame()
+Game setupGame(const unsigned long seed)
 {
-    // srand(time(0)); find an alternative for embedded systems
+    srand(seed);
     Game g = {
         GameState::MENU,
         {1, 2, 3, 4},

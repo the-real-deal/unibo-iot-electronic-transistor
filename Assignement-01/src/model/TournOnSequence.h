@@ -36,14 +36,14 @@ struct Game
     int score;
     unsigned maxTime;
     int answer[CODE_LENGTH];
-    int reductionFactor;
+    unsigned reductionFactor;
     int answerLength;
 };
 
 /*
  * Function that initializes the Game structure
  */
-Game setupGame();
+Game setupGame(const unsigned long seed);
 
 /*
  * Function that changes the difficulty of the game
