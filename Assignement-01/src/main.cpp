@@ -8,7 +8,6 @@ void setup()
   {
     Serial.begin(9600);
   }
-  // initialize the lcd
 
   setupLcd();
   gameModel();
