@@ -3,6 +3,7 @@
 #include <avr/sleep.h>
 #include <math.h>
 #include <Arduino.h>
+#include <string.h>
 #include "systemController.h"
 #include "../config.h"
 #include "./components/led.h"
@@ -55,7 +56,7 @@ void gameMenu()
         nowTime = millis();
         resetAllLed();
         stateJustChanged = false;
-        printToLcd(2, "Welcome to TOS!", "Press B1 to Start!");
+        printToLcd(2, "Welcome to TOS!", "Press B1 2 Start!");
     }
     if (millis() - nowTime > 10000)
     {
@@ -64,15 +65,6 @@ void gameMenu()
 
     ledFading(RED_LED, counter, direction, false);
 
-    // analogWrite(RED_LED, counter);
-
-    // counter += direction;
-    // if (counter > 255 || counter < 0)
-    // {
-    //     direction = -direction;
-    //     counter += direction;
-    // }
-    // read the input on analog pin 0 and map it to a range from 1 to 3;
     Difficulty difficulty = static_cast<Difficulty>(round((MAX_DIFF_VAL / MAX_READ_VAL) * analogRead(ANALOG0)) + 1);
 
     changeDifficulty(g, difficulty);
@@ -150,10 +142,10 @@ void gameWin()
 {
     g.score++;
     reduceTime(g);
-    char *buff = new char[(int)floor(log10(g.score)) + 1];
-    sprintf(buff, "GOOD! Score: %d", g.score);
-    printToLcd(1, buff);
-    delete buff;
+    char *scoreBuff = new char[(int)floor(log10(g.score)) + 1];
+    sprintf(scoreBuff, "GOOD! Score: %d", g.score);
+    printToLcd(1, scoreBuff);
+    delete scoreBuff;
     int tmp = LedShow(ledPins, g.answer, CODE_LENGTH);
     delay(max(0, 5000 - tmp));
     stateJustChanged = true;
@@ -182,28 +174,29 @@ void interruptButton1()
 {
     enableInterrupt(buttonPins[0], []()
                     {
-            if(button_no_bouncing(0)){
+        if(button_no_bouncing(0))
+        {
 
-                switch(g.state)                            
-                {
-                    case GameState::MENU:
-                        g.state = GameState::GAME;
-                        ledFading(RED_LED, counter, direction,  true);
-                        stateJustChanged = true;
-                        break;
-                    case GameState::GAME:
-                        gameButtonPressed(0);
-                        break;
-                    case GameState::SLEEP:
-                        stateJustChanged = true;
-                        g.state = GameState::MENU;
-                        break;
-                    case GameState::GAMEOVER:
-                        break;
-                    case GameState::WIN:
-                        break;
-                }
-            }; }, RISING);
+            switch(g.state)                            
+            {
+                case GameState::MENU:
+                    g.state = GameState::GAME;
+                    ledFading(RED_LED, counter, direction,  true);
+                    stateJustChanged = true;
+                    break;
+                case GameState::GAME:
+                    gameButtonPressed(0);
+                    break;
+                case GameState::SLEEP:
+                    stateJustChanged = true;
+                    g.state = GameState::MENU;
+                    break;
+                case GameState::GAMEOVER:
+                    break;
+                case GameState::WIN:
+                    break;
+            }
+        }; }, RISING);
 }
 
 void enableInterruptGameButtons()
