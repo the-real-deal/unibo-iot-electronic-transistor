@@ -1,22 +1,22 @@
 #define EI_ARDUINO_INTERRUPTED_PIN
 #include <EnableInterrupt.h>
-#include <LiquidCrystal_I2C.h>
 #include <avr/sleep.h>
 #include <math.h>
 #include <Arduino.h>
 #include "systemController.h"
 #include "../config.h"
+#include "./components/led.h"
+#include "./components/button.h"
+#include "./components/lcd.h"
+#include "../utils.h"
 
-void resetLed();
-int indexof(int value, int *array, int length);
-LiquidCrystal_I2C lcd(0x27, 20, 4);
 int buttonPins[CODE_LENGTH] = {BUTTON_PIN_1, BUTTON_PIN_2, BUTTON_PIN_3, BUTTON_PIN_4};
 int ledPins[CODE_LENGTH] = {LED_PIN_1, LED_PIN_2, LED_PIN_3, LED_PIN_4};
 bool ledsOn[CODE_LENGTH] = {false, false, false, false};
-long prevts[CODE_LENGTH] = {0, 0, 0, 0};
 
 int counter = 0;
-short direction = 10;
+short direction = FADING_STEP;
+
 bool stateJustChanged = true;
 unsigned long nowTime;
 Game g;
@@ -43,24 +43,6 @@ void control()
     }
 }
 
-bool button_no_bouncing(int i) // , void (*action)()
-{
-    long ts = millis();
-    if (ts - prevts[i] > DEBOUNCE_TIME)
-    {
-        prevts[i] = ts;
-        return true;
-        // action();
-    }
-    return false;
-}
-
-void setupLcd()
-{
-    lcd.init();
-    lcd.backlight();
-}
-
 void gameModel()
 {
     g = setupGame(analogRead(1));
@@ -71,27 +53,27 @@ void gameMenu()
     if (stateJustChanged)
     {
         nowTime = millis();
+        resetAllLed();
         stateJustChanged = false;
-        lcd.setCursor(0, 0);
-        lcd.print("Welcome to TOS!");
-        lcd.setCursor(0, 1);
-        lcd.print("Press B1 to Start!");
+        printToLcd(2, "Welcome to TOS!", "Press B1 to Start!");
     }
     if (millis() - nowTime > 10000)
     {
         g.state = GameState::SLEEP;
     }
 
-    analogWrite(RED_LED, counter);
+    ledFading(RED_LED, counter, direction, false);
 
-    counter += direction;
-    if (counter > 255 || counter < 0)
-    {
-        direction = -direction;
-        counter += direction;
-    }
+    // analogWrite(RED_LED, counter);
+
+    // counter += direction;
+    // if (counter > 255 || counter < 0)
+    // {
+    //     direction = -direction;
+    //     counter += direction;
+    // }
     // read the input on analog pin 0 and map it to a range from 1 to 3;
-    Difficulty difficulty = static_cast<Difficulty>(round((MAX_DIFF_VAL / MAX_READ_VAL) * analogRead(A0)) + 1);
+    Difficulty difficulty = static_cast<Difficulty>(round((MAX_DIFF_VAL / MAX_READ_VAL) * analogRead(ANALOG0)) + 1);
 
     changeDifficulty(g, difficulty);
 }
@@ -102,22 +84,25 @@ void gameButtonPressed(int i)
     addDigit(g, i + 1);
 }
 
+void resetAllLed()
+{
+    resetLed(ledPins, ledsOn, CODE_LENGTH);
+    ledFading(RED_LED, counter, direction, true);
+}
+
 void gamePlaying()
 {
     if (stateJustChanged)
     {
         nowTime = millis();
         stateJustChanged = false;
-        resetLed();
+        resetAllLed();
         generateCode(g);
-        lcd.setCursor(0, 0);
-        lcd.clear();
-        lcd.print("GO!");
+        printToLcd(1, "GO!");
         delay(1000);
-        lcd.clear();
         char buff[5];
         sprintf(buff, "%d%d%d%d", g.code[0], g.code[1], g.code[2], g.code[3]);
-        lcd.print(buff);
+        printToLcd(1, buff);
     }
     if (millis() - nowTime > g.maxTime)
     {
@@ -146,14 +131,14 @@ void gamePlaying()
 
 void gameLoss()
 {
-    resetLed();
+    resetAllLed();
     digitalWrite(RED_LED, HIGH);
-    lcd.setCursor(0, 0);
-    lcd.clear();
-    lcd.print("Game Over");
-    lcd.setCursor(0, 1);
-    lcd.print("Final Score ");
-    lcd.print(g.score);
+
+    char *buff = new char[(int)floor(log10(g.score)) + 1];
+    sprintf(buff, "Final Score: %d", g.score);
+    printToLcd(2, "Game Over", buff);
+    delete buff;
+
     delay(2000);
     digitalWrite(RED_LED, LOW);
     delay(6000);
@@ -165,42 +150,32 @@ void gameWin()
 {
     g.score++;
     reduceTime(g);
-    lcd.setCursor(0, 0);
-    lcd.clear();
-    lcd.print("GOOD! Score:");
-    lcd.print(g.score);
-    delay(5000);
+    char *buff = new char[(int)floor(log10(g.score)) + 1];
+    sprintf(buff, "GOOD! Score: %d", g.score);
+    printToLcd(1, buff);
+    delete buff;
+    int tmp = LedShow(ledPins, g.answer, CODE_LENGTH);
+    delay(max(0, 5000 - tmp));
     stateJustChanged = true;
     g.state = GameState::GAME;
 }
 
-void resetLed()
-{
-    for (int i = 0; i < CODE_LENGTH; i++)
-    {
-        ledsOn[i] = false;
-        digitalWrite(ledPins[i], ledsOn[i] ? HIGH : LOW);
-    }
-
-    counter = 0;
-    analogWrite(RED_LED, counter);
-}
-
 void sleep()
 {
-    resetLed();
-
+    resetAllLed();
+    printToLcd(2, "Sleeping...", "Press B1 to Wake");
     set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 
     sleep_enable();
 
-    disableInterrupt(ledPins[0]);
-    disableInterrupt(ledPins[1]);
-    disableInterrupt(ledPins[2]);
+    for (int i = 0; i < CODE_LENGTH; i++)
+    {
+        disableInterrupt(ledPins[i]);
+    }
 
     sleep_mode();
 
-    interruptGameButtons();
+    enableInterruptGameButtons();
 }
 
 void interruptButton1()
@@ -213,8 +188,7 @@ void interruptButton1()
                 {
                     case GameState::MENU:
                         g.state = GameState::GAME;
-                        counter = 0;
-                        analogWrite(RED_LED, counter);
+                        ledFading(RED_LED, counter, direction,  true);
                         stateJustChanged = true;
                         break;
                     case GameState::GAME:
@@ -232,7 +206,7 @@ void interruptButton1()
             }; }, RISING);
 }
 
-void interruptGameButtons()
+void enableInterruptGameButtons()
 {
     for (int i = 1; i < CODE_LENGTH; i++)
     {
@@ -245,14 +219,4 @@ void interruptGameButtons()
                     gameButtonPressed(indexButton);
             } }, RISING);
     }
-}
-
-int indexof(int value, int *array, int length)
-{
-    for (int i = 0; i < length; i++)
-    {
-        if (array[i] == value)
-            return i;
-    }
-    return -1;
 }
