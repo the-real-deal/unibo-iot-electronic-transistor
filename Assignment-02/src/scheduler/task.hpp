@@ -2,8 +2,15 @@
 
 class Task
 {
+private:
+    /* data */
+    int id;
+
+protected:
+    int duration;
+
 public:
-    Task(/* args */);
+    Task(const int id) : id(id) {};
     ~Task();
 
     /*
@@ -12,4 +19,9 @@ public:
      * Returns false if the task is still ongoing.
      */
     virtual bool excecute();
+
+    int getId()
+    {
+        return id;
+    }
 };

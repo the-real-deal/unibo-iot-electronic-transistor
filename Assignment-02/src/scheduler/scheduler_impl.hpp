@@ -8,13 +8,14 @@ class Scheduler_Impl
 private:
     static const long period = 20;
     LinkedList<Task> queue;
+    int index;
 
 public:
-    Scheduler_Impl(/* args */);
+    Scheduler_Impl();
     ~Scheduler_Impl();
 
-    bool addTask(Task t);
-    bool removeTask(int id);
+    void addTask(Task t);
+    Task removeTask(int id);
     void excecuteTask();
     void clearQueue();
 };
