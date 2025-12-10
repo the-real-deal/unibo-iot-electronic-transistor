@@ -2,23 +2,12 @@
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
-#include "servo_motor_impl.h"
+#include "component/servo_motor_impl.hpp"
+#include "config.h"
 
 int pos;
 int delta;
 ServoMotor *pMotor;
-
-#define DHTTYPE DHT11
-#define DHTPIN 2
-#define LED1 3
-#define LED2 4
-#define LED3 5
-#define BUTTON1 13
-#define SONAR_TRIG_PIN 12
-#define SONAR_ECHO_PIN 11
-#define NO_OBJECTS -1
-#define PIR_PIN 7
-#define CALIBRATION_TIME_SEC 10
 
 /* Supposing to run this test
    in an environment with 20 °C

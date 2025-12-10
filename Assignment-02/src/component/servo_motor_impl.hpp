@@ -1,7 +1,6 @@
-#ifndef __SERVO_MOTOR_IMPL__
-#define __SERVO_MOTOR_IMPL__
+#pragma once
 
-#include "servo_motor.h"
+#include "servo_motor.hpp"
 #include <Servo.h>
 
 class ServoMotorImpl : public ServoMotor
@@ -18,5 +17,3 @@ private:
     int pin;
     Servo motor;
 };
-
-#endif
