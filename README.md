@@ -23,9 +23,9 @@ The project is structured into three main assignments, progressively covering di
 
 | Assignment | Description | Link |
 |-------------|--------------|------|
-| **Assignment 01** | First phase of the project – hardware setup and basic sensor interaction. | [![github](https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=white)](https://github.com/pslab-unibo/esiot-2025-2026/blob/master/docs/assignment-01.md) |
-| **Assignment 02** | Second phase – OOP and Final State Machines. | [![github](https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=white)](https://github.com/pslab-unibo/esiot-2025-2026/blob/master/docs/assignment-02.md) |
-| **Assignment 03** | Third phase – advanced IoT integration and cloud connectivity. | *Yet to be announced* |
+| **Assignment 01** | First phase of the project – hardware setup and basic sensor interaction. | [![github](https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=white)](https://github.com/pslab-unibo/esiot-2025-2026/blob/master/assignments/assignment-01.md) |
+| **Assignment 02** | Second phase – OOP and Final State Machines. | [![github](https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=white)](https://github.com/pslab-unibo/esiot-2025-2026/blob/master/assignments/assignment-02.md) |
+| **Assignment 03** | Third phase – advanced IoT integration and cloud connectivity. | [![github](https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=white)](https://github.com/pslab-unibo/esiot-2025-2026/blob/master/assignments/assignment-03.md) |
 
 Each assignment has its own directory containing source code, documentation, and a brief report.
 
