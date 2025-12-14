@@ -11,11 +11,6 @@ void Scheduler_Impl::addTask(Task t)
     queue.add(t);
 }
 
-// void Scheduler_Impl::removeTask(int id)
-// {
-//     // Not implemented
-// }
-
 void Scheduler_Impl::excecuteTask()
 {
     long currentTime = millis();
@@ -28,12 +23,12 @@ void Scheduler_Impl::excecuteTask()
             {
                 if (currentTask.updateAndCheckTime(period))
                 {
-                    currentTask.tick();
+                    currentTask.excecute();
                 }
             }
             else
             {
-                currentTask.tick();
+                currentTask.excecute();
             }
             if (currentTask.isCompleted())
             {

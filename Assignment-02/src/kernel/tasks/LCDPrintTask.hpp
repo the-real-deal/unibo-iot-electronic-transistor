@@ -2,16 +2,16 @@
 
 #include "../task.hpp"
 #include <string.h>
-#include "../../component/LCD.hpp"
+#include "../../devices/LCD.hpp"
 
 class LCDPrintTask : public Task
 {
 private:
-    LCD lcd;
+    LCD *lcd;
     const char *message;
 
 public:
-    LCDPrintTask(LCD lcd, const char *message) : lcd(lcd), message(message) {};
+    LCDPrintTask(LCD *lcd) : lcd(lcd) {};
     ~LCDPrintTask();
     bool excecute() override;
 };

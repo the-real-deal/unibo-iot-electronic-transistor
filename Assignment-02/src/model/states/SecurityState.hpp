@@ -1,3 +1,4 @@
+#pragma once
 #include "Context.hpp"
 
 class SecurityState
@@ -13,4 +14,7 @@ public:
     {
         this->context = ctx;
     }
+
+    virtual char *sendDRUData();
+    virtual void recieveDRUData();
 };

@@ -11,11 +11,7 @@ public:
     ~Scheduler();
 
     virtual void addTask(Task t);
-    /*
-     * Removes a task from the scheduler by its id.
-     * Returns the removed task, returns null pointer if no task is found.
-     */
-    // virtual int removeTask(int id) = 0;
-    virtual void excecuteTask();
-    virtual void clearQueue();
+
+    virtual void excecuteTask() = 0;
+    virtual void clearQueue() = 0;
 };

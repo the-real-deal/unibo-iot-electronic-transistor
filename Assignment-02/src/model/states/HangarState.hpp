@@ -1,4 +1,6 @@
+#pragma once
 #include "Context.hpp"
+#include "../HWPlatform.hpp"
 
 class HangarState
 {
@@ -9,8 +11,11 @@ protected:
 public:
     HangarState();
     ~HangarState();
+
     void setContext(Context *ctx)
     {
         this->context = ctx;
     }
+
+    void initializeTasks(HWPlatform *platform);
 };

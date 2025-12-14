@@ -27,7 +27,8 @@ public:
         completed = false;
     }
 
-    virtual void tick();
+    virtual void excecute();
+    virtual void cleanup();
 
     bool updateAndCheckTime(int basePeriod)
     {
@@ -47,6 +48,7 @@ public:
     {
         completed = true;
         active = false;
+        cleanup();
     }
 
     bool isCompleted()

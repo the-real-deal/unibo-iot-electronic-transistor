@@ -1,3 +1,4 @@
+#pragma once
 #include "HangarState.hpp"
 #include "SecurityState.hpp"
 
