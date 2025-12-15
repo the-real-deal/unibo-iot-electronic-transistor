@@ -17,5 +17,6 @@ public:
         this->context = ctx;
     }
 
-    void initializeTasks(HWPlatform *platform);
+    virtual void initializeTasks(HWPlatform *platform);
+    virtual void changeState();
 };

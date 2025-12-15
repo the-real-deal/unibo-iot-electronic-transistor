@@ -29,7 +29,7 @@ void exampleTask::excecute()
     }
     if (/* some other condition */ false)
     {
-        context->setHangarState(new HangarState());
+        context->changeState();
     }
 }
 

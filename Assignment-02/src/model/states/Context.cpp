@@ -31,3 +31,8 @@ void Context::setSecurityState(SecurityState *state)
     this->securityState = state;
     this->securityState->setContext(this);
 }
+
+void Context::changeState()
+{
+    this->hangarState->changeState();
+}

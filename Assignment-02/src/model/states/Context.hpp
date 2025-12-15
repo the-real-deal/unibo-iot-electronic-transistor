@@ -14,4 +14,6 @@ public:
 
     void setHangarState(HangarState *state);
     void setSecurityState(SecurityState *state);
+
+    void changeState();
 };
