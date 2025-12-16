@@ -6,7 +6,7 @@ Scheduler_Impl::~Scheduler_Impl()
     queue.clear();
 }
 
-void Scheduler_Impl::addTask(Task t)
+void Scheduler_Impl::addTask(Task *t)
 {
     queue.add(t);
 }
@@ -16,23 +16,24 @@ void Scheduler_Impl::excecuteTask()
     long currentTime = millis();
     for (int i = 0; i < queue.size(); i++)
     {
-        Task currentTask = queue.get(i);
-        if (currentTask.isActive())
+        Task *currentTask = queue.get(i);
+        if (currentTask->isActive())
         {
-            if (currentTask.isPeriodic())
+            if (currentTask->isPeriodic())
             {
-                if (currentTask.updateAndCheckTime(period))
+                if (currentTask->updateAndCheckTime(period))
                 {
-                    currentTask.excecute();
+                    currentTask->excecute();
                 }
             }
             else
             {
-                currentTask.excecute();
+                currentTask->excecute();
             }
-            if (currentTask.isCompleted())
+            if (currentTask->isCompleted())
             {
-                currentTask.setActive(false);
+                queue.remove(i);
+                i--; // Adjust index after removal
             }
         }
     }
@@ -55,4 +56,16 @@ void Scheduler_Impl::excecuteTask()
 void Scheduler_Impl::clearQueue()
 {
     queue.clear();
+}
+
+void Scheduler_Impl::removeTask(int id)
+{
+    for (int i = 0; i < queue.size(); i++)
+    {
+        if (queue.get(i)->getId() == id)
+        {
+            queue.remove(i);
+            break;
+        }
+    }
 }

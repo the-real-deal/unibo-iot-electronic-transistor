@@ -2,11 +2,10 @@
 
 class Task
 {
-
 public:
-    Task()
+    Task() : id(taskIdCounter), active(false)
     {
-        active = false;
+        taskIdCounter++;
     }
 
     /* periodic */
@@ -47,7 +46,7 @@ public:
     void setCompleted()
     {
         completed = true;
-        active = false;
+        // active = false;
         cleanup();
     }
 
@@ -77,10 +76,19 @@ public:
         this->active = active;
     }
 
+    int getId()
+    {
+        return id;
+    }
+
 private:
+    int id;
     int myPeriod;
     int timeElapsed;
     bool active;
     bool periodic;
     bool completed;
+    static int taskIdCounter;
 };
+
+int Task::taskIdCounter = 0;

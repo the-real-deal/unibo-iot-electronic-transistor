@@ -1,6 +1,7 @@
 #pragma once
 #include "HangarState.hpp"
-#include "SecurityState.hpp"
+#include "SecurityStates/SecurityState.hpp"
+#include <Arduino.h>
 
 class Context
 {
@@ -14,6 +15,7 @@ public:
 
     void setHangarState(HangarState *state);
     void setSecurityState(SecurityState *state);
+    void changeState(String sender);
 
-    void changeState();
+    String getStateInfo();
 };

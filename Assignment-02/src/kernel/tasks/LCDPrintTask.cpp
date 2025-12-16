@@ -1,11 +1,13 @@
 #include "LCDPrintTask.hpp"
+#include <Arduino.h>
 
 LCDPrintTask::~LCDPrintTask()
 {
 }
 
-bool LCDPrintTask::excecute()
+void LCDPrintTask::excecute()
 {
-    lcd.print(1, message);
-    return true; // Indicate that the task is finished
+    String message = context->getStateInfo();
+    lcd->print(1, message.c_str());
+    this->setCompleted();
 }

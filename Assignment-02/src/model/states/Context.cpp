@@ -2,8 +2,6 @@
 
 Context::Context() : securityState(nullptr), hangarState(nullptr)
 {
-    // this->hangarState = /* new idle */;
-    // this->securityState = /* new normal */;
 }
 
 Context::~Context()
@@ -32,7 +30,16 @@ void Context::setSecurityState(SecurityState *state)
     this->securityState->setContext(this);
 }
 
-void Context::changeState()
+void Context::changeState(String sender)
 {
-    this->hangarState->changeState();
+    if (sender == "SEC")
+        this->securityState->changeState();
+    else
+        this->hangarState->changeState();
+}
+
+String Context::getStateInfo()
+{
+    String sec = this->securityState->getStateInfo();
+    return sec.length() > 0 ? sec : this->hangarState->getStateInfo();
 }
