@@ -3,17 +3,17 @@
 #include "../task.hpp"
 #include <string.h>
 #include "../../devices/LCD.hpp"
-#include "../../model/states/Context.hpp"
 
 class LCDPrintTask : public Task
 {
 private:
-    LCD *lcd;
-    Context *context;
+    LCD lcd;
     const char *message;
 
 public:
-    LCDPrintTask(LCD *lcd_, Context *context_) : lcd(lcd_), context(context_) {};
+    LCDPrintTask(LCD lcd, const char *message) : lcd(lcd), message(message) {};
     ~LCDPrintTask();
-    void excecute() override;
+
+    virtual void init() = 0;
+    virtual void tick() = 0;
 };

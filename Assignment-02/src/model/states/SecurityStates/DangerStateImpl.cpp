@@ -12,8 +12,10 @@ String DangerState::sendDRUData()
 {
     return "Alarm";
 }
-void DangerState::recieveDRUData(String data)
+
+bool DangerState::canReceiveMsg()
 {
+    return false;
 }
 
 void DangerState::initializeTasks(HWPlatform *platform)

@@ -17,7 +17,7 @@ public:
     }
 
     virtual void initializeTasks(HWPlatform *platform);
-    virtual void recieveDRUData(String data);
+    virtual bool canReceiveMsg();
     virtual String sendDRUData();
     virtual String getStateInfo();
     virtual void changeState();

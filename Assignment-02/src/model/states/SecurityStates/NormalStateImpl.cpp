@@ -13,8 +13,9 @@ String NormalState::sendDRUData()
     return "Normal";
 }
 
-void NormalState::recieveDRUData(String data)
+bool NormalState::canReceiveMsg()
 {
+    return true;
 }
 
 void NormalState::initializeTasks(HWPlatform *platform)

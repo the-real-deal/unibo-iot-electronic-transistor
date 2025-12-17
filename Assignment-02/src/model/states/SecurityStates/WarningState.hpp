@@ -10,7 +10,7 @@ public:
     ~WarningState();
 
     String sendDRUData() override;
-    void recieveDRUData(String data) override;
+    bool canReceiveMsg() override;
     void initializeTasks(HWPlatform *platform) override;
     void changeState() override;
     String getStateInfo() override;

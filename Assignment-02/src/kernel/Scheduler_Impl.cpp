@@ -14,7 +14,8 @@ void Scheduler_Impl::addTask(Task *t)
 void Scheduler_Impl::excecuteTask()
 {
     long currentTime = millis();
-    for (int i = 0; i < queue.size(); i++)
+    int size = queue.size();
+    for (int i = 0; i < size; i++)
     {
         Task *currentTask = queue.get(i);
         if (currentTask->isActive())
@@ -32,11 +33,12 @@ void Scheduler_Impl::excecuteTask()
             }
             if (currentTask->isCompleted())
             {
-                queue.remove(i);
-                i--; // Adjust index after removal
+                removeTask(currentTask->getId());
             }
         }
     }
+
+    removeTaskFromQueue();
 
     long elapsedTime = millis() - currentTime;
     if (elapsedTime < period)
@@ -60,12 +62,21 @@ void Scheduler_Impl::clearQueue()
 
 void Scheduler_Impl::removeTask(int id)
 {
-    for (int i = 0; i < queue.size(); i++)
+    tasksToRemove.add(id);
+}
+
+void Scheduler_Impl::removeTaskFromQueue()
+{
+    for (int i = 0; i < tasksToRemove.size(); i++)
     {
-        if (queue.get(i)->getId() == id)
+        int idToRemove = tasksToRemove.get(i);
+        for (int j = 0; j < queue.size(); j++)
         {
-            queue.remove(i);
-            break;
+            if (queue.get(j)->getId() == idToRemove)
+            {
+                queue.remove(j);
+                break;
+            }
         }
     }
 }

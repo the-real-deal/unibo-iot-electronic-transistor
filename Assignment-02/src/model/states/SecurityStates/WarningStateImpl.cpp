@@ -14,8 +14,9 @@ String WarningState::sendDRUData()
     return "Normal";
 }
 
-void WarningState::recieveDRUData(String data)
+bool WarningState::canReceiveMsg()
 {
+    return false;
 }
 
 void WarningState::initializeTasks(HWPlatform *platform)

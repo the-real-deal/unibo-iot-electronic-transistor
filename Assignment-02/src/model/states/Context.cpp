@@ -1,9 +1,5 @@
 #include "Context.hpp"
 
-Context::Context() : securityState(nullptr), hangarState(nullptr)
-{
-}
-
 Context::~Context()
 {
     delete hangarState;
@@ -42,4 +38,17 @@ String Context::getStateInfo()
 {
     String sec = this->securityState->getStateInfo();
     return sec.length() > 0 ? sec : this->hangarState->getStateInfo();
+}
+
+void Context::handleDRURequest(String msg)
+{
+    if (this->securityState->canReceiveMsg())
+    {
+        this->hangarState->handleRequest(msg);
+    }
+}
+
+void Context::addTaskToScheduler(Task *task)
+{
+    this->scheduler->addTask(task);
 }

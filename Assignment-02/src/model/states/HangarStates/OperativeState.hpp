@@ -10,7 +10,7 @@ public:
     OperativeState(/* args */);
     ~OperativeState();
     void initializeTasks(HWPlatform *platform) override;
-    char *sendDRUData() override;
+    String sendDRUData() override;
     String getStateInfo() override;
     void changeState() override;
 };
