@@ -1,10 +1,11 @@
 #pragma once
-#include "HangarState.hpp"
+#include "../Context.hpp"
 
 class TakeOffState : public HangarState
 {
 private:
-    /* data */
+    HangarSubState currentSubState;
+
 public:
     TakeOffState(/* args */);
     ~TakeOffState();

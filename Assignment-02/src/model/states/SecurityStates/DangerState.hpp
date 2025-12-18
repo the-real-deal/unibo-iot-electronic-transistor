@@ -1,5 +1,5 @@
 #pragma once
-#include "SecurityState.hpp"
+#include "../Context.hpp"
 
 class DangerState : public SecurityState
 {
@@ -8,10 +8,7 @@ private:
 
 public:
     DangerState();
-    ~DangerState()
-    {
-        delete taskAdded;
-    }
+    ~DangerState();
 
     String sendDRUData() override;
     bool canReceiveMsg() override;

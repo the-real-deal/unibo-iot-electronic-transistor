@@ -1,5 +1,10 @@
 #include "Arduino.h"
 #include "scheduler_impl.hpp"
+#include "Logger.h"
+
+Scheduler_Impl::Scheduler_Impl(long period) : period(period)
+{
+}
 
 Scheduler_Impl::~Scheduler_Impl()
 {

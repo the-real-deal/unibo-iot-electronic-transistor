@@ -1,5 +1,7 @@
 #pragma once
 
+static int taskIdCounter = 0;
+
 class Task
 {
 public:
@@ -88,7 +90,4 @@ private:
     bool active;
     bool periodic;
     bool completed;
-    static int taskIdCounter;
 };
-
-int Task::taskIdCounter = 0;

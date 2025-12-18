@@ -1,9 +1,11 @@
 #ifndef __BUTTON__
 #define __BUTTON__
 
-class Button {
- 
-public: 
+class Button
+{
+
+public:
+  virtual ~Button() {};
   virtual bool isPressed() = 0;
 };
 

@@ -4,6 +4,7 @@
 ServoMotorImpl::ServoMotorImpl(int pin)
 {
     this->pin = pin;
+    this->angle = 0;
 }
 
 void ServoMotorImpl::on()
@@ -13,6 +14,7 @@ void ServoMotorImpl::on()
 
 void ServoMotorImpl::setPosition(int angle)
 {
+    this->angle = angle;
     motor.write(angle);
 }
 

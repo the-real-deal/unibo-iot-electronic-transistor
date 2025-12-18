@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Arduino.h>
-#include "Task.hpp"
 #include "LinkedList.h"
 #include "Scheduler.hpp"
 
@@ -15,8 +14,8 @@ private:
     void removeTaskFromQueue();
 
 public:
-    Scheduler_Impl(long period) : period(period) {}
-    ~Scheduler_Impl();
+    Scheduler_Impl(long period);
+    ~Scheduler_Impl() override;
 
     void addTask(Task *t) override;
     void removeTask(int id) override;

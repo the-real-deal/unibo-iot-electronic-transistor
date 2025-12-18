@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../task.hpp"
+#include "../Task.hpp"
 #include <string.h>
 #include "../../devices/LCD.hpp"
 

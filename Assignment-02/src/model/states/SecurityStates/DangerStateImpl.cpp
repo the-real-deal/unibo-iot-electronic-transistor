@@ -4,6 +4,7 @@
 DangerState::DangerState(/* args */)
 {
 }
+
 DangerState::~DangerState()
 {
 }

@@ -15,12 +15,12 @@ void IdleState::initializeTasks(HWPlatform *platform)
 
 String IdleState::sendDRUData()
 {
-    return "Drone In";
+    return "Rest";
 }
 
 String IdleState::getStateInfo()
 {
-    return "Rest";
+    return "Drone In";
 }
 
 void IdleState::changeState()

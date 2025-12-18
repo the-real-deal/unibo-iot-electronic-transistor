@@ -7,8 +7,8 @@ class Scheduler
 private:
     /* data */
 public:
-    Scheduler();
-    ~Scheduler();
+    Scheduler() {};
+    virtual ~Scheduler() {};
 
     virtual void addTask(Task *t) = 0;
     virtual void removeTask(int id) = 0;

@@ -1,5 +1,5 @@
 #pragma once
-#include "SecurityState.hpp"
+#include "../Context.hpp"
 
 class WarningState : public SecurityState
 {

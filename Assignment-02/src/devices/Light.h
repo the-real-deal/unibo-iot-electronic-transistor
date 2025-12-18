@@ -4,6 +4,7 @@
 class Light
 {
 public:
+    virtual ~Light() {}
     virtual void switchOn() = 0;
     virtual void switchOff() = 0;
 };

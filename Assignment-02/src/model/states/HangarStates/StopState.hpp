@@ -1,11 +1,12 @@
 #pragma once
-#include "HangarState.hpp"
+#include "../Context.hpp"
 #include <Arduino.h>
 
 class StopState : public HangarState
 {
 private:
-    /* data */
+    bool isIn;
+
 public:
     StopState(/* args */);
     ~StopState();

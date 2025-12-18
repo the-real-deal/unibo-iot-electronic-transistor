@@ -4,11 +4,11 @@
 class LCD
 {
 private:
-    LiquidCrystal_I2C lcd;
+    LiquidCrystal_I2C *lcd;
     int rows = 0;
 
 public:
-    LCD(int address, int columns, int rows) : lcd(address, columns, rows), rows(rows) {};
-    ~LCD();
+    LCD(int address, int columns, int rows_);
+    virtual ~LCD() {};
     void print(const int nRows, ...);
 };

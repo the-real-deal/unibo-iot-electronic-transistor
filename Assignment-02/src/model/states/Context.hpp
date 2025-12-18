@@ -1,9 +1,20 @@
 #pragma once
-#include "HangarState.hpp"
-#include "SecurityStates/SecurityState.hpp"
 #include "../../kernel/Task.hpp"
 #include "../../kernel/Scheduler.hpp"
+#include "../HWPlatform.hpp"
 #include <Arduino.h>
+
+/* State Classes Definition */
+class HangarState;
+class SecurityState;
+enum HangarSubState
+{
+    CHECKING,
+    OPENING,
+    DETECTING,
+    CLOSING
+};
+/* ------------------------ */
 
 class Context
 {
@@ -13,7 +24,7 @@ private:
     Scheduler *scheduler;
 
 public:
-    Context(Scheduler *sched) : scheduler(sched), securityState(nullptr), hangarState(nullptr) {};
+    Context(Scheduler *sched) : hangarState(nullptr), securityState(nullptr), scheduler(sched) {};
     ~Context();
 
     /*
@@ -44,4 +55,91 @@ public:
      * Method to add tasks to the scheduler
      */
     void addTaskToScheduler(Task *task);
+};
+
+/* State Class Definition */
+class HangarState
+{
+private:
+protected:
+    Context *context;
+    int *taskAdded;
+
+public:
+    HangarState();
+    virtual ~HangarState()
+    {
+        delete taskAdded;
+    }
+
+    void setContext(Context *ctx)
+    {
+        this->context = ctx;
+    }
+
+    /*
+     * Adds all the necessary tasks for the state
+     */
+    virtual void initializeTasks(HWPlatform *platform);
+
+    /*
+     * Gets all the data to send to the DRU
+     */
+    virtual String sendDRUData();
+
+    /*
+     * Gets information about the current state (used for LCD display)
+     */
+    virtual String getStateInfo();
+
+    /*
+     * Method to change state, called by external events (ex. tasks)
+     */
+    virtual void changeState();
+
+    /*
+     * Method to handle incoming DRU requests
+     */
+    virtual void handleRequest(String msg);
+};
+
+class SecurityState
+{
+private:
+protected:
+    Context *context;
+
+public:
+    SecurityState(/* args */);
+    virtual ~SecurityState();
+
+    void setContext(Context *ctx)
+    {
+        this->context = ctx;
+    }
+
+    /*
+     * Adds all the necessary tasks for the state
+     */
+    virtual void initializeTasks(HWPlatform *platform);
+
+    /*
+     * Method to check if the current state can receive messages
+     */
+    virtual bool canReceiveMsg();
+
+    /*
+     * Gets all the data to send to the DRU
+     */
+    virtual String sendDRUData();
+
+    /*
+     * Gets information about the current state (used for LCD display)
+     */
+    virtual String getStateInfo();
+
+    /*
+     * Method to change state, called by external events (ex. tasks)
+     */
+    virtual void changeState();
 };

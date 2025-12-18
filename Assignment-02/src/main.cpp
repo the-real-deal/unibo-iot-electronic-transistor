@@ -4,13 +4,12 @@
 #include "kernel/Scheduler_Impl.hpp"
 #include "model/HWPlatform.hpp"
 
-Scheduler_Impl scheduler;
-HWPlatform hwPlatform;
+Scheduler *scheduler;
+HWPlatform *hwPlatform;
 
 void setup()
 {
-  scheduler = Scheduler_Impl(SCHEDULER_PERIOD_MS);
-
+  scheduler = new Scheduler_Impl(SCHEDULER_PERIOD_MS);
   /*
     Add Tasks to the scheduler here
   */
@@ -18,5 +17,5 @@ void setup()
 
 void loop()
 {
-  scheduler.excecuteTask();
+  scheduler->excecuteTask();
 }
