@@ -12,6 +12,6 @@ public:
     ReadTempTask(TempSensor *tempSensor) : tempSensor(tempSensor) {};
     ~ReadTempTask();
 
-    void excecute() override;
+    void execute() override;
     void cleanup() override;
 };

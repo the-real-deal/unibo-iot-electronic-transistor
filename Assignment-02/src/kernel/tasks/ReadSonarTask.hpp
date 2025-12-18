@@ -17,6 +17,6 @@ public:
     };
     ~ReadSonarTask();
 
-    void excecute() override;
+    void execute() override;
     void cleanup() override;
 };

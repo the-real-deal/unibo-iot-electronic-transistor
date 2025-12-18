@@ -11,6 +11,6 @@ void LCDPrintTask::init()
 
 void LCDPrintTask::tick()
 {
-    lcd->print(1, "");
+    lcd->print(1, "Task");
     setCompleted();
 }

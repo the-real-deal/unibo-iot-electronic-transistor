@@ -8,7 +8,7 @@ void ReadSonarTask::cleanup()
 {
 }
 
-void ReadSonarTask::excecute()
+void ReadSonarTask::execute()
 {
     // sonar.getDistance();
     // setCompleted();

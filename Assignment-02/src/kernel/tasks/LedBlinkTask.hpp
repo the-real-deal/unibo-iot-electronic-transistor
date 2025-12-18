@@ -10,9 +10,9 @@ private:
     Led *led;
 
 public:
-    LedBlinkTask(Led *led, int intensity) : led(led) {};
+    LedBlinkTask(Led *led) : led(led) {};
     ~LedBlinkTask();
 
-    void excecute() override;
+    void execute() override;
     void cleanup() override;
 };

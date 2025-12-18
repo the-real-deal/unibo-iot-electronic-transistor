@@ -17,6 +17,7 @@ public:
         periodic = true;
         active = true;
         timeElapsed = 0;
+        completed = false;
     }
 
     /* aperiodic */
@@ -28,7 +29,7 @@ public:
         completed = false;
     }
 
-    virtual void excecute();
+    virtual void execute();
     virtual void cleanup();
 
     bool updateAndCheckTime(int basePeriod)

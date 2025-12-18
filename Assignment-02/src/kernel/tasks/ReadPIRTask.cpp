@@ -8,7 +8,7 @@ void ReadPIRTask::cleanup()
 {
 }
 
-void ReadPIRTask::excecute()
+void ReadPIRTask::execute()
 {
     // pir.calibrate();
 

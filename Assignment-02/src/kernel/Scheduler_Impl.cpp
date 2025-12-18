@@ -4,19 +4,26 @@
 
 Scheduler_Impl::Scheduler_Impl(long period) : period(period)
 {
+    queue = LinkedList<Task *>();
+    tasksToRemove = LinkedList<int>();
 }
 
 Scheduler_Impl::~Scheduler_Impl()
 {
     queue.clear();
+    tasksToRemove.clear();
+
+    // delete queue;
+    // delete tasksToRemove;
 }
 
 void Scheduler_Impl::addTask(Task *t)
 {
+    Logger.log(String(t->getId()));
     queue.add(t);
 }
 
-void Scheduler_Impl::excecuteTask()
+void Scheduler_Impl::executeTask()
 {
     long currentTime = millis();
     int size = queue.size();
@@ -29,12 +36,12 @@ void Scheduler_Impl::excecuteTask()
             {
                 if (currentTask->updateAndCheckTime(period))
                 {
-                    currentTask->excecute();
+                    currentTask->execute();
                 }
             }
             else
             {
-                currentTask->excecute();
+                currentTask->execute();
             }
             if (currentTask->isCompleted())
             {
@@ -51,12 +58,9 @@ void Scheduler_Impl::excecuteTask()
         delay(period - elapsedTime);
     }
 
+#define DEBUG
 #ifdef DEBUG
-    Logger.log("------ Scheduler Information ------");
     Logger.log("Total tasks in queue: " + String(queue.size()));
-    Logger.log("Period length: " + String(period));
-    Logger.log("Elapsed time: " + String(elapsedTime));
-    Logger.log("-----------------------------------");
 #endif
 }
 

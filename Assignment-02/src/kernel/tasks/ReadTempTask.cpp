@@ -8,7 +8,7 @@ void ReadTempTask::cleanup()
 {
 }
 
-void ReadTempTask::excecute()
+void ReadTempTask::execute()
 {
     tempSensor->getTemperature();
     // setCompleted();

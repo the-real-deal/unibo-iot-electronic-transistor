@@ -9,7 +9,7 @@ void SweepingFWDTask::cleanup()
 {
 }
 
-void SweepingFWDTask::excecute()
+void SweepingFWDTask::execute()
 {
     // servo.on();
     // servo.setPosition(180);

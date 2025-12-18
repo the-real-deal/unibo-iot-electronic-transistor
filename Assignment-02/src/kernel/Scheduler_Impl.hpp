@@ -19,6 +19,6 @@ public:
 
     void addTask(Task *t) override;
     void removeTask(int id) override;
-    void excecuteTask() override;
+    void executeTask() override;
     void clearQueue() override;
 };

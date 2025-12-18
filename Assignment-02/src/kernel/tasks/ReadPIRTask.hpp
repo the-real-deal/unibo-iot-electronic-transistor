@@ -13,6 +13,6 @@ public:
     ReadPIRTask(Pir pir) : pir(pir) {};
     ~ReadPIRTask();
 
-    void excecute() override;
+    void execute() override;
     void cleanup() override;
 };

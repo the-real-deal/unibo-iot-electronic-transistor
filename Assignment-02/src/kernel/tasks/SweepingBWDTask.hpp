@@ -13,6 +13,6 @@ public:
     SweepingBWDTask(ServoMotorImpl *servo) : servo(servo) {};
     ~SweepingBWDTask();
 
-    void excecute() override;
+    void execute() override;
     void cleanup() override;
 };

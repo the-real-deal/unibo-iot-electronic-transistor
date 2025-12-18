@@ -9,7 +9,7 @@ private:
 public:
     exampleTask(Context *ctx);
     ~exampleTask();
-    virtual void excecute() override;
+    virtual void execute() override;
     virtual void cleanup() override;
 };
 
@@ -21,7 +21,7 @@ exampleTask::~exampleTask()
 {
 }
 
-void exampleTask::excecute()
+void exampleTask::execute()
 {
     if (/* some condition */ false)
     {

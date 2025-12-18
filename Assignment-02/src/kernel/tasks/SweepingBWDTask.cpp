@@ -9,7 +9,7 @@ void SweepingBWDTask::cleanup()
 {
 }
 
-void SweepingBWDTask::excecute()
+void SweepingBWDTask::execute()
 {
     // servo.on();
     // for(int angle = SERVO_MAX_ANGLE; angle >= SERVO_MIN_ANGLE; angle -= SERVO_STEP_ANGLE) {
