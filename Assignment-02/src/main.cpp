@@ -3,7 +3,7 @@
 #include "kernel/MsgService.h"
 #include "kernel/Scheduler_Impl.hpp"
 #include "model/HWPlatform.hpp"
-#include "kernel/tasks/TestTask.cpp"
+#include "kernel/tasks/LedBlinkTask.cpp"
 
 Scheduler *scheduler;
 HWPlatform *hwPlatform;
@@ -18,9 +18,9 @@ void setup()
   // Task *test = new TestTask(scheduler);
   // test->init(3000);
 
-  Task *tmpTask = new LedBlinkTask(new Led(3));
-  tmpTask->init(500);
-  scheduler->addTask(tmpTask);
+  // Task *tmpTask = new LedBlinkTask(new Led(3));
+  // tmpTask->init(500);
+  // scheduler->addTask(tmpTask);
 }
 
 void loop()
