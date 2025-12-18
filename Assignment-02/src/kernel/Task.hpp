@@ -1,5 +1,5 @@
 #pragma once
-
+#define STATIC_TASKS 2
 static int taskIdCounter = 0;
 
 class Task
@@ -7,7 +7,10 @@ class Task
 public:
     Task() : id(taskIdCounter), active(false)
     {
-        taskIdCounter++;
+        while (taskIdCounter > 0 && taskIdCounter < STATIC_TASKS)
+        {
+            taskIdCounter++;
+        }
     }
 
     /* periodic */

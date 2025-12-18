@@ -11,6 +11,15 @@ void LedBlinkTask::cleanup()
 
 void LedBlinkTask::excecute()
 {
-    led->switchOn();
-    // setCompleted();
+    if (!ledIsOn)
+    {
+        led->switchOn();
+        ledIsOn = true;
+        // setCompleted();
+    }
+    else
+    {
+        led->switchOff();
+        ledIsOn = false;
+    }
 }

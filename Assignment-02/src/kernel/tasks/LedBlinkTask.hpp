@@ -8,9 +8,10 @@ class LedBlinkTask : public Task
 
 private:
     Led *led;
+    bool ledIsOn;
 
 public:
-    LedBlinkTask(Led *led, int intensity) : led(led) {};
+    LedBlinkTask(Led *led) : led(led) {};
     ~LedBlinkTask();
 
     void excecute() override;
