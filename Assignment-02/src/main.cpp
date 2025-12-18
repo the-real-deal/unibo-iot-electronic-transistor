@@ -3,6 +3,10 @@
 #include "kernel/MsgService.h"
 #include "kernel/Scheduler_Impl.hpp"
 #include "model/HWPlatform.hpp"
+// #include "kernel/tasks/LCDPrintTask.hpp"
+// #include "kernel/tasks/LedBlinkTask.hpp"
+// #include "kernel/tasks/ReadPIRTask.hpp"
+// #include "kernel/tasks/ReadSonarTask.hpp"
 
 Scheduler *scheduler;
 HWPlatform *hwPlatform;
