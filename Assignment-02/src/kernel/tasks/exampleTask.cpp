@@ -8,9 +8,9 @@ private:
 
 public:
     exampleTask(Context *ctx);
-    ~exampleTask();
-    virtual void execute() override;
-    virtual void cleanup() override;
+    virtual ~exampleTask();
+    void execute() override;
+    void cleanup() override;
 };
 
 exampleTask::exampleTask(Context *ctx) : context(ctx)

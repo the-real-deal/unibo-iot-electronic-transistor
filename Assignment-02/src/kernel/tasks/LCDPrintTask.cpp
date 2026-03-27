@@ -1,16 +1,13 @@
 #include "LCDPrintTask.hpp"
 
-LCDPrintTask::~LCDPrintTask()
-{
-}
+LCDPrintTask::LCDPrintTask(LCD *lcd, String ttd) : lcd(lcd), text(ttd) {}
 
-void LCDPrintTask::init()
+void LCDPrintTask::execute()
 {
-    Task::init();
-}
-
-void LCDPrintTask::tick()
-{
-    lcd->print(1, "Task");
+    lcd->print(1, text);
     setCompleted();
+}
+
+void LCDPrintTask::cleanup()
+{
 }

@@ -10,14 +10,20 @@ public:
         taskIdCounter++;
     }
 
+    virtual ~Task() = default;
+
     /* periodic */
-    virtual void init(int period)
+    virtual int init(int period)
     {
         myPeriod = period;
         periodic = true;
         active = true;
         timeElapsed = 0;
         completed = false;
+        
+        return this->id;
+        // When a state adds his tasks to the scheduler, it keeps track of the task added,
+        // on state change all the tasks added by the state are removed.
     }
 
     /* aperiodic */
@@ -29,8 +35,8 @@ public:
         completed = false;
     }
 
-    virtual void execute();
-    virtual void cleanup();
+    virtual void execute() = 0;
+    virtual void cleanup() = 0;
 
     bool updateAndCheckTime(int basePeriod)
     {
@@ -49,7 +55,7 @@ public:
     void setCompleted()
     {
         completed = true;
-        // active = false;
+        active = false;
         cleanup();
     }
 

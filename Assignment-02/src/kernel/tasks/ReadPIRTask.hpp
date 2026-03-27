@@ -7,11 +7,11 @@ class ReadPIRTask : public Task
 {
 
 private:
-    Pir pir;
+    Pir *pir;
 
 public:
-    ReadPIRTask(Pir pir) : pir(pir) {};
-    ~ReadPIRTask();
+    ReadPIRTask(Pir *pir);
+    virtual ~ReadPIRTask() = default;
 
     void execute() override;
     void cleanup() override;

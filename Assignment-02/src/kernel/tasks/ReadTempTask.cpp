@@ -1,8 +1,6 @@
 #include "ReadTempTask.hpp"
 
-ReadTempTask::~ReadTempTask()
-{
-}
+ReadTempTask::ReadTempTask(TempSensor *tempSensor) : tempSensor(tempSensor) {}
 
 void ReadTempTask::cleanup()
 {
@@ -10,6 +8,6 @@ void ReadTempTask::cleanup()
 
 void ReadTempTask::execute()
 {
-    tempSensor->getTemperature();
-    // setCompleted();
+    // tempSensor->getTemperature();
+    // value holder.temperature = temperature;
 }

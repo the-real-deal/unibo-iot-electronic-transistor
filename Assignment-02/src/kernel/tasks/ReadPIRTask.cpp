@@ -1,8 +1,6 @@
 #include "ReadPIRTask.hpp"
 
-ReadPIRTask::~ReadPIRTask()
-{
-}
+ReadPIRTask::ReadPIRTask(Pir *pir): pir(pir) {}
 
 void ReadPIRTask::cleanup()
 {
@@ -10,10 +8,5 @@ void ReadPIRTask::cleanup()
 
 void ReadPIRTask::execute()
 {
-    // pir.calibrate();
-
-    // while(!pir.isDetected()){
-    //     pir.sync();
-    // }
-    // setCompleted();
+    // value holder.pirDetected = pir->isDetected();
 }

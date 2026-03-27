@@ -9,12 +9,12 @@ class LCDPrintTask : public Task
 {
 private:
     LCD *lcd;
-    Context *context;
+    String text;
 
 public:
-    LCDPrintTask(LCD *lcd) : lcd(lcd) {};
-    ~LCDPrintTask();
+    LCDPrintTask(LCD *lcd, String ttd);
+    virtual ~LCDPrintTask() = default;
 
-    virtual void init() = 0;
-    virtual void tick() = 0;
+    void execute() override;
+    void cleanup() override;
 };

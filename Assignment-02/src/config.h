@@ -12,6 +12,8 @@
 #define PIR_PIN 7
 #define CALIBRATION_TIME_SEC 10
 
+#define SWEEP_TIME 2700 // [TODO] Calculate this number precisely
+
 #define LCD_ADDRESS 0x27
 #define LCD_COLUMNS 16
 #define LCD_ROWS 2

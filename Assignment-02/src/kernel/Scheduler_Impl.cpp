@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "scheduler_impl.hpp"
+#include "Scheduler_Impl.hpp"
 #include "Logger.h"
 
 Scheduler_Impl::Scheduler_Impl(long period) : period(period)
@@ -76,9 +76,9 @@ void Scheduler_Impl::removeTask(int id)
 
 void Scheduler_Impl::removeTaskFromQueue()
 {
-    for (int i = 0; i < tasksToRemove.size(); i++)
+    while (tasksToRemove.size() > 0)
     {
-        int idToRemove = tasksToRemove.get(i);
+        int idToRemove = tasksToRemove.pop();
         for (int j = 0; j < queue.size(); j++)
         {
             if (queue.get(j)->getId() == idToRemove)

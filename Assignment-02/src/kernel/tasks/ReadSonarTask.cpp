@@ -1,6 +1,6 @@
 #include "ReadSonarTask.hpp"
 
-ReadSonarTask::~ReadSonarTask()
+ReadSonarTask::ReadSonarTask(Sonar *sonar) : sonar(sonar)
 {
 }
 
@@ -11,5 +11,5 @@ void ReadSonarTask::cleanup()
 void ReadSonarTask::execute()
 {
     // sonar.getDistance();
-    // setCompleted();
+    // value holder.distance = distance
 }
