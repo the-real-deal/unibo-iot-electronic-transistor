@@ -23,7 +23,7 @@ void NormalState::initializeTasks(HWPlatform *platform)
     // Implement the logic to initialize tasks specific to Normal state
 }
 
-void NormalState::changeState()
+void NormalState::checkUpdate()
 {
     context->setSecurityState(new WarningState());
 }

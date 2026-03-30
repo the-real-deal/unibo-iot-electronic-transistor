@@ -26,12 +26,12 @@ void Context::setSecurityState(SecurityState *state)
     this->securityState->setContext(this);
 }
 
-void Context::changeState(String sender)
+void Context::checkUpdate(String sender)
 {
     if (sender == "SEC")
-        this->securityState->changeState();
+        this->securityState->checkUpdate();
     else
-        this->hangarState->changeState();
+        this->hangarState->checkUpdate();
 }
 
 String Context::getStateInfo()

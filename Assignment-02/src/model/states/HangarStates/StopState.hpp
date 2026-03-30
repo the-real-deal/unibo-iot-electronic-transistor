@@ -14,5 +14,5 @@ public:
     void initializeTasks(HWPlatform *platform) override;
     String sendDRUData() override;
     String getStateInfo() override;
-    void changeState() override;
+    void checkUpdate() override;
 };

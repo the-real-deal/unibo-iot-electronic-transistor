@@ -21,11 +21,11 @@ bool DangerState::canReceiveMsg()
 
 void DangerState::initializeTasks(HWPlatform *platform)
 {
-    // platform->getButton()->enableInterrupt(this->changeState());
+    // platform->getButton()->enableInterrupt(this->checkUpdate());
     this->context->setHangarState(nullptr /*STOP State*/);
 }
 
-void DangerState::changeState()
+void DangerState::checkUpdate()
 {
     context->setSecurityState(new NormalState());
 }

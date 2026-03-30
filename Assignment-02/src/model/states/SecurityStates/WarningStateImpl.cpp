@@ -24,7 +24,7 @@ void WarningState::initializeTasks(HWPlatform *platform)
     // Implement the logic to initialize tasks specific to Danger state
 }
 
-void WarningState::changeState()
+void WarningState::checkUpdate()
 {
     context->setSecurityState(new DangerState());
 }

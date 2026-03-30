@@ -37,9 +37,9 @@ public:
     void setSecurityState(SecurityState *state);
 
     /*
-     * Method to change state, called by external events (ex. tasks)
+     * Method called by tasks (ex. pir read), checks the condition for the state change
      */
-    void changeState(String sender);
+    void checkUpdate(String sender);
 
     /*
      * Method to get current state info (used to print on the LCD)
@@ -95,7 +95,7 @@ public:
     /*
      * Method to change state, called by external events (ex. tasks)
      */
-    virtual void changeState();
+    virtual void checkUpdate();
 
     /*
      * Method to handle incoming DRU requests
@@ -141,5 +141,5 @@ public:
     /*
      * Method to change state, called by external events (ex. tasks)
      */
-    virtual void changeState();
+    virtual void checkUpdate();
 };

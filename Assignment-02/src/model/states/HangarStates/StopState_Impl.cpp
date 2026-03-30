@@ -23,6 +23,6 @@ String StopState::getStateInfo()
     return "";
 }
 
-void StopState::changeState()
+void StopState::checkUpdate()
 {
 }

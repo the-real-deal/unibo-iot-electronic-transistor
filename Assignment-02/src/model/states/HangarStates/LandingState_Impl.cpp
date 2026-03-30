@@ -24,6 +24,6 @@ String LandingState::getStateInfo()
     return "Landing";
 }
 
-void LandingState::changeState()
+void LandingState::checkUpdate()
 {
 }

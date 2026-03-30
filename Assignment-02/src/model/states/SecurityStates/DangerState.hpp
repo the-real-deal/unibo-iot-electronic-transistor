@@ -13,6 +13,6 @@ public:
     String sendDRUData() override;
     bool canReceiveMsg() override;
     void initializeTasks(HWPlatform *platform) override;
-    void changeState() override;
+    void checkUpdate() override;
     String getStateInfo() override;
 };

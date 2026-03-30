@@ -23,7 +23,7 @@ String IdleState::getStateInfo()
     return "Drone In";
 }
 
-void IdleState::changeState()
+void IdleState::checkUpdate()
 {
     // Logic to change from Idle State to another state
 }

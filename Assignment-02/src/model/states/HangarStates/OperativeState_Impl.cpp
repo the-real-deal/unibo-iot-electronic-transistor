@@ -20,7 +20,7 @@ String OperativeState::getStateInfo()
     return "Drone Out";
 }
 
-void OperativeState::changeState()
+void OperativeState::checkUpdate()
 {
     // Logic to change state if needed
 }

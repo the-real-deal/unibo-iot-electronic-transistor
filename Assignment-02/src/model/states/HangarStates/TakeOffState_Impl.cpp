@@ -24,6 +24,6 @@ String TakeOffState::getStateInfo()
     return "Taking Off";
 }
 
-void TakeOffState::changeState()
+void TakeOffState::checkUpdate()
 {
 }
