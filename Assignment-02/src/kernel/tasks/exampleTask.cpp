@@ -27,10 +27,13 @@ void exampleTask::execute()
     {
         setCompleted();
     }
-    if (/* some other condition */ false)
-    {
-        context->changeState("HGR");
-    }
+
+    // [TODO] check wich one is better
+    // context->checkUpdate();
+    // if (/* some other condition */ false)
+    // {
+    //     context->checkUpdate("HGR");
+    // }
 }
 
 void exampleTask::cleanup()

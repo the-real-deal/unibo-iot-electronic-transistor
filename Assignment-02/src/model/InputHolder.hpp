@@ -4,7 +4,7 @@ class InputHolder
 {
 private:
     float temperature;
-    long distance;
+    float distance;
     bool motionDetected;
 
 public:
@@ -12,10 +12,10 @@ public:
     ~InputHolder();
 
     void setTemperature(float temp);
-    void setDistance(long dist);
+    void setDistance(float dist);
     void setMotionDetected(bool detected);
 
     float getTemperature();
-    long getDistance();
+    float getDistance();
     bool isMotionDetected();
 };

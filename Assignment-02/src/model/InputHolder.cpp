@@ -8,7 +8,7 @@ void InputHolder::setTemperature(float temp)
     this->temperature = temp;
 }
 
-void InputHolder::setDistance(long dist)
+void InputHolder::setDistance(float dist)
 {
     this->distance = dist;
 }
@@ -21,4 +21,14 @@ void InputHolder::setMotionDetected(bool detected)
 float InputHolder::getTemperature()
 {
     return this->temperature;
+}
+
+float InputHolder::getDistance()
+{
+    return this->distance;
+}
+
+bool InputHolder::isMotionDetected()
+{
+    return this->motionDetected;
 }
