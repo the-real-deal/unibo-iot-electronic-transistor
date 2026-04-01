@@ -1,6 +1,10 @@
 #include "ReadPIRTask.hpp"
 
-ReadPIRTask::ReadPIRTask(Pir *pir, Context *ctx, InputHolder *holder): pir(pir), context(ctx), holder(holder) {}
+ReadPIRTask::ReadPIRTask(Pir *pir, Context *ctx, InputHolder *holder, ContextType destCtx): 
+    pir(pir), 
+    context(ctx), 
+    holder(holder),
+    ctxToNotify(destCtx) {}
 
 void ReadPIRTask::cleanup()
 {
@@ -8,7 +12,7 @@ void ReadPIRTask::cleanup()
 
 void ReadPIRTask::execute()
 {
-    bool isDetected = pir->isDetected();
-    holder->setMotionDetected(isDetected);
-    // value holder.pirDetected = pir->isDetected();
+    bool isDetected = this->pir->isDetected();
+    this->holder->setMotionDetected(isDetected);
+    this->context->checkUpdate(ctxToNotify);
 }

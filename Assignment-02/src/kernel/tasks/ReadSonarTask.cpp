@@ -1,6 +1,6 @@
 #include "ReadSonarTask.hpp"
 
-ReadSonarTask::ReadSonarTask(Sonar *sonar, Context* ctx, InputHolder *valHolder) : sonar(sonar), context(ctx), holder(valHolder)
+ReadSonarTask::ReadSonarTask(Sonar *sonar, Context* ctx, InputHolder *valHolder):sonar(sonar), context(ctx), holder(valHolder)
 {
 }
 

@@ -26,9 +26,9 @@ void Context::setSecurityState(SecurityState *state)
     this->securityState->setContext(this);
 }
 
-void Context::checkUpdate(String sender)
+void Context::checkUpdate(ContextType destinationCtx)
 {
-    if (sender == "SEC")
+    if (destinationCtx == ContextType::SECURITY)
         this->securityState->checkUpdate();
     else
         this->hangarState->checkUpdate();

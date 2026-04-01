@@ -14,6 +14,13 @@ enum HangarSubState
     DETECTING,
     CLOSING
 };
+
+enum ContextType
+{
+    HANGAR,
+    SECURITY
+};
+
 /* ------------------------ */
 
 class Context
@@ -39,7 +46,7 @@ public:
     /*
      * Method called by tasks (ex. pir read), checks the condition for the state change
      */
-    void checkUpdate(String sender);
+    void checkUpdate(ContextType destinationCtx);
 
     /*
      * Method to get current state info (used to print on the LCD)
