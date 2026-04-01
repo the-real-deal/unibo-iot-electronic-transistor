@@ -5,17 +5,15 @@ class exampleTask : public Task
 {
 private:
     Context *context;
-
+    ContextType type;
 public:
-    exampleTask(Context *ctx);
+    exampleTask(Context *ctx, ContextType ctxType);
     virtual ~exampleTask();
     void execute() override;
     void cleanup() override;
 };
 
-exampleTask::exampleTask(Context *ctx) : context(ctx)
-{
-}
+exampleTask::exampleTask(Context *ctx, ContextType ctxType) : context(ctx), type(ctxType) {}
 
 exampleTask::~exampleTask()
 {
@@ -28,12 +26,7 @@ void exampleTask::execute()
         setCompleted();
     }
 
-    // [TODO] check wich one is better
-    // context->checkUpdate();
-    // if (/* some other condition */ false)
-    // {
-    //     context->checkUpdate("HGR");
-    // }
+    this->context->checkUpdate(this->type);
 }
 
 void exampleTask::cleanup()
