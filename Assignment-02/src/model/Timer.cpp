@@ -9,7 +9,7 @@ void Timer::init()
     this->isStopped = false;
 }
 
-bool Timer::hasExeeded(int sec)
+bool Timer::hasExeeded(unsigned int sec)
 {
     return (millis() - this->startTime) - elapsedInterruption > sec * 1000;
 }

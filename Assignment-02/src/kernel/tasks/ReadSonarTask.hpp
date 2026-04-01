@@ -12,8 +12,9 @@ private:
     Sonar *sonar;
     Context *context;
     InputHolder *holder;
+    ContextType destCtx;
 public:
-    ReadSonarTask(Sonar *sonar, Context* ctx, InputHolder *valHolder);
+    ReadSonarTask(Sonar *sonar, Context* ctx, InputHolder *valHolder, ContextType type);
     virtual ~ReadSonarTask() = default;
 
     void execute() override;

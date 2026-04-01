@@ -1,8 +1,10 @@
 #include "ReadSonarTask.hpp"
 
-ReadSonarTask::ReadSonarTask(Sonar *sonar, Context* ctx, InputHolder *valHolder):sonar(sonar), context(ctx), holder(valHolder)
-{
-}
+ReadSonarTask::ReadSonarTask(Sonar *sonar, Context* ctx, InputHolder *valHolder, ContextType type):
+    sonar(sonar),
+    context(ctx),
+    holder(valHolder),
+    destCtx(type) {}
 
 void ReadSonarTask::cleanup()
 {
@@ -10,7 +12,7 @@ void ReadSonarTask::cleanup()
 
 void ReadSonarTask::execute()
 {
-    float dist = sonar->getDistance();
-    holder->setDistance(dist);
-    // context check values
+    float dist = this->sonar->getDistance();
+    this->holder->setDistance(dist);
+    this->context->checkUpdate(this->destCtx);
 }

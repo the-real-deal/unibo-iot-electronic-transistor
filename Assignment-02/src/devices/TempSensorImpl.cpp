@@ -20,6 +20,7 @@ float TempSensorDHT11::getTemperature()
     if (isnan(event.temperature))
     {
         Logger.log("Error reading temperature!");
+        return -1.0;
     }
     else
     {

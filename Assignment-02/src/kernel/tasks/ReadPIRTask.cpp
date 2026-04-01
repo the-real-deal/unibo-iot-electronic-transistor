@@ -4,7 +4,7 @@ ReadPIRTask::ReadPIRTask(Pir *pir, Context *ctx, InputHolder *holder, ContextTyp
     pir(pir), 
     context(ctx), 
     holder(holder),
-    ctxToNotify(destCtx) {}
+    destCtx(destCtx) {}
 
 void ReadPIRTask::cleanup()
 {
@@ -14,5 +14,5 @@ void ReadPIRTask::execute()
 {
     bool isDetected = this->pir->isDetected();
     this->holder->setMotionDetected(isDetected);
-    this->context->checkUpdate(ctxToNotify);
+    this->context->checkUpdate(destCtx);
 }

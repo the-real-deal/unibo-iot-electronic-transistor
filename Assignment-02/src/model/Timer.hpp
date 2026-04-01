@@ -2,9 +2,9 @@
 class Timer
 {
 private:
-    long startTime;
-    long stopInit;
-    long elapsedInterruption;
+    unsigned long startTime;
+    unsigned long stopInit;
+    unsigned long elapsedInterruption;
     bool isStopped;
 public:
     Timer() = default;
@@ -19,7 +19,7 @@ public:
      * Checks if a set amount of time has passed since the timer started or reset.
      * @param sec The target time in seconds
      */
-    bool hasExeeded(int sec);
+    bool hasExeeded(unsigned int sec);
     
     /**
      * Restarts the timer from zero

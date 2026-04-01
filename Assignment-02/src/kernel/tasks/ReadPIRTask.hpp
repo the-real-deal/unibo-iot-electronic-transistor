@@ -12,7 +12,7 @@ private:
     Pir *pir;
     Context *context;
     InputHolder *holder;
-    ContextType ctxToNotify;
+    ContextType destCtx;
     
 public:
 
