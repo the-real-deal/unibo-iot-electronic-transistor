@@ -13,7 +13,7 @@ IdleState::~IdleState()
 void IdleState::initializeTasks(HWPlatform *platform, InputHolder *holder)
 {
     Task* lcd = new LCDPrintTask(platform->getLCD(), "DRONE INSIDE");
-    Task* temp = new ReadTempTask(platform->getTemperatureSensor(), this->context, NULL, ContextType::SECURITY);
+    Task* temp = new ReadTempTask(platform->getTemperatureSensor(), this->context, holder, ContextType::SECURITY);
     // DRU listener task
     // context->addTaskToScheduler(t);
 }
