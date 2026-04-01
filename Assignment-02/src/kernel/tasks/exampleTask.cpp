@@ -1,5 +1,5 @@
-#include "../Task.hpp"
-#include "../../model/states/Context.hpp"
+#include "kernel/Task.hpp"
+#include "model/states/Context.hpp"
 
 class exampleTask : public Task
 {

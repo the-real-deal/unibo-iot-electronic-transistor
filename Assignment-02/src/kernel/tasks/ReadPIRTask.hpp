@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Task.hpp"
-#include "../../devices/Pir.h"
-#include "../../model/states/Context.hpp"
-#include "../../model/InputHolder.hpp"
+#include "kernel/Task.hpp"
+#include "devices/Pir.h"
+#include "model/states/Context.hpp"
+#include "model/InputHolder.hpp"
 
 class ReadPIRTask : public Task
 {

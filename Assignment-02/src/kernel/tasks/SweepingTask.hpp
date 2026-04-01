@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Task.hpp"
-#include "../../devices/servo_motor_impl.hpp"
+#include "kernel/Task.hpp"
+#include "devices/servo_motor_impl.hpp"
 
 class SweepingTask : public Task
 {

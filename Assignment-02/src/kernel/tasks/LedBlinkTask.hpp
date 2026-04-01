@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Task.hpp"
-#include "../../devices/Led.h"
+#include "kernel/Task.hpp"
+#include "devices/Led.h"
 
 class LedBlinkTask : public Task
 {

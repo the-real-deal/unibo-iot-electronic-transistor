@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Task.hpp"
 #include <string.h>
-#include "../../devices/LCD.hpp"
-#include "../../model/states/Context.hpp"
+#include "kernel/Task.hpp"
+#include "devices/LCD.hpp"
+#include "model/states/Context.hpp"
 
 class LCDPrintTask : public Task
 {
