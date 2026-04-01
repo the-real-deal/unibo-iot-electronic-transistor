@@ -4,7 +4,7 @@ OperativeState::OperativeState(/* args */) {}
 
 OperativeState::~OperativeState() {}
 
-void OperativeState::initializeTasks(HWPlatform *platform)
+void OperativeState::initializeTasks(HWPlatform *platform, InputHolder *holder)
 {
     // Initialize tasks specific to the operative state
     // new Write LCD

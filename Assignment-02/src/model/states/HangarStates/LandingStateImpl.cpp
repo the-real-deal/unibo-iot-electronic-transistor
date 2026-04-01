@@ -9,7 +9,7 @@ LandingState::~LandingState()
 {
 }
 
-void LandingState::initializeTasks(HWPlatform *platform)
+void LandingState::initializeTasks(HWPlatform *platform, InputHolder *holder)
 {
     context->addTaskToScheduler(nullptr); // new LCDWrite();
 }

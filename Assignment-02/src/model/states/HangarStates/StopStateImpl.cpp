@@ -7,7 +7,7 @@ StopState::StopState()
 
 StopState::~StopState() {}
 
-void StopState::initializeTasks(HWPlatform *platform)
+void StopState::initializeTasks(HWPlatform *platform, InputHolder *holder)
 {
     // Initialize tasks specific to the stop state
     // new SWPBWD();

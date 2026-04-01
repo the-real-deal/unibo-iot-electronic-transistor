@@ -18,7 +18,7 @@ bool NormalState::canReceiveMsg()
     return true;
 }
 
-void NormalState::initializeTasks(HWPlatform *platform)
+void NormalState::initializeTasks(HWPlatform *platform, InputHolder *holder)
 {
     // Implement the logic to initialize tasks specific to Normal state
 }

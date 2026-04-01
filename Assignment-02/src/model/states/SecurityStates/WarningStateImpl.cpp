@@ -19,7 +19,7 @@ bool WarningState::canReceiveMsg()
     return false;
 }
 
-void WarningState::initializeTasks(HWPlatform *platform)
+void WarningState::initializeTasks(HWPlatform *platform, InputHolder *holder)
 {
     // Implement the logic to initialize tasks specific to Danger state
 }

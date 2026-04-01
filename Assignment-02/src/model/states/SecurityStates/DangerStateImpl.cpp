@@ -19,7 +19,7 @@ bool DangerState::canReceiveMsg()
     return false;
 }
 
-void DangerState::initializeTasks(HWPlatform *platform)
+void DangerState::initializeTasks(HWPlatform *platform, InputHolder *holder)
 {
     // platform->getButton()->enableInterrupt(this->checkUpdate());
     this->context->setHangarState(nullptr /*STOP State*/);

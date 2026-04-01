@@ -1,7 +1,8 @@
 #pragma once
-#include "../../kernel/Task.hpp"
-#include "../../kernel/Scheduler.hpp"
-#include "../HWPlatform.hpp"
+#include "kernel/Task.hpp"
+#include "kernel/Scheduler.hpp"
+#include "model/HWPlatform.hpp"
+#include "model/InputHolder.hpp"
 #include <Arduino.h>
 
 /* State Classes Definition */
@@ -29,9 +30,10 @@ private:
     HangarState *hangarState;
     SecurityState *securityState;
     Scheduler *scheduler;
+    InputHolder *holder;
 
 public:
-    Context(Scheduler *sched) : hangarState(nullptr), securityState(nullptr), scheduler(sched) {};
+    Context(Scheduler *sched, InputHolder *holder) : hangarState(nullptr), securityState(nullptr), scheduler(sched), holder(holder) {};
     ~Context();
 
     /*
@@ -87,7 +89,7 @@ public:
     /*
      * Adds all the necessary tasks for the state
      */
-    virtual void initializeTasks(HWPlatform *platform);
+    virtual void initializeTasks(HWPlatform *platform, InputHolder *holder);
 
     /*
      * Gets all the data to send to the DRU
@@ -128,7 +130,7 @@ public:
     /*
      * Adds all the necessary tasks for the state
      */
-    virtual void initializeTasks(HWPlatform *platform);
+    virtual void initializeTasks(HWPlatform *platform, InputHolder *holder);
 
     /*
      * Method to check if the current state can receive messages

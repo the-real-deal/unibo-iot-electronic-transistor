@@ -9,7 +9,7 @@ TakeOffState::~TakeOffState()
 {
 }
 
-void TakeOffState::initializeTasks(HWPlatform *platform)
+void TakeOffState::initializeTasks(HWPlatform *platform, InputHolder *holder)
 {
     context->addTaskToScheduler(nullptr); // new LCDWrite();
 }

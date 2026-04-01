@@ -1,5 +1,5 @@
 #pragma once
-#include "../Context.hpp"
+#include "model/states/Context.hpp"
 
 class LandingState : public HangarState
 {
@@ -9,7 +9,7 @@ private:
 public:
     LandingState(/* args */);
     ~LandingState();
-    void initializeTasks(HWPlatform *platform) override;
+    void initializeTasks(HWPlatform *platform, InputHolder *holder) override;
     String sendDRUData() override;
     String getStateInfo() override;
     void checkUpdate() override;
