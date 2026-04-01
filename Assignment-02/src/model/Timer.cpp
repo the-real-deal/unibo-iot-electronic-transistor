@@ -11,7 +11,7 @@ void Timer::init()
 
 bool Timer::hasExeeded(unsigned int sec)
 {
-    return (millis() - this->startTime) - elapsedInterruption > sec * 1000;
+    return (millis() - this->startTime) - elapsedInterruption > sec * 1000U;
 }
 
 void Timer::reset()
