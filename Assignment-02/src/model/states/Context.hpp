@@ -1,9 +1,10 @@
 #pragma once
+#include <Arduino.h>
+#include <LinkedList.h>
 #include "kernel/Task.hpp"
 #include "kernel/Scheduler.hpp"
 #include "model/HWPlatform.hpp"
 #include "model/InputHolder.hpp"
-#include <Arduino.h>
 
 /* State Classes Definition */
 class HangarState;
@@ -51,7 +52,7 @@ public:
     void checkUpdate(ContextType destinationCtx);
 
     /*
-     * Method to get current state info (used to print on the LCD)
+     * Method used to get current state info (used to print on the LCD)
      */
     String getStateInfo();
 
@@ -61,9 +62,14 @@ public:
     void handleDRURequest(String msg);
 
     /*
-     * Method to add tasks to the scheduler
+     * Method used to add tasks to the scheduler
      */
     void addTaskToScheduler(Task *task);
+
+    /**
+     * Method used to remove task from the scheduler
+     */
+    void removeTaskFromScheduler(int id);
 };
 
 /* State Class Definition */
@@ -72,18 +78,32 @@ class HangarState
 private:
 protected:
     Context *context;
-    int *taskAdded;
+    LinkedList<int> taskAdded = LinkedList<int>();
 
 public:
     HangarState();
     virtual ~HangarState()
     {
-        delete taskAdded;
+        int listSize = this->taskAdded.size();
+
+        for (int i = 0; i < listSize; i++)
+        {
+            this->context->removeTaskFromScheduler(this->taskAdded.get(i));
+        }
     }
 
     void setContext(Context *ctx)
     {
         this->context = ctx;
+    }
+
+    /**
+     * Adds a task and saves its id to a list.
+     */
+    void addTask(Task *t)
+    {
+        this->context->addTaskToScheduler(t);
+        this->taskAdded.add(t->getId());
     }
 
     /*

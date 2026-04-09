@@ -1,12 +1,11 @@
 #pragma once
 #include "model/states/Context.hpp"
-#include "LinkedList.h"
 #include <Arduino.h>
 
 class IdleState : public HangarState
 {
 private:
-    /* data */
+
 public:
     IdleState(/* args */);
     ~IdleState();
@@ -14,4 +13,5 @@ public:
     String sendDRUData() override;
     String getStateInfo() override;
     void checkUpdate() override;
+    void handleRequest(String msg) override;
 };

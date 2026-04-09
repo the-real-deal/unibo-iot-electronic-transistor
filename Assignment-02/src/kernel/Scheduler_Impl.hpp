@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
-#include "LinkedList.h"
+#include <LinkedList.h>
 #include "Scheduler.hpp"
 
 class Scheduler_Impl : public Scheduler

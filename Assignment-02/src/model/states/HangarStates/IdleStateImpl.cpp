@@ -1,9 +1,11 @@
 #include "IdleState.hpp"
 #include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/ReadTempTask.hpp"
+#include "kernel/tasks/DRUReceiverTask.hpp"
 
 IdleState::IdleState(/* args */)
 {
+
 }
 
 IdleState::~IdleState()
@@ -12,10 +14,9 @@ IdleState::~IdleState()
 
 void IdleState::initializeTasks(HWPlatform *platform, InputHolder *holder)
 {
-    Task* lcd = new LCDPrintTask(platform->getLCD(), "DRONE INSIDE");
-    Task* temp = new ReadTempTask(platform->getTemperatureSensor(), this->context, holder, ContextType::SECURITY);
-    // DRU listener task
-    // context->addTaskToScheduler(t);
+    this->addTask(new LCDPrintTask(platform->getLCD(), "DRONE INSIDE"));
+    this->addTask(new ReadTempTask(platform->getTemperatureSensor(), this->context, holder, ContextType::SECURITY));
+    this->addTask(new DRUReceiverTask(this->context));
 }
 
 String IdleState::sendDRUData()
@@ -31,4 +32,12 @@ String IdleState::getStateInfo()
 void IdleState::checkUpdate()
 {
     // Logic to change from Idle State to another state
+}
+
+void IdleState::handleRequest(String msg)
+{
+    if(/*message is correct*/false)
+    {
+        
+    }
 }

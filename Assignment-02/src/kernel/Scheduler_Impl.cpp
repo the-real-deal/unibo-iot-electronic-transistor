@@ -43,10 +43,10 @@ void Scheduler_Impl::executeTask()
             {
                 currentTask->execute();
             }
-            if (currentTask->isCompleted())
-            {
-                removeTask(currentTask->getId());
-            }
+            // if (currentTask->isCompleted())
+            // {
+            //     removeTask(currentTask->getId());
+            // }
         }
     }
 
