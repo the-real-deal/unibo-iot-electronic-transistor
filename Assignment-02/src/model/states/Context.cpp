@@ -52,3 +52,8 @@ void Context::addTaskToScheduler(Task *task)
 {
     this->scheduler->addTask(task);
 }
+
+void Context::removeTaskFromScheduler(int id)
+{
+    this->scheduler->removeTask(id);
+}
