@@ -26,7 +26,12 @@ String IdleState::getStateInfo()
 
 void IdleState::checkUpdate()
 {
-    // Logic to change from Idle State to another state
+    /**
+     * Special case:
+     * - the message receiver task will send the message to the context
+     * - the context checks if the message is allowed to be processed (security state ok)
+     * - the context delegates the request to the handle request method
+     */
 }
 
 void IdleState::handleRequest(String msg)

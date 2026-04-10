@@ -126,27 +126,27 @@ public:
     /*
      * Adds all the necessary tasks for the state
      */
-    virtual void initializeTasks();
+    virtual void initializeTasks() = 0;
 
     /*
      * Gets all the data to send to the DRU
      */
-    virtual String sendDRUData();
+    virtual String sendDRUData() = 0;
 
     /*
      * Gets information about the current state (used for LCD display)
      */
-    virtual String getStateInfo();
+    virtual String getStateInfo() = 0;
 
     /*
      * Method to change state, called by external events (ex. tasks)
      */
-    virtual void checkUpdate();
+    virtual void checkUpdate() = 0;
 
     /*
      * Method to handle incoming DRU requests
      */
-    virtual void handleRequest(String msg);
+    virtual void handleRequest(String msg) {}
 };
 
 class SecurityState
@@ -187,25 +187,25 @@ public:
     /*
      * Adds all the necessary tasks for the state
      */
-    virtual void initializeTasks();
+    virtual void initializeTasks() = 0;
 
     /*
      * Method to check if the current state can receive messages
      */
-    virtual bool canReceiveMsg();
+    virtual bool canReceiveMsg() = 0;
 
     /*
      * Gets all the data to send to the DRU
      */
-    virtual String sendDRUData();
+    virtual String sendDRUData() = 0;
 
     /*
      * Gets information about the current state (used for LCD display)
      */
-    virtual String getStateInfo();
+    virtual String getStateInfo() = 0;
 
     /*
      * Method to change state, called by external events (ex. tasks)
      */
-    virtual void checkUpdate();
+    virtual void checkUpdate() = 0;
 };
