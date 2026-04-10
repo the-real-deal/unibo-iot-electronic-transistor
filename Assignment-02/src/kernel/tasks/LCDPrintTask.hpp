@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string.h>
 #include "kernel/Task.hpp"
 #include "devices/LCD.hpp"
 #include "model/states/Context.hpp"
