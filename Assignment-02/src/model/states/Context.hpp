@@ -6,6 +6,13 @@
 #include "model/HWPlatform.hpp"
 #include "model/InputHolder.hpp"
 
+/**
+ * State pattern concepts taken from:
+ * Title: Design Patterns: Elements of Reusable Object-Oriented Software
+ * Author: Gang of Four
+ * Pages: 283-291
+ */
+
 /* State Classes Definition */
 class HangarState;
 class SecurityState;
@@ -72,6 +79,13 @@ public:
     void removeTaskFromScheduler(int id);
 };
 
+/**
+ * Possible update: create a general state class containing:
+ * - context and list oadded tasks
+ * - destructor
+ * - set context and add task methods
+ * to avoid code duplications
+ */
 /* State Class Definition */
 class HangarState
 {
@@ -137,14 +151,31 @@ class SecurityState
 private:
 protected:
     Context *context;
-
+    LinkedList<int> taskAdded = LinkedList<int>();
 public:
     SecurityState(/* args */);
-    virtual ~SecurityState();
+    virtual ~SecurityState()
+    {
+        int listSize = this->taskAdded.size();
+
+        for (int i = 0; i < listSize; i++)
+        {
+            this->context->removeTaskFromScheduler(this->taskAdded.get(i));
+        }
+    };
 
     void setContext(Context *ctx)
     {
         this->context = ctx;
+    }
+
+        /**
+     * Adds a task and saves its id to a list.
+     */
+    void addTask(Task *t)
+    {
+        this->context->addTaskToScheduler(t);
+        this->taskAdded.add(t->getId());
     }
 
     /*
