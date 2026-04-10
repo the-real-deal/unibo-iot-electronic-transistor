@@ -93,9 +93,11 @@ private:
 protected:
     Context *context;
     LinkedList<int> taskAdded = LinkedList<int>();
+    HWPlatform *hwPlatform;
+    InputHolder *inputHolder;
 
 public:
-    HangarState();
+    HangarState(HWPlatform *platform, InputHolder *holder) : hwPlatform(platform), inputHolder(holder) {}
     virtual ~HangarState()
     {
         int listSize = this->taskAdded.size();
@@ -108,7 +110,8 @@ public:
 
     void setContext(Context *ctx)
     {
-        this->context = ctx;
+        if(this->context == nullptr)
+            this->context = ctx;
     }
 
     /**
@@ -123,7 +126,7 @@ public:
     /*
      * Adds all the necessary tasks for the state
      */
-    virtual void initializeTasks(HWPlatform *platform, InputHolder *holder);
+    virtual void initializeTasks();
 
     /*
      * Gets all the data to send to the DRU
@@ -152,8 +155,10 @@ private:
 protected:
     Context *context;
     LinkedList<int> taskAdded = LinkedList<int>();
+    HWPlatform *hwPlatform;
+    InputHolder *inputHolder;
 public:
-    SecurityState(/* args */);
+    SecurityState(HWPlatform *platform, InputHolder *holder) : hwPlatform(platform), inputHolder(holder) {}
     virtual ~SecurityState()
     {
         int listSize = this->taskAdded.size();
@@ -166,7 +171,8 @@ public:
 
     void setContext(Context *ctx)
     {
-        this->context = ctx;
+        if(this->context == nullptr)
+            this->context = ctx;
     }
 
         /**
@@ -181,7 +187,7 @@ public:
     /*
      * Adds all the necessary tasks for the state
      */
-    virtual void initializeTasks(HWPlatform *platform, InputHolder *holder);
+    virtual void initializeTasks();
 
     /*
      * Method to check if the current state can receive messages

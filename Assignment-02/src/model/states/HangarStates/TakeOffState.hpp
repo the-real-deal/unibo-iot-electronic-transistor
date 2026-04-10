@@ -7,10 +7,10 @@ private:
     HangarSubState currentSubState;
 
 public:
-    TakeOffState(/* args */);
-    ~TakeOffState();
+    TakeOffState(HWPlatform *platform, InputHolder *holder);
+    ~TakeOffState() = default;
 
-    void initializeTasks(HWPlatform *platform, InputHolder *holder) override;
+    void initializeTasks() override;
     String sendDRUData() override;
     String getStateInfo() override;
     void checkUpdate() override;

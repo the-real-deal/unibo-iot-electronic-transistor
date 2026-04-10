@@ -8,10 +8,10 @@ private:
     bool isIn;
 
 public:
-    StopState(/* args */);
-    ~StopState();
+    StopState(HWPlatform *platform, InputHolder *holder);
+    ~StopState() = default;
 
-    void initializeTasks(HWPlatform *platform, InputHolder *holder) override;
+    void initializeTasks() override;
     String sendDRUData() override;
     String getStateInfo() override;
     void checkUpdate() override;

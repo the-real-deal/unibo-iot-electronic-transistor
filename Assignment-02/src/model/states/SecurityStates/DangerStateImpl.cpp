@@ -1,13 +1,7 @@
 #include "DangerState.hpp"
 #include "NormalState.hpp"
 
-DangerState::DangerState(/* args */)
-{
-}
-
-DangerState::~DangerState()
-{
-}
+DangerState::DangerState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder) {}
 
 String DangerState::sendDRUData()
 {
@@ -19,15 +13,15 @@ bool DangerState::canReceiveMsg()
     return false;
 }
 
-void DangerState::initializeTasks(HWPlatform *platform, InputHolder *holder)
+void DangerState::initializeTasks()
 {
     // platform->getButton()->enableInterrupt(this->checkUpdate());
-    this->context->setHangarState(nullptr /*STOP State*/);
+    // this->context->setHangarState(nullptr /*STOP State*/);
 }
 
 void DangerState::checkUpdate()
 {
-    context->setSecurityState(new NormalState());
+    // context->setSecurityState(new NormalState());
 }
 
 String DangerState::getStateInfo()

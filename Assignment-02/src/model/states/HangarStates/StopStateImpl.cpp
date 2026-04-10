@@ -1,13 +1,11 @@
 #include "StopState.hpp"
 
-StopState::StopState()
+StopState::StopState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
 {
     this->isIn = true;
 }
 
-StopState::~StopState() {}
-
-void StopState::initializeTasks(HWPlatform *platform, InputHolder *holder)
+void StopState::initializeTasks()
 {
     // Initialize tasks specific to the stop state
     // new SWPBWD();

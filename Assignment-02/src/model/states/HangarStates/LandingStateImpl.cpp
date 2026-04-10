@@ -1,15 +1,11 @@
 #include "LandingState.hpp"
 
-LandingState::LandingState(/* args */)
+LandingState::LandingState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
 {
     this->currentSubState = HangarSubState::CHECKING;
 }
 
-LandingState::~LandingState()
-{
-}
-
-void LandingState::initializeTasks(HWPlatform *platform, InputHolder *holder)
+void LandingState::initializeTasks()
 {
     context->addTaskToScheduler(nullptr); // new LCDWrite();
 }

@@ -7,9 +7,9 @@ class OperativeState : public HangarState
 private:
     /* data */
 public:
-    OperativeState(/* args */);
-    ~OperativeState();
-    void initializeTasks(HWPlatform *platform, InputHolder *holder) override;
+    OperativeState(HWPlatform *platform, InputHolder *holder);
+    ~OperativeState() = default;
+    void initializeTasks() override;
     String sendDRUData() override;
     String getStateInfo() override;
     void checkUpdate() override;

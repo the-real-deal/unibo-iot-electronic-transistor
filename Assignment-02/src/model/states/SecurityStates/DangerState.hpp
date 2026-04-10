@@ -7,12 +7,12 @@ private:
     int *taskAdded;
 
 public:
-    DangerState();
-    ~DangerState();
+    DangerState(HWPlatform *platform, InputHolder *holder);
+    ~DangerState() = default;
 
     String sendDRUData() override;
     bool canReceiveMsg() override;
-    void initializeTasks(HWPlatform *platform, InputHolder *holder) override;
+    void initializeTasks() override;
     void checkUpdate() override;
     String getStateInfo() override;
 };

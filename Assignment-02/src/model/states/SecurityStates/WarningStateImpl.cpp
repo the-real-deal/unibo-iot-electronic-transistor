@@ -1,13 +1,7 @@
 #include "WarningState.hpp"
 #include "DangerState.hpp"
 
-WarningState::WarningState(/* args */)
-{
-}
-
-WarningState::~WarningState()
-{
-}
+WarningState::WarningState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder) {}
 
 String WarningState::sendDRUData()
 {
@@ -19,14 +13,14 @@ bool WarningState::canReceiveMsg()
     return false;
 }
 
-void WarningState::initializeTasks(HWPlatform *platform, InputHolder *holder)
+void WarningState::initializeTasks()
 {
     // Implement the logic to initialize tasks specific to Danger state
 }
 
 void WarningState::checkUpdate()
 {
-    context->setSecurityState(new DangerState());
+    // context->setSecurityState(new DangerState());
 }
 
 String WarningState::getStateInfo()

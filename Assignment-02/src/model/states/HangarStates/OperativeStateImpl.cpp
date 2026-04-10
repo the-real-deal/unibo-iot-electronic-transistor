@@ -1,10 +1,8 @@
 #include "OperativeState.hpp"
 
-OperativeState::OperativeState(/* args */) {}
+OperativeState::OperativeState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder) {}
 
-OperativeState::~OperativeState() {}
-
-void OperativeState::initializeTasks(HWPlatform *platform, InputHolder *holder)
+void OperativeState::initializeTasks()
 {
     // Initialize tasks specific to the operative state
     // new Write LCD

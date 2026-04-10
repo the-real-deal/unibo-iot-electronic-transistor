@@ -1,17 +1,13 @@
 #include "TakeOffState.hpp"
 
-TakeOffState::TakeOffState(/* args */)
+TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
 {
     this->currentSubState = HangarSubState::OPENING;
 }
 
-TakeOffState::~TakeOffState()
+void TakeOffState::initializeTasks()
 {
-}
-
-void TakeOffState::initializeTasks(HWPlatform *platform, InputHolder *holder)
-{
-    context->addTaskToScheduler(nullptr); // new LCDWrite();
+    // context->addTaskToScheduler(nullptr);
 }
 
 String TakeOffState::sendDRUData()
