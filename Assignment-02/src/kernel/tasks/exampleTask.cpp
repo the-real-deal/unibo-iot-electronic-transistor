@@ -8,16 +8,16 @@ private:
     ContextType type;
 public:
     exampleTask(Context *ctx, ContextType ctxType);
-    virtual ~exampleTask();
+    ~exampleTask() = default; /* Destructor almost never needed */
     void execute() override;
     void cleanup() override;
 };
 
 exampleTask::exampleTask(Context *ctx, ContextType ctxType) : context(ctx), type(ctxType) {}
 
-exampleTask::~exampleTask()
-{
-}
+// exampleTask::~exampleTask() remove default if needed
+// {
+// }
 
 void exampleTask::execute()
 {

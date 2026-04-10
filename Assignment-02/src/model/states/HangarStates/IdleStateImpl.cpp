@@ -11,7 +11,7 @@ void IdleState::initializeTasks()
     /* Tasks will be destroyed by the scheduler, since the state has no acces to it */
     this->addTask(new LCDPrintTask(this->hwPlatform->getLCD(), "DRONE INSIDE"));
     this->addTask(new ReadTempTask(this->hwPlatform->getTemperatureSensor(), this->context, this->inputHolder, ContextType::SECURITY));
-    this->addTask(new DRUReceiverTask(this->context));
+    this->addTask(new DRUReceiverTask(this->context,this->inputHolder, ContextType::HANGAR));
 }
 
 String IdleState::sendDRUData()
@@ -25,16 +25,6 @@ String IdleState::getStateInfo()
 }
 
 void IdleState::checkUpdate()
-{
-    /**
-     * Special case:
-     * - the message receiver task will send the message to the context
-     * - the context checks if the message is allowed to be processed (security state ok)
-     * - the context delegates the request to the handle request method
-     */
-}
-
-void IdleState::handleRequest(String msg)
 {
     if(/*message is correct*/false)
     {

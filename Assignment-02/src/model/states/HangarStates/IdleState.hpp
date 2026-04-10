@@ -13,5 +13,4 @@ public:
     String sendDRUData() override;
     String getStateInfo() override;
     void checkUpdate() override;
-    void handleRequest(String msg) override;
 };

@@ -14,7 +14,7 @@ private:
     ContextType destCtx;
 public:
     ReadTempTask(TempSensor *tempSensor, Context *ctx, InputHolder *holder, ContextType destCtx);
-    virtual ~ReadTempTask() = default;
+    ~ReadTempTask() = default;
 
     void execute() override;
     void cleanup() override;

@@ -23,7 +23,7 @@ public:
      * @param notifyHangar True if the sensor, after the read, has to notify either the hangar or the security context
      */
     ReadPIRTask(Pir *pir, Context *ctx, InputHolder *holder, ContextType destCtx);
-    virtual ~ReadPIRTask() = default;
+    ~ReadPIRTask() = default;
 
     void execute() override;
     void cleanup() override;

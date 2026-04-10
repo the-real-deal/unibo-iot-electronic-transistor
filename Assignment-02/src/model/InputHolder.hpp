@@ -1,21 +1,25 @@
 #pragma once
 
+#include <WString.h>
+
 class InputHolder
 {
 private:
     float temperature;
     float distance;
     bool motionDetected;
-
+    String message;
 public:
     InputHolder();
     ~InputHolder();
 
-    void setTemperature(float temp);
-    void setDistance(float dist);
-    void setMotionDetected(bool detected);
+    virtual void setTemperature(float temp) = 0;
+    virtual void setDistance(float dist) = 0;
+    virtual void setMotionDetected(bool detected) = 0;
+    virtual void setMessage(String msg) = 0;
 
-    float getTemperature();
-    float getDistance();
-    bool isMotionDetected();
+    virtual float getTemperature() = 0;
+    virtual float getDistance() = 0;
+    virtual bool isMotionDetected() = 0;
+    virtual String getMessage() = 0;
 };

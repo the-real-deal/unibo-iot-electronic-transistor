@@ -1,5 +1,7 @@
 #include "Context.hpp"
 
+Context::Context(Scheduler *sched, InputHolder *holder) : hangarState(nullptr), securityState(nullptr), scheduler(sched), holder(holder) {}
+
 Context::~Context()
 {
     delete hangarState;
@@ -40,11 +42,11 @@ String Context::getStateInfo()
     return sec.length() > 0 ? sec : this->hangarState->getStateInfo();
 }
 
-void Context::handleDRURequest(String msg)
+void Context::handleDRURequest()
 {
     if (this->securityState->canReceiveMsg())
     {
-        this->hangarState->handleRequest(msg);
+        this->hangarState->checkUpdate();
     }
 }
 

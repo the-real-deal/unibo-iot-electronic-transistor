@@ -12,7 +12,7 @@ private:
 
 public:
     LCDPrintTask(LCD *lcd, String ttd);
-    virtual ~LCDPrintTask() = default;
+    ~LCDPrintTask() = default;
 
     void execute() override;
     void cleanup() override;

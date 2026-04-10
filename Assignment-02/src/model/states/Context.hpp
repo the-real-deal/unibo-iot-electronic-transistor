@@ -41,42 +41,42 @@ private:
     InputHolder *holder;
 
 public:
-    Context(Scheduler *sched, InputHolder *holder) : hangarState(nullptr), securityState(nullptr), scheduler(sched), holder(holder) {};
-    ~Context();
+    Context(Scheduler *sched, InputHolder *holder);
+    virtual ~Context() = 0;
 
     /*
      * Setters for the hangar state, method called by the states themselves
      */
-    void setHangarState(HangarState *state);
+    virtual void setHangarState(HangarState *state) = 0;
     /*
      * Setters for the security state, method called by the states themselves
      */
-    void setSecurityState(SecurityState *state);
+    virtual void setSecurityState(SecurityState *state) = 0;
 
     /*
      * Method called by tasks (ex. pir read), checks the condition for the state change
      */
-    void checkUpdate(ContextType destinationCtx);
+    virtual void checkUpdate(ContextType destinationCtx) = 0;
 
     /*
      * Method used to get current state info (used to print on the LCD)
      */
-    String getStateInfo();
+    virtual String getStateInfo() = 0;
 
     /*
      * Method to handle incoming DRU requests
      */
-    void handleDRURequest(String msg);
+    virtual void handleDRURequest() = 0;
 
     /*
      * Method used to add tasks to the scheduler
      */
-    void addTaskToScheduler(Task *task);
+    virtual void addTaskToScheduler(Task *task) = 0;
 
     /**
      * Method used to remove task from the scheduler
      */
-    void removeTaskFromScheduler(int id);
+    virtual void removeTaskFromScheduler(int id) = 0;
 };
 
 /**
@@ -142,11 +142,6 @@ public:
      * Method to change state, called by external events (ex. tasks)
      */
     virtual void checkUpdate() = 0;
-
-    /*
-     * Method to handle incoming DRU requests
-     */
-    virtual void handleRequest(String msg) {}
 };
 
 class SecurityState

@@ -18,6 +18,11 @@ void InputHolder::setMotionDetected(bool detected)
     this->motionDetected = detected;
 }
 
+void InputHolder::setMessage(String msg)
+{
+    this->message = msg;
+}
+
 float InputHolder::getTemperature()
 {
     return this->temperature;
@@ -31,4 +36,9 @@ float InputHolder::getDistance()
 bool InputHolder::isMotionDetected()
 {
     return this->motionDetected;
+}
+
+String InputHolder::getMessage()
+{
+    return this->message;
 }

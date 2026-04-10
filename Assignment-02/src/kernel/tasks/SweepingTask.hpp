@@ -16,7 +16,7 @@ private:
 
 public:
     SweepingTask(ServoMotorImpl *_servo, bool forward);
-    virtual ~SweepingTask() = default;
+    ~SweepingTask() = default;
 
     void execute() override;
     void cleanup() override;
