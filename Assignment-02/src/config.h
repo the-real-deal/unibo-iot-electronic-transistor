@@ -19,4 +19,14 @@
 #define LCD_COLUMNS 16
 #define LCD_ROWS 2
 
+// [TODO] adjust values
+#define D1 5
+#define D2 5
+#define T1 5
+#define T2 5 
+#define T3 5
+#define T4 5
+#define Temp1 25
+#define Temp2 30
+
 #define DEBUG
