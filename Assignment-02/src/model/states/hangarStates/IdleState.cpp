@@ -9,9 +9,22 @@ IdleState::IdleState(HWPlatform *platform, InputHolder *holder) : HangarState(pl
 void IdleState::initializeTasks()
 {
     /* Tasks will be destroyed by the scheduler, since the state has no acces to it */
-    this->addTask(new LCDPrintTask(this->hwPlatform->getLCD(), "DRONE INSIDE"));
-    this->addTask(new ReadTempTask(this->hwPlatform->getTemperatureSensor(), this->context, this->inputHolder, ContextType::SECURITY));
-    this->addTask(new DRUReceiverTask(this->context,this->inputHolder, ContextType::HANGAR));
+    this->addTask(
+        new LCDPrintTask(
+            this->hwPlatform->getLCD(),
+            "DRONE INSIDE"));
+
+    this->addTask(
+        new ReadTempTask(
+            this->hwPlatform->getTemperatureSensor(),
+            this->context, this->inputHolder,
+            ContextType::SECURITY));
+
+    this->addTask(
+        new DRUReceiverTask(
+            this->context,
+            this->inputHolder,
+            ContextType::HANGAR));
 }
 
 String IdleState::sendDRUData()

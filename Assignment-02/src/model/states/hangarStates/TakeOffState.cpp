@@ -12,8 +12,17 @@ TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarSt
 
 void TakeOffState::initializeTasks()
 {
-    this->context->addTaskToScheduler(new LCDPrintTask(this->hwPlatform->getLCD(), "DRONE INSIDE"));
-    this->context->addTaskToScheduler(new SweepingTask(this->hwPlatform->getServoMotor(),this->context, true, ContextType::HANGAR));
+    this->context->addTaskToScheduler(
+        new LCDPrintTask(
+            this->hwPlatform->getLCD(),
+            "DRONE INSIDE"));
+            
+    this->context->addTaskToScheduler(
+        new SweepingTask(\
+            this->hwPlatform->getServoMotor(),
+            this->context,
+            true,
+            ContextType::HANGAR));
 }
 
 String TakeOffState::sendDRUData()
