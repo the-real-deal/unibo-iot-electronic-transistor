@@ -7,6 +7,7 @@ void Timer::init()
     this->stopInit = 0;
     this->elapsedInterruption = 0;
     this->isStopped = false;
+    this->isReset = false;
 }
 
 bool Timer::hasExeeded(unsigned int sec)
@@ -16,12 +17,12 @@ bool Timer::hasExeeded(unsigned int sec)
 
 void Timer::reset()
 {
-    this->init();
+    this->isReset = true;
 }
 
 void Timer::stop()
 {
-    if(!this->isStopped)
+    if(!this->isStopped && !this->isReset)
     {
         this->stopInit = millis();
         this->isStopped = true;
@@ -30,9 +31,14 @@ void Timer::stop()
 
 void Timer::resume()
 {
-    if(this->isStopped)
+    if(this->isStopped && !this->isReset)
     {
         this->elapsedInterruption += millis() - this->stopInit;
         this->isStopped = false;
     }
+}
+
+bool Timer::isRunning()
+{
+    return !this->isReset;
 }

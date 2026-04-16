@@ -1,3 +1,4 @@
+#pragma once
 
 class Timer
 {
@@ -6,6 +7,7 @@ private:
     unsigned long stopInit;
     unsigned long elapsedInterruption;
     bool isStopped;
+    bool isReset;
 public:
     Timer() = default;
     ~Timer() = default;
@@ -35,4 +37,9 @@ public:
      * Resumes the timer, only available if the timer was previeously stopped.
      */
     void resume();
+
+    /**
+     * Checks if the timer is currently running
+     */
+    bool isRunning();
 };
