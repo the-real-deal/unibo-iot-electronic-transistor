@@ -2,7 +2,10 @@
 #include "Arduino.h"
 #include "config.h"
 
-SweepingTask::SweepingTask(ServoMotor *_servo, bool forward) : servo(_servo)
+SweepingTask::SweepingTask(ServoMotor *_servo, Context* context, bool forward, ContextType destCtx) : 
+    servo(_servo), 
+    ctx(context),
+    destContext(destCtx)
 {
     this->stateTimestamp = millis();
     this->sweepConstant = forward ? 0 : 180;
@@ -23,6 +26,7 @@ void SweepingTask::execute()
     if(currentPos == (180 - sweepConstant))
     {
         this->setCompleted();
+        this->ctx->checkUpdate(this->destContext);
     }
 }
 

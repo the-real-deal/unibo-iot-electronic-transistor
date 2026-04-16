@@ -79,5 +79,5 @@ private:
     LCD *_lcd;
     ProximitySensor *_distanceDetector;
     TempSensor *_temperatureSensor;
-    ServoMotor* _servo;
+    ServoMotor *_servo;
 };

@@ -1,17 +1,19 @@
 #include "TakeOffState.hpp"
-#include "model/Timer.hpp"
+#include "OperativeState.hpp"
 #include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/SweepingTask.hpp"
+#include "kernel/tasks/ReadDistanceTask.hpp"
 
 TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
 {
     this->currentSubState = HangarSubState::OPENING;
+    this->t = Timer();
 }
 
 void TakeOffState::initializeTasks()
 {
     this->context->addTaskToScheduler(new LCDPrintTask(this->hwPlatform->getLCD(), "DRONE INSIDE"));
-    this->context->addTaskToScheduler(new SweepingTask(this->hwPlatform->getServoMotor(), true));
+    this->context->addTaskToScheduler(new SweepingTask(this->hwPlatform->getServoMotor(),this->context, true, ContextType::HANGAR));
 }
 
 String TakeOffState::sendDRUData()
@@ -26,4 +28,48 @@ String TakeOffState::getStateInfo()
 
 void TakeOffState::checkUpdate()
 {
+    switch (this->currentSubState)
+    {
+    case HangarSubState::OPENING:
+        this->currentSubState = HangarSubState::DETECTING;
+        this->removeAddedTasks();
+        this->context->addTaskToScheduler(
+            new ReadDistanceTask(
+                this->hwPlatform->getDistanceDetector(),
+                this->context,
+                this->inputHolder,
+                ContextType::HANGAR
+            ));
+        break;
+    case HangarSubState::DETECTING:
+        // distance greater than D1 for T1 sec
+        float d = this->inputHolder->getDistance();
+        if(!this->t.isRunning())
+        {
+            if(d > D1)
+                this->t.init();
+        } else
+        {
+            if(d < D1)
+                this->t.reset();
+            else if (t.hasExeeded(T1))
+            {
+                this->currentSubState = HangarSubState::CLOSING;
+                this->removeAddedTasks();
+                this->context->addTaskToScheduler(
+                    new SweepingTask(
+                        this->hwPlatform->getServoMotor(),
+                        this->context, false, 
+                        ContextType::HANGAR
+                ));
+            }
+        }
+        
+        break;
+    case HangarSubState::CLOSING:
+        this->context->setHangarState(new OperativeState(this->hwPlatform, this->inputHolder));
+        break;
+    default:
+        break;
+    }
 }

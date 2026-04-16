@@ -5,17 +5,17 @@
 #include "model/states/Context.hpp"
 #include "model/InputHolder.hpp"
 
-class ReadSonarTask : public Task
+class ReadDistanceTask : public Task
 {
 
 private:
-    Sonar *sonar;
+    ProximitySensor *sonar;
     Context *context;
     InputHolder *holder;
     ContextType destCtx;
 public:
-    ReadSonarTask(Sonar *sonar, Context* ctx, InputHolder *valHolder, ContextType type);
-    ~ReadSonarTask() = default;
+    ReadDistanceTask(ProximitySensor *sonar, Context* ctx, InputHolder *valHolder, ContextType type);
+    ~ReadDistanceTask() = default;
 
     void execute() override;
     void cleanup() override;

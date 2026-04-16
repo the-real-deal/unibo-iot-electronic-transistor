@@ -19,7 +19,7 @@ Scheduler_Impl::~Scheduler_Impl()
 
 void Scheduler_Impl::addTask(Task *t)
 {
-    Logger.log(String(t->getId()));
+    // Logger.log(String(t->getId()));
     queue.add(t);
 }
 

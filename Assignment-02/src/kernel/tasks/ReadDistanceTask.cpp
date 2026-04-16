@@ -1,16 +1,16 @@
-#include "ReadSonarTask.hpp"
+#include "ReadDistanceTask.hpp"
 
-ReadSonarTask::ReadSonarTask(Sonar *sonar, Context* ctx, InputHolder *valHolder, ContextType type):
+ReadDistanceTask::ReadDistanceTask(ProximitySensor *sonar, Context* ctx, InputHolder *valHolder, ContextType type):
     sonar(sonar),
     context(ctx),
     holder(valHolder),
     destCtx(type) {}
 
-void ReadSonarTask::cleanup()
+void ReadDistanceTask::cleanup()
 {
 }
 
-void ReadSonarTask::execute()
+void ReadDistanceTask::execute()
 {
     float dist = this->sonar->getDistance();
     this->holder->setDistance(dist);

@@ -100,12 +100,7 @@ public:
     HangarState(HWPlatform *platform, InputHolder *holder) : hwPlatform(platform), inputHolder(holder) {}
     virtual ~HangarState()
     {
-        int listSize = this->taskAdded.size();
-
-        for (int i = 0; i < listSize; i++)
-        {
-            this->context->removeTaskFromScheduler(this->taskAdded.get(i));
-        }
+        removeAddedTasks();
     }
 
     void setContext(Context *ctx)
@@ -121,6 +116,18 @@ public:
     {
         this->context->addTaskToScheduler(t);
         this->taskAdded.add(t->getId());
+    }
+
+    void removeAddedTasks()
+    {
+        int listSize = this->taskAdded.size();
+
+        for (int i = 0; i < listSize; i++)
+        {
+            this->context->removeTaskFromScheduler(this->taskAdded.get(i));
+        }
+
+        this->taskAdded.clear();
     }
 
     /*
@@ -156,12 +163,7 @@ public:
     SecurityState(HWPlatform *platform, InputHolder *holder) : hwPlatform(platform), inputHolder(holder) {}
     virtual ~SecurityState()
     {
-        int listSize = this->taskAdded.size();
-
-        for (int i = 0; i < listSize; i++)
-        {
-            this->context->removeTaskFromScheduler(this->taskAdded.get(i));
-        }
+        removeAddedTasks();
     };
 
     void setContext(Context *ctx)
@@ -177,6 +179,18 @@ public:
     {
         this->context->addTaskToScheduler(t);
         this->taskAdded.add(t->getId());
+    }
+
+    void removeAddedTasks()
+    {
+        int listSize = this->taskAdded.size();
+
+        for (int i = 0; i < listSize; i++)
+        {
+            this->context->removeTaskFromScheduler(this->taskAdded.get(i));
+        }
+
+        this->taskAdded.clear();
     }
 
     /*
