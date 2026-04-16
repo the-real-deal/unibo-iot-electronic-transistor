@@ -1,13 +1,13 @@
 #pragma once
 
 #include "kernel/Task.hpp"
-#include "devices/servo_motor_impl.hpp"
+#include "devices/ServoMotor.hpp"
 
 class SweepingTask : public Task
 {
 
 private:
-    ServoMotorImpl *servo;
+    ServoMotor *servo;
     long stateTimestamp;
     int currentPos;
     int sweepConstant;
@@ -15,7 +15,7 @@ private:
     long elapsedSweepingTime();
 
 public:
-    SweepingTask(ServoMotorImpl *_servo, bool forward);
+    SweepingTask(ServoMotor *_servo, bool forward);
     ~SweepingTask() = default;
 
     void execute() override;

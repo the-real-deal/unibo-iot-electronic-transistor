@@ -1,4 +1,7 @@
 #include "TakeOffState.hpp"
+#include "model/Timer.hpp"
+#include "kernel/tasks/LCDPrintTask.hpp"
+#include "kernel/tasks/SweepingTask.hpp"
 
 TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
 {
@@ -7,7 +10,8 @@ TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarSt
 
 void TakeOffState::initializeTasks()
 {
-    // context->addTaskToScheduler(nullptr);
+    this->context->addTaskToScheduler(new LCDPrintTask(this->hwPlatform->getLCD(), "DRONE INSIDE"));
+    this->context->addTaskToScheduler(new SweepingTask(this->hwPlatform->getServoMotor(), true));
 }
 
 String TakeOffState::sendDRUData()

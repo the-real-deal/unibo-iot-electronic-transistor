@@ -10,6 +10,7 @@
 #define SONAR_ECHO_PIN 11
 #define NO_OBJECTS -1
 #define PIR_PIN 7
+#define SERVO_PIN 8 // [TODO] put actual pin
 #define CALIBRATION_TIME_SEC 10
 
 #define SWEEP_TIME 2700 // [TODO] Calculate this number precisely

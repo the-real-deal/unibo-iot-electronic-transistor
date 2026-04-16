@@ -6,6 +6,7 @@
 #include "devices/LCD.hpp"
 #include "devices/Sonar.h"
 #include "devices/TempSensorImpl.h"
+#include "devices/ServoMotorImpl.hpp"
 
 class HWPlatform
 {
@@ -16,7 +17,8 @@ public:
                    _pir(new Pir(PIR_PIN)),
                    _lcd(new LCD(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS)),
                    _distanceDetector(new Sonar(SONAR_ECHO_PIN, SONAR_TRIG_PIN, 30000)),
-                   _temperatureSensor(new TempSensorDHT11(DHTPIN)) {};
+                   _temperatureSensor(new TempSensorDHT11(DHTPIN)),
+                   _servo(new ServoMotorImpl(SERVO_PIN)) {};
 
     ~HWPlatform()
     {
@@ -27,6 +29,7 @@ public:
         delete _lcd;
         delete _distanceDetector;
         delete _temperatureSensor;
+        delete _servo;
     };
 
     Button *getButton()
@@ -64,6 +67,10 @@ public:
         return this->_temperatureSensor;
     }
 
+    ServoMotor *getServoMotor()
+    {
+        return this->_servo;
+    }
 private:
     Button *_button;
     Led *_led2;
@@ -72,4 +79,5 @@ private:
     LCD *_lcd;
     ProximitySensor *_distanceDetector;
     TempSensor *_temperatureSensor;
+    ServoMotor* _servo;
 };

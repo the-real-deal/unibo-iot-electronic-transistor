@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #include "config.h"
 
-SweepingTask::SweepingTask(ServoMotorImpl *_servo, bool forward) : servo(_servo)
+SweepingTask::SweepingTask(ServoMotor *_servo, bool forward) : servo(_servo)
 {
     this->stateTimestamp = millis();
     this->sweepConstant = forward ? 0 : 180;

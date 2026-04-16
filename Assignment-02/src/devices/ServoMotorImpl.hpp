@@ -1,6 +1,6 @@
 #pragma once
 
-#include "servo_motor.hpp"
+#include "ServoMotor.hpp"
 #include <Servo.h>
 
 class ServoMotorImpl : public ServoMotor
