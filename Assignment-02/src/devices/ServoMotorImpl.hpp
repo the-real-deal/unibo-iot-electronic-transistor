@@ -8,6 +8,7 @@ class ServoMotorImpl : public ServoMotor
 
 public:
     ServoMotorImpl(int pin);
+    ~ServoMotorImpl() = default;
 
     void on();
     void setPosition(int angle);

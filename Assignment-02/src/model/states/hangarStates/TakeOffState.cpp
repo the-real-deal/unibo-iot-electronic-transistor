@@ -30,6 +30,8 @@ void TakeOffState::checkUpdate()
 {
     switch (this->currentSubState)
     {
+    case HangarSubState::CHECKING:
+        break;
     case HangarSubState::OPENING:
         this->currentSubState = HangarSubState::DETECTING;
         this->removeAddedTasks();
@@ -68,8 +70,6 @@ void TakeOffState::checkUpdate()
         break;
     case HangarSubState::CLOSING:
         this->context->setHangarState(new OperativeState(this->hwPlatform, this->inputHolder));
-        break;
-    default:
         break;
     }
 }
