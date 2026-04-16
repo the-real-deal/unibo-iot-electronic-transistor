@@ -28,48 +28,50 @@ String TakeOffState::getStateInfo()
 
 void TakeOffState::checkUpdate()
 {
-    switch (this->currentSubState)
+    /* Declared outside of the switch case to remove warnings */
+    float d;
+    switch(this->currentSubState)
     {
-    case HangarSubState::CHECKING:
-        break;
-    case HangarSubState::OPENING:
-        this->currentSubState = HangarSubState::DETECTING;
-        this->removeAddedTasks();
-        this->context->addTaskToScheduler(
-            new ReadDistanceTask(
-                this->hwPlatform->getDistanceDetector(),
-                this->context,
-                this->inputHolder,
-                ContextType::HANGAR
-            ));
-        break;
-    case HangarSubState::DETECTING:
-        // distance greater than D1 for T1 sec
-        float d = this->inputHolder->getDistance();
-        if(!this->t.isRunning())
-        {
-            if(d > D1)
-                this->t.init();
-        } else
-        {
-            if(d < D1)
-                this->t.reset();
-            else if (t.hasExeeded(T1))
-            {
-                this->currentSubState = HangarSubState::CLOSING;
-                this->removeAddedTasks();
-                this->context->addTaskToScheduler(
-                    new SweepingTask(
-                        this->hwPlatform->getServoMotor(),
-                        this->context, false, 
-                        ContextType::HANGAR
+        case HangarSubState::CHECKING:
+            break;
+        case HangarSubState::OPENING:
+            this->currentSubState = HangarSubState::DETECTING;
+            this->removeAddedTasks();
+            this->context->addTaskToScheduler(
+                new ReadDistanceTask(
+                    this->hwPlatform->getDistanceDetector(),
+                    this->context,
+                    this->inputHolder,
+                    ContextType::HANGAR
                 ));
+            break;
+        case HangarSubState::DETECTING:
+            // distance greater than D1 for T1 sec
+            d = this->inputHolder->getDistance();
+            if(!this->t.isRunning())
+            {
+                if(d > D1)
+                    this->t.init();
+            } else
+            {
+                if(d < D1)
+                    this->t.reset();
+                else if (t.hasExeeded(T1))
+                {
+                    this->currentSubState = HangarSubState::CLOSING;
+                    this->removeAddedTasks();
+                    this->context->addTaskToScheduler(
+                        new SweepingTask(
+                            this->hwPlatform->getServoMotor(),
+                            this->context, false, 
+                            ContextType::HANGAR
+                    ));
+                }
             }
-        }
-        
-        break;
-    case HangarSubState::CLOSING:
-        this->context->setHangarState(new OperativeState(this->hwPlatform, this->inputHolder));
-        break;
+            
+            break;
+        case HangarSubState::CLOSING:
+            this->context->setHangarState(new OperativeState(this->hwPlatform, this->inputHolder));
+            break;
     }
 }
