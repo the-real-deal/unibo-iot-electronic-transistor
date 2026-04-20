@@ -1,6 +1,6 @@
 #include "InputHolder.hpp"
 
-InputHolder::InputHolder() : temperature(0.0), distance(0), motionDetected(false) {}
+InputHolder::InputHolder() : temperature(0.0), distance(0), motionDetected(false), message(""), pressed(false) {}
 InputHolder::~InputHolder() {}
 
 void InputHolder::setTemperature(float temp)
@@ -23,6 +23,11 @@ void InputHolder::setMessage(String msg)
     this->message = msg;
 }
 
+void InputHolder::setIsPressed(bool pressed)
+{
+    this->pressed = pressed;
+}
+
 float InputHolder::getTemperature()
 {
     return this->temperature;
@@ -41,4 +46,9 @@ bool InputHolder::isMotionDetected()
 String InputHolder::getMessage()
 {
     return this->message;
+}
+
+bool InputHolder::isPressed()
+{
+    return this->pressed;
 }

@@ -1,10 +1,12 @@
 #pragma once
 #include "model/states/Context.hpp"
+#include "model/Timer.hpp"
 
 class NormalState : public SecurityState
 {
 private:
-    /* data */
+    Timer t;
+
 public:
     NormalState(HWPlatform *platform, InputHolder *holder);
     ~NormalState() = default;

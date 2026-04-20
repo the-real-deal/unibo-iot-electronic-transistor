@@ -1,10 +1,12 @@
 #pragma once
 #include "model/states/Context.hpp"
+#include "model/Timer.hpp"
 
 class WarningState : public SecurityState
 {
 private:
-    /* data */
+    Timer t;
+
 public:
     WarningState(HWPlatform *platform, InputHolder *holder);
     ~WarningState() = default;

@@ -3,6 +3,7 @@
 
 NormalState::NormalState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder)
 {
+    this->t = Timer();
 }
 
 String NormalState::sendDRUData()
@@ -15,14 +16,25 @@ bool NormalState::canReceiveMsg()
     return true;
 }
 
-void NormalState::initializeTasks()
-{
-    // Implement the logic to initialize tasks specific to Normal state
-}
+void NormalState::initializeTasks() {}
 
 void NormalState::checkUpdate()
 {
-    // context->setSecurityState(new WarningState());
+    double temp = this->inputHolder->getTemperature();
+    if (!this->t.isRunning())
+    {
+        if (temp > Temp1)
+            this->t.init();
+    }
+    else
+    {
+        if (temp <= Temp1)
+            this->t.reset();
+        else if (t.hasExeeded(T3))
+        {
+            this->context->setSecurityState(new WarningState(this->hwPlatform, this->inputHolder));
+        }
+    }
 }
 
 String NormalState::getStateInfo()

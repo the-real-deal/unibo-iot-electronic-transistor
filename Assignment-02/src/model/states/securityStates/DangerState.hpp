@@ -4,8 +4,6 @@
 class DangerState : public SecurityState
 {
 private:
-    int *taskAdded;
-
 public:
     DangerState(HWPlatform *platform, InputHolder *holder);
     ~DangerState() = default;

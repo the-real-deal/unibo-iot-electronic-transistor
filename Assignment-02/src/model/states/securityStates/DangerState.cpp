@@ -1,5 +1,8 @@
 #include "DangerState.hpp"
 #include "NormalState.hpp"
+#include "model/states/hangarStates/IdleState.hpp"
+#include "model/states/hangarStates/StopState.hpp"
+#include "kernel/tasks/ButtonTask.hpp"
 
 DangerState::DangerState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder) {}
 
@@ -15,13 +18,23 @@ bool DangerState::canReceiveMsg()
 
 void DangerState::initializeTasks()
 {
-    // platform->getButton()->enableInterrupt(this->checkUpdate());
-    // this->context->setHangarState(nullptr /*STOP State*/);
+    this->addTask(
+        new ButtonTask(
+            this->hwPlatform->getButton(),
+            this->context,
+            this->inputHolder,
+            ContextType::SECURITY));
+
+    this->context->setHangarState(new StopState(this->hwPlatform, this->inputHolder));
 }
 
 void DangerState::checkUpdate()
 {
-    // context->setSecurityState(new NormalState());
+    if (this->inputHolder->isPressed())
+    {
+        context->setHangarState(new IdleState(this->hwPlatform, this->inputHolder));
+        context->setSecurityState(new NormalState(this->hwPlatform, this->inputHolder));
+    }
 }
 
 String DangerState::getStateInfo()

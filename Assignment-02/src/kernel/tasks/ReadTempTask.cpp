@@ -8,6 +8,7 @@ ReadTempTask::ReadTempTask(TempSensor *tempSensor, Context *ctx, InputHolder *ho
 
 void ReadTempTask::cleanup()
 {
+    this->holder->setTemperature(Temp1 - 1.0);
 }
 
 void ReadTempTask::execute()
