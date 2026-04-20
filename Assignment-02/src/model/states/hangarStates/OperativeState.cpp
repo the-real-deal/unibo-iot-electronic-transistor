@@ -1,11 +1,21 @@
 #include "OperativeState.hpp"
+#include "LandingState.hpp"
+#include "kernel/tasks/LCDPrintTask.hpp"
+#include "kernel/tasks/DRUReceiverTask.hpp"
 
 OperativeState::OperativeState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder) {}
 
 void OperativeState::initializeTasks()
 {
-    // Initialize tasks specific to the operative state
-    // new Write LCD
+    this->addTask(
+        new LCDPrintTask(
+            this->hwPlatform->getLCD(),
+            "DRONE OUT"));
+    this->addTask(
+        new DRUReceiverTask(
+            this->context,
+            this->inputHolder,
+            ContextType::HANGAR));
 }
 
 String OperativeState::sendDRUData()
@@ -20,5 +30,8 @@ String OperativeState::getStateInfo()
 
 void OperativeState::checkUpdate()
 {
-    // Logic to change state if needed
+    if (/*message is correct*/ false)
+    {
+        this->context->setHangarState(new LandingState(this->hwPlatform, this->inputHolder));
+    }
 }

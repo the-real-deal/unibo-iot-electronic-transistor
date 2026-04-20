@@ -13,12 +13,12 @@ LandingState::LandingState(HWPlatform *platform, InputHolder *holder) : HangarSt
 
 void LandingState::initializeTasks()
 {
-    this->context->addTaskToScheduler(
+    this->addTask(
         new LCDPrintTask(
             this->hwPlatform->getLCD(),
             "LANDING"));
 
-    this->context->addTaskToScheduler(
+    this->addTask(
         new ReadPIRTask(
             this->hwPlatform->getPIR(),
             this->context,
@@ -46,7 +46,7 @@ void LandingState::checkUpdate()
         {
             this->currentSubState = HangarSubState::OPENING;
             this->removeAddedTasks();
-            this->context->addTaskToScheduler(
+            this->addTask(
                 new SweepingTask(
                     this->hwPlatform->getServoMotor(),
                     this->context,
@@ -57,7 +57,7 @@ void LandingState::checkUpdate()
     case HangarSubState::OPENING:
         this->currentSubState = HangarSubState::DETECTING;
         this->removeAddedTasks();
-        this->context->addTaskToScheduler(
+        this->addTask(
             new ReadDistanceTask(
                 this->hwPlatform->getDistanceDetector(),
                 this->context,
@@ -79,7 +79,7 @@ void LandingState::checkUpdate()
             {
                 this->currentSubState = HangarSubState::CLOSING;
                 this->removeAddedTasks();
-                this->context->addTaskToScheduler(
+                this->addTask(
                     new SweepingTask(
                         this->hwPlatform->getServoMotor(),
                         this->context, false,

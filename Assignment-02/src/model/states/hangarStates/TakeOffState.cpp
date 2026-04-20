@@ -12,12 +12,12 @@ TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarSt
 
 void TakeOffState::initializeTasks()
 {
-    this->context->addTaskToScheduler(
+    this->addTask(
         new LCDPrintTask(
             this->hwPlatform->getLCD(),
             "DRONE INSIDE"));
 
-    this->context->addTaskToScheduler(
+    this->addTask(
         new SweepingTask(
             this->hwPlatform->getServoMotor(),
             this->context,
@@ -46,7 +46,7 @@ void TakeOffState::checkUpdate()
     case HangarSubState::OPENING:
         this->currentSubState = HangarSubState::DETECTING;
         this->removeAddedTasks();
-        this->context->addTaskToScheduler(
+        this->addTask(
             new ReadDistanceTask(
                 this->hwPlatform->getDistanceDetector(),
                 this->context,
@@ -69,7 +69,7 @@ void TakeOffState::checkUpdate()
             {
                 this->currentSubState = HangarSubState::CLOSING;
                 this->removeAddedTasks();
-                this->context->addTaskToScheduler(
+                this->addTask(
                     new SweepingTask(
                         this->hwPlatform->getServoMotor(),
                         this->context, false,
