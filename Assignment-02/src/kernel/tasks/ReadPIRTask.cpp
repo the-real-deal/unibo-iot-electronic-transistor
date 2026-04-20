@@ -1,6 +1,6 @@
 #include "ReadPIRTask.hpp"
 
-ReadPIRTask::ReadPIRTask(Pir *pir, Context *ctx, InputHolder *holder, ContextType destCtx): 
+ReadPIRTask::ReadPIRTask(PresenceSensor *pir, Context *ctx, InputHolder *holder, ContextType destCtx): 
     pir(pir), 
     context(ctx), 
     holder(holder),

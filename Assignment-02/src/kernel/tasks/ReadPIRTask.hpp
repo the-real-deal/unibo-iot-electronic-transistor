@@ -9,20 +9,19 @@ class ReadPIRTask : public Task
 {
 
 private:
-    Pir *pir;
+    PresenceSensor *pir;
     Context *context;
     InputHolder *holder;
     ContextType destCtx;
-    
-public:
 
+public:
     /**
      * @param pir The sensor
      * @param ctx The context of the application, containing the current states
      * @param holder The class maintaining the current values of all the sensor
      * @param notifyHangar True if the sensor, after the read, has to notify either the hangar or the security context
      */
-    ReadPIRTask(Pir *pir, Context *ctx, InputHolder *holder, ContextType destCtx);
+    ReadPIRTask(PresenceSensor *pir, Context *ctx, InputHolder *holder, ContextType destCtx);
     ~ReadPIRTask() = default;
 
     void execute() override;
