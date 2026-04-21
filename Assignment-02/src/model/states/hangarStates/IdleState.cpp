@@ -39,7 +39,7 @@ String IdleState::getStateInfo()
 
 void IdleState::checkUpdate()
 {
-    if(/*message is correct*/false)
+    if (/*message is correct*/ false)
     {
         this->context->setHangarState(new TakeOffState(this->hwPlatform, this->inputHolder));
     }

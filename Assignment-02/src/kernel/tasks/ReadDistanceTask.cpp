@@ -8,6 +8,7 @@ ReadDistanceTask::ReadDistanceTask(ProximitySensor *sonar, Context* ctx, InputHo
 
 void ReadDistanceTask::cleanup()
 {
+    this->holder->setDistance(0.0);
 }
 
 void ReadDistanceTask::execute()

@@ -8,6 +8,7 @@ ReadPIRTask::ReadPIRTask(PresenceSensor *pir, Context *ctx, InputHolder *holder,
 
 void ReadPIRTask::cleanup()
 {
+    this->holder->setMotionDetected(false);
 }
 
 void ReadPIRTask::execute()
