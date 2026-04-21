@@ -7,8 +7,6 @@ StopState::StopState(HWPlatform *platform, InputHolder *holder) : HangarState(pl
 
 void StopState::initializeTasks()
 {
-    // Initialize tasks specific to the stop state
-    // new SWPBWD();
 }
 
 String StopState::sendDRUData()
