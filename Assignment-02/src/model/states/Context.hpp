@@ -59,11 +59,6 @@ public:
     virtual void checkUpdate(ContextType destinationCtx) = 0;
 
     /*
-     * Method used to get current state info (used to print on the LCD)
-     */
-    virtual String getStateInfo() = 0;
-
-    /*
      * Method to handle incoming DRU requests
      */
     virtual void handleDRURequest() = 0;

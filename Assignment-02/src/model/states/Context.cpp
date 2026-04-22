@@ -36,11 +36,11 @@ void Context::checkUpdate(ContextType destinationCtx)
         this->hangarState->checkUpdate();
 }
 
-String Context::getStateInfo()
-{
-    String sec = this->securityState->getStateInfo();
-    return sec.length() > 0 ? sec : this->hangarState->getStateInfo();
-}
+// String Context::getStateInfo()
+// {
+//     String sec = this->securityState->getStateInfo();
+//     return sec.length() > 0 ? sec : this->hangarState->getStateInfo();
+// }
 
 void Context::handleDRURequest()
 {
