@@ -12,7 +12,5 @@ public:
     LandingState(HWPlatform *platform, InputHolder *holder);
     ~LandingState() = default;
     void initializeTasks() override;
-    String sendDRUData() override;
-    String getStateInfo() override;
     void checkUpdate() override;
 };

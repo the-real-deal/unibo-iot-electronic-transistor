@@ -18,16 +18,6 @@ void OperativeState::initializeTasks()
             ContextType::HANGAR));
 }
 
-String OperativeState::sendDRUData()
-{
-    return "Operative";
-}
-
-String OperativeState::getStateInfo()
-{
-    return "Drone Out";
-}
-
 void OperativeState::checkUpdate()
 {
     if (/*message is correct*/ false)

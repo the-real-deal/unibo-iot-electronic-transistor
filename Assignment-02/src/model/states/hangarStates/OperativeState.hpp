@@ -10,7 +10,5 @@ public:
     OperativeState(HWPlatform *platform, InputHolder *holder);
     ~OperativeState() = default;
     void initializeTasks() override;
-    String sendDRUData() override;
-    String getStateInfo() override;
     void checkUpdate() override;
 };

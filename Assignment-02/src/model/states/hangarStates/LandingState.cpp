@@ -26,16 +26,6 @@ void LandingState::initializeTasks()
             ContextType::HANGAR));
 }
 
-String LandingState::sendDRUData()
-{
-    return "Landing";
-}
-
-String LandingState::getStateInfo()
-{
-    return "Landing";
-}
-
 void LandingState::checkUpdate()
 {
     float d;

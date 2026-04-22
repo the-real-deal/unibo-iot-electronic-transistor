@@ -6,11 +6,6 @@
 
 DangerState::DangerState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder) {}
 
-String DangerState::sendDRUData()
-{
-    return "Alarm";
-}
-
 bool DangerState::canReceiveMsg()
 {
     return false;
@@ -37,9 +32,4 @@ void DangerState::checkUpdate()
         // return to normal state
         context->setSecurityState(new NormalState(this->hwPlatform, this->inputHolder));
     }
-}
-
-String DangerState::getStateInfo()
-{
-    return "ALARM";
 }

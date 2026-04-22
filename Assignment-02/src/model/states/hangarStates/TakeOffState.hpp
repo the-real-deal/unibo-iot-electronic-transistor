@@ -13,7 +13,5 @@ public:
     ~TakeOffState() = default;
 
     void initializeTasks() override;
-    String sendDRUData() override;
-    String getStateInfo() override;
     void checkUpdate() override;
 };

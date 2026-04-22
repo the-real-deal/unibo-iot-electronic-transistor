@@ -27,16 +27,6 @@ void IdleState::initializeTasks()
             ContextType::HANGAR));
 }
 
-String IdleState::sendDRUData()
-{
-    return "Rest";
-}
-
-String IdleState::getStateInfo()
-{
-    return "Drone In";
-}
-
 void IdleState::checkUpdate()
 {
     if (/*message is correct*/ false)

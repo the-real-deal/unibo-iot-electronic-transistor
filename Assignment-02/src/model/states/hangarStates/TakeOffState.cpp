@@ -25,16 +25,6 @@ void TakeOffState::initializeTasks()
             ContextType::HANGAR));
 }
 
-String TakeOffState::sendDRUData()
-{
-    return "TakeOff";
-}
-
-String TakeOffState::getStateInfo()
-{
-    return "Taking Off";
-}
-
 void TakeOffState::checkUpdate()
 {
     /* Declared outside of the switch case to remove warnings */

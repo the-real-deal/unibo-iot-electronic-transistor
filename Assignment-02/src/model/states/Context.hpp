@@ -105,7 +105,7 @@ public:
 
     void setContext(Context *ctx)
     {
-        if(this->context == nullptr)
+        if (this->context == nullptr)
             this->context = ctx;
     }
 
@@ -136,16 +136,6 @@ public:
     virtual void initializeTasks() = 0;
 
     /*
-     * Gets all the data to send to the DRU
-     */
-    virtual String sendDRUData() = 0;
-
-    /*
-     * Gets information about the current state (used for LCD display)
-     */
-    virtual String getStateInfo() = 0;
-
-    /*
      * Method to change state, called by external events (ex. tasks)
      */
     virtual void checkUpdate() = 0;
@@ -159,6 +149,7 @@ protected:
     LinkedList<int> taskAdded = LinkedList<int>();
     HWPlatform *hwPlatform;
     InputHolder *inputHolder;
+
 public:
     SecurityState(HWPlatform *platform, InputHolder *holder) : hwPlatform(platform), inputHolder(holder) {}
     virtual ~SecurityState()
@@ -168,11 +159,11 @@ public:
 
     void setContext(Context *ctx)
     {
-        if(this->context == nullptr)
+        if (this->context == nullptr)
             this->context = ctx;
     }
 
-        /**
+    /**
      * Adds a task and saves its id to a list.
      */
     void addTask(Task *t)
@@ -202,16 +193,6 @@ public:
      * Method to check if the current state can receive messages
      */
     virtual bool canReceiveMsg() = 0;
-
-    /*
-     * Gets all the data to send to the DRU
-     */
-    virtual String sendDRUData() = 0;
-
-    /*
-     * Gets information about the current state (used for LCD display)
-     */
-    virtual String getStateInfo() = 0;
 
     /*
      * Method to change state, called by external events (ex. tasks)

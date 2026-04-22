@@ -7,11 +7,6 @@ WarningState::WarningState(HWPlatform *platform, InputHolder *holder) : Security
     this->t = Timer();
 }
 
-String WarningState::sendDRUData()
-{
-    return "Normal";
-}
-
 bool WarningState::canReceiveMsg()
 {
     return false;
@@ -38,9 +33,4 @@ void WarningState::checkUpdate()
             this->context->setSecurityState(new DangerState(this->hwPlatform, this->inputHolder));
         }
     }
-}
-
-String WarningState::getStateInfo()
-{
-    return "";
 }
