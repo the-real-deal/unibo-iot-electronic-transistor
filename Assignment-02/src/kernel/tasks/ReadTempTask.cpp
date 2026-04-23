@@ -1,10 +1,9 @@
 #include "ReadTempTask.hpp"
 
-ReadTempTask::ReadTempTask(TempSensor *tempSensor, Context *ctx, InputHolder *holder, ContextType destCtx) : 
-    tempSensor(tempSensor),
-    context(ctx),
-    holder(holder),
-    destCtx(destCtx) {}
+ReadTempTask::ReadTempTask(TempSensor *tempSensor, Context *ctx, InputHolder *holder, ContextType destCtx) : tempSensor(tempSensor),
+                                                                                                             context(ctx),
+                                                                                                             holder(holder),
+                                                                                                             destCtx(destCtx) {}
 
 void ReadTempTask::cleanup()
 {

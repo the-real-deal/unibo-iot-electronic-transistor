@@ -18,7 +18,7 @@ private:
     long elapsedSweepingTime();
 
 public:
-    SweepingTask(ServoMotor *_servo,Context* context, bool forward, ContextType destCtx);
+    SweepingTask(ServoMotor *_servo, Context *context, bool forward, ContextType destCtx);
     ~SweepingTask() = default;
 
     void execute() override;

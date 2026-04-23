@@ -1,6 +1,8 @@
 #include "DRUReceiverTask.hpp"
 
-DRUReceiverTask::DRUReceiverTask(Context *ctx, InputHolder *holder, ContextType type) : context(ctx), holder(holder), destCtx(type) {}
+DRUReceiverTask::DRUReceiverTask(Context *ctx, InputHolder *holder, ContextType type) : context(ctx),
+                                                                                        holder(holder),
+                                                                                        destCtx(type) {}
 
 void DRUReceiverTask::execute()
 {

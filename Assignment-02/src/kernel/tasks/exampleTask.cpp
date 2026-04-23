@@ -6,6 +6,7 @@ class exampleTask : public Task
 private:
     Context *context;
     ContextType type;
+
 public:
     exampleTask(Context *ctx, ContextType ctxType);
     ~exampleTask() = default; /* Destructor almost never needed */

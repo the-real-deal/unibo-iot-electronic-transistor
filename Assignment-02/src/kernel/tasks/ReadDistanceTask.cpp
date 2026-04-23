@@ -1,10 +1,9 @@
 #include "ReadDistanceTask.hpp"
 
-ReadDistanceTask::ReadDistanceTask(ProximitySensor *sonar, Context* ctx, InputHolder *valHolder, ContextType type):
-    sonar(sonar),
-    context(ctx),
-    holder(valHolder),
-    destCtx(type) {}
+ReadDistanceTask::ReadDistanceTask(ProximitySensor *sonar, Context *ctx, InputHolder *valHolder, ContextType type) : sonar(sonar),
+                                                                                                                     context(ctx),
+                                                                                                                     holder(valHolder),
+                                                                                                                     destCtx(type) {}
 
 void ReadDistanceTask::cleanup()
 {
