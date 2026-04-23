@@ -16,6 +16,7 @@ void Context::setHangarState(HangarState *state)
     }
     this->hangarState = state;
     this->hangarState->setContext(this);
+    this->hangarState->initializeTasks();
 }
 
 void Context::setSecurityState(SecurityState *state)
@@ -26,6 +27,7 @@ void Context::setSecurityState(SecurityState *state)
     }
     this->securityState = state;
     this->securityState->setContext(this);
+    this->securityState->initializeTasks();
 }
 
 void Context::checkUpdate(ContextType destinationCtx)
