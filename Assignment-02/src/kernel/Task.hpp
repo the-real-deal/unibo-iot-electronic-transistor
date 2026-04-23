@@ -2,6 +2,22 @@
 
 static int taskIdCounter = 0;
 
+/**
+ * !!! IMPORTANT !!!
+ * These types MUST be in the same order as in the scheduler array.
+ */
+enum TasksType
+{
+    BUTTON_TASK = 0,
+    DRU_TASK,
+    LCD_TASK,
+    BLINK_TASK,
+    READ_DISTANCE_TASK,
+    READ_PIR_TASK,
+    READ_TEMP_TASK,
+    SWEEPING_TASK
+};
+
 class Task
 {
 public:
@@ -20,7 +36,7 @@ public:
         active = true;
         timeElapsed = 0;
         completed = false;
-        
+
         return this->id;
         // When a state adds his tasks to the scheduler, it keeps track of the task added,
         // on state change all the tasks added by the state are removed.
