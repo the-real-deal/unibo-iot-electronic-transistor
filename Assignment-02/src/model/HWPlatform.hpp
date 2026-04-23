@@ -67,10 +67,11 @@ public:
         return this->_temperatureSensor;
     }
 
-    ServoMotor *getServoMotor()
+    ServoMotorImpl *getServoMotor()
     {
         return this->_servo;
     }
+
 private:
     Button *_button;
     Led *_led2;
@@ -79,5 +80,5 @@ private:
     LCD *_lcd;
     ProximitySensor *_distanceDetector;
     TempSensor *_temperatureSensor;
-    ServoMotor *_servo;
+    ServoMotorImpl *_servo;
 };

@@ -8,17 +8,20 @@ class SweepingTask : public Task
 {
 
 private:
-    ServoMotor *servo;
+    ServoMotorImpl *servo;
     Context *ctx;
     ContextType destContext;
-    long stateTimestamp;
-    int currentPos;
-    int sweepConstant;
+    // long stateTimestamp;
+    // int currentPos;
+    // int sweepConstant;
     int sweepSign;
+    bool hasJustEntered;
+    int destination;
+
     long elapsedSweepingTime();
 
 public:
-    SweepingTask(ServoMotor *_servo, Context *context, bool forward, ContextType destCtx);
+    SweepingTask(ServoMotorImpl *_servo, Context *context, bool forward, ContextType destCtx);
     ~SweepingTask() = default;
 
     void execute() override;
