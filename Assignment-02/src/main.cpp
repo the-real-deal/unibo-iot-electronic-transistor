@@ -12,7 +12,7 @@
 /**
  * FSM diagram
  * https://lucid.app/lucidchart/c60760fd-f278-41b0-a28d-a48a83edcd56/edit?invitationId=inv_fc43df35-97c2-42f9-a25e-338626ab2d3e&page=0_0#
-*/
+ */
 
 Scheduler *scheduler;
 HWPlatform *hwPlatform;

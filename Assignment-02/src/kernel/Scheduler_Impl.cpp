@@ -60,7 +60,7 @@ void Scheduler_Impl::executeTask()
 
 #define DEBUG
 #ifdef DEBUG
-    Logger.log("Total tasks in queue: " + String(queue.size()));
+    // Logger.log("Total tasks in queue: " + String(queue.size()));
 #endif
 }
 

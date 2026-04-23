@@ -18,7 +18,7 @@ void LandingState::initializeTasks()
     this->addTask(
         new LCDPrintTask(
             this->hwPlatform->getLCD(),
-            "LANDING"));
+            F("LANDING")));
 
     this->addTask(
         new ReadPIRTask(

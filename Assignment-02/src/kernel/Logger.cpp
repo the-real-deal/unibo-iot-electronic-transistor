@@ -3,5 +3,5 @@
 
 void LoggerService::log(const String &msg)
 {
-    MsgService.sendMsg("<MSG|" + msg + ">");
+    MsgService.sendMsg("log:" + msg);
 }

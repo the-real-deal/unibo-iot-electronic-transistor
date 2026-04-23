@@ -17,7 +17,7 @@ void TakeOffState::initializeTasks()
     this->addTask(
         new LCDPrintTask(
             this->hwPlatform->getLCD(),
-            "DRONE INSIDE"));
+            F("DRONE INSIDE")));
 
     this->addTask(
         new SweepingTask(
