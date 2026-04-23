@@ -7,6 +7,7 @@ class TakeOffState : public HangarState
 private:
     HangarSubState currentSubState;
     Timer t;
+    int blinkTaskId;
 
 public:
     TakeOffState(HWPlatform *platform, InputHolder *holder);

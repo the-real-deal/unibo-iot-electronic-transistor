@@ -13,6 +13,7 @@ bool DangerState::canReceiveMsg()
 
 void DangerState::initializeTasks()
 {
+    this->hwPlatform->getLed3()->switchOn();
     // halts the hangar and deletes his task inside the scheduler
     this->context->setHangarState(new StopState(this->hwPlatform, this->inputHolder));
     this->addTask(
@@ -27,6 +28,7 @@ void DangerState::checkUpdate()
 {
     if (this->inputHolder->isPressed())
     {
+        this->hwPlatform->getLed3()->switchOff();
         // first start the hangar back up with the drone inside
         context->setHangarState(new IdleState(this->hwPlatform, this->inputHolder));
         // return to normal state

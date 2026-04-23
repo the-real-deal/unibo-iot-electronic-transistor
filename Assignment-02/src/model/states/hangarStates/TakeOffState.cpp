@@ -3,11 +3,13 @@
 #include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/SweepingTask.hpp"
 #include "kernel/tasks/ReadDistanceTask.hpp"
+#include "kernel/tasks/LedBlinkTask.hpp"
 
 TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
 {
     this->currentSubState = HangarSubState::OPENING;
     this->t = Timer();
+    this->blinkTaskId = 0;
 }
 
 void TakeOffState::initializeTasks()
@@ -23,6 +25,13 @@ void TakeOffState::initializeTasks()
             this->context,
             true,
             ContextType::HANGAR));
+
+    this->addTask(
+        new LedBlinkTask(this->hwPlatform->getLed2()));
+
+    // remove taskid from added task, the queue is cleared multiple times during the state execution
+    this->blinkTaskId = this->taskAdded.pop();
+    // will be re-added before a context change
 }
 
 void TakeOffState::checkUpdate()
@@ -69,6 +78,8 @@ void TakeOffState::checkUpdate()
 
         break;
     case HangarSubState::CLOSING:
+        // re-adding the task id
+        this->taskAdded.add(this->blinkTaskId);
         this->context->setHangarState(new OperativeState(this->hwPlatform, this->inputHolder));
         break;
     }

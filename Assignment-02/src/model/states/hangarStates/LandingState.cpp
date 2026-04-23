@@ -4,11 +4,13 @@
 #include "kernel/tasks/SweepingTask.hpp"
 #include "kernel/tasks/ReadDistanceTask.hpp"
 #include "kernel/tasks/ReadPIRTask.hpp"
+#include "kernel/tasks/LedBlinkTask.hpp"
 
 LandingState::LandingState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
 {
     this->currentSubState = HangarSubState::CHECKING;
     this->t = Timer();
+    this->blinkTaskId = 0;
 }
 
 void LandingState::initializeTasks()
@@ -24,6 +26,13 @@ void LandingState::initializeTasks()
             this->context,
             this->inputHolder,
             ContextType::HANGAR));
+
+    this->addTask(
+        new LedBlinkTask(this->hwPlatform->getLed2()));
+
+    // remove taskid from added task, the queue is cleared multiple times during the state execution
+    this->blinkTaskId = this->taskAdded.pop();
+    // will be re-added before a context change
 }
 
 void LandingState::checkUpdate()
@@ -79,6 +88,8 @@ void LandingState::checkUpdate()
 
         break;
     case HangarSubState::CLOSING:
+        // re-adding the task id
+        this->taskAdded.add(this->blinkTaskId);
         this->context->setHangarState(new IdleState(this->hwPlatform, this->inputHolder));
         break;
     default:
