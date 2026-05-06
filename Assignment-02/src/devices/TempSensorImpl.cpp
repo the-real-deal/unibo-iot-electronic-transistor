@@ -1,5 +1,5 @@
 #include "TempSensorImpl.h"
-#include "../kernel/Logger.h"
+// #include "../kernel/Logger.h"
 #include <Arduino.h>
 
 TempSensorDHT11::TempSensorDHT11(int pin)

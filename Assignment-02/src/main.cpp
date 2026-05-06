@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include "config.h"
-#include "kernel/MsgService.h"
+#include "model/messageManager/MsgService.h"
 #include "kernel/Scheduler_Impl.hpp"
 #include "model/HWPlatform.hpp"
-#include "kernel/Logger.h"
+// #include "kernel/Logger.h"
 // #include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/LedBlinkTask.hpp"
 // #include "kernel/tasks/ReadPIRTask.hpp"

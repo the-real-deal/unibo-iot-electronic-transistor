@@ -8,5 +8,5 @@ String DRUMessageManager::receiveMSG()
 
 void DRUMessageManager::sendMSG(const String &msg)
 {
-    MsgService.sendMsg("msg:" + msg);
+    MsgService.sendMsg(msg);
 }

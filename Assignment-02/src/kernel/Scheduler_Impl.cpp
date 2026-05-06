@@ -1,6 +1,6 @@
 #include "Arduino.h"
 #include "Scheduler_Impl.hpp"
-#include "Logger.h"
+#include "model/messageManager/Logger.h"
 
 Scheduler_Impl::Scheduler_Impl(long period) : period(period)
 {
