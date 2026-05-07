@@ -52,9 +52,17 @@ void Context::handleDRURequest()
     }
 }
 
-void Context::addTaskToScheduler(Task *task)
+void Context::addTaskToScheduler(Task *task, int period)
 {
     this->scheduler->addTask(task);
+    if (period > 0)
+    {
+        task->init(period);
+    }
+    else
+    {
+        task->init();
+    }
 }
 
 void Context::removeTaskFromScheduler(int id)

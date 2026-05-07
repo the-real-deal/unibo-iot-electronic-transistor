@@ -10,12 +10,14 @@ void OperativeState::initializeTasks()
     this->addTask(
         new LCDPrintTask(
             this->hwPlatform->getLCD(),
-            F("DRONE OUT")));
+            F("DRONE OUT")),
+        0);
     this->addTask(
         new DRUReceiverTask(
             this->context,
             this->inputHolder,
-            ContextType::HANGAR));
+            ContextType::HANGAR),
+        0);
 }
 
 void OperativeState::checkUpdate()

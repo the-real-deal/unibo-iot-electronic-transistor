@@ -6,12 +6,12 @@
 #include "model/messageManager/Logger.h"
 
 // #include "kernel/tasks/LCDPrintTask.hpp"
-// #include "kernel/tasks/LedBlinkTask.hpp"
+#include "kernel/tasks/LedBlinkTask.hpp"
 // #include "kernel/tasks/ReadPIRTask.hpp"
 // #include "kernel/tasks/ReadDistanceTask.hpp"
 // #include "kernel/tasks/ButtonTask.hpp"
-#include "kernel/tasks/ReadTempTask.hpp"
-#include "kernel/tasks/SweepingTask.hpp"
+// #include "kernel/tasks/ReadTempTask.hpp"
+// #include "kernel/tasks/SweepingTask.hpp"
 
 /**
  * FSM diagram
@@ -32,14 +32,17 @@ void setup()
   pinMode(LED2, OUTPUT);
   pinMode(LED3, OUTPUT);
 
-  Task *t1 = new SweepingTask(hwPlatform.getServoMotor(), nullptr, true, ContextType::HANGAR);
-  // Task *lb3 = new LedBlinkTask(hwPlatform.getLed3());
+  Task *t1 = new LedBlinkTask(hwPlatform.getLed2());
+  Task *lb3 = new LedBlinkTask(hwPlatform.getLed3());
 
-  t1->init();
-  // lb3->init(500);
+  t1->init(500);
+  lb3->init(500);
+
+  Logger.log(String(t1->getId()));
+  Logger.log(String(lb3->getId()));
 
   scheduler.addTask(t1);
-  // scheduler.addTask(lb3);
+  scheduler.addTask(lb3);
 }
 
 void loop()

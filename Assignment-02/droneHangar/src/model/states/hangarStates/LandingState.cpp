@@ -18,17 +18,19 @@ void LandingState::initializeTasks()
     this->addTask(
         new LCDPrintTask(
             this->hwPlatform->getLCD(),
-            F("LANDING")));
+            F("LANDING")),
+        0);
 
     this->addTask(
         new ReadPIRTask(
             this->hwPlatform->getPIR(),
             this->context,
             this->inputHolder,
-            ContextType::HANGAR));
+            ContextType::HANGAR),
+        0);
 
     this->addTask(
-        new LedBlinkTask(this->hwPlatform->getLed2()));
+        new LedBlinkTask(this->hwPlatform->getLed2()), 500);
 
     // remove taskid from added task, the queue is cleared multiple times during the state execution
     this->blinkTaskId = this->taskAdded.pop();
@@ -50,7 +52,8 @@ void LandingState::checkUpdate()
                     this->hwPlatform->getServoMotor(),
                     this->context,
                     true,
-                    ContextType::HANGAR));
+                    ContextType::HANGAR),
+                0);
         }
         break;
     case HangarSubState::OPENING:
@@ -61,7 +64,8 @@ void LandingState::checkUpdate()
                 this->hwPlatform->getDistanceDetector(),
                 this->context,
                 this->inputHolder,
-                ContextType::HANGAR));
+                ContextType::HANGAR),
+            0);
         break;
     case HangarSubState::DETECTING:
         d = this->inputHolder->getDistance();
@@ -82,7 +86,8 @@ void LandingState::checkUpdate()
                     new SweepingTask(
                         this->hwPlatform->getServoMotor(),
                         this->context, false,
-                        ContextType::HANGAR));
+                        ContextType::HANGAR),
+                    0);
             }
         }
 

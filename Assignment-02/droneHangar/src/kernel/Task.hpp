@@ -29,17 +29,13 @@ public:
     virtual ~Task() = default;
 
     /* periodic */
-    virtual int init(int period)
+    virtual void init(int period)
     {
         myPeriod = period;
         periodic = true;
         active = true;
         timeElapsed = 0;
         completed = false;
-
-        return this->id;
-        // When a state adds his tasks to the scheduler, it keeps track of the task added,
-        // on state change all the tasks added by the state are removed.
     }
 
     /* aperiodic */

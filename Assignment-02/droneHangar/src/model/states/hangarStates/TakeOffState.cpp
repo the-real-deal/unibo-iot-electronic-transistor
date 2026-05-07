@@ -17,17 +17,19 @@ void TakeOffState::initializeTasks()
     this->addTask(
         new LCDPrintTask(
             this->hwPlatform->getLCD(),
-            F("DRONE INSIDE")));
+            F("DRONE INSIDE")),
+        0);
 
     this->addTask(
         new SweepingTask(
             this->hwPlatform->getServoMotor(),
             this->context,
             true,
-            ContextType::HANGAR));
+            ContextType::HANGAR),
+        0);
 
     this->addTask(
-        new LedBlinkTask(this->hwPlatform->getLed2()));
+        new LedBlinkTask(this->hwPlatform->getLed2()), 500);
 
     // remove taskid from added task, the queue is cleared multiple times during the state execution
     this->blinkTaskId = this->taskAdded.pop();
@@ -50,7 +52,8 @@ void TakeOffState::checkUpdate()
                 this->hwPlatform->getDistanceDetector(),
                 this->context,
                 this->inputHolder,
-                ContextType::HANGAR));
+                ContextType::HANGAR),
+            0);
         break;
     case HangarSubState::DETECTING:
         // distance greater than D1 for T1 sec
@@ -72,7 +75,8 @@ void TakeOffState::checkUpdate()
                     new SweepingTask(
                         this->hwPlatform->getServoMotor(),
                         this->context, false,
-                        ContextType::HANGAR));
+                        ContextType::HANGAR),
+                    0);
             }
         }
 

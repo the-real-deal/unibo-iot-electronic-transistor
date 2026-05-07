@@ -12,19 +12,22 @@ void IdleState::initializeTasks()
     this->addTask(
         new LCDPrintTask(
             this->hwPlatform->getLCD(),
-            F("DRONE INSIDE")));
+            F("DRONE INSIDE")),
+        0);
 
     this->addTask(
         new ReadTempTask(
             this->hwPlatform->getTemperatureSensor(),
             this->context, this->inputHolder,
-            ContextType::SECURITY));
+            ContextType::SECURITY),
+        0);
 
     this->addTask(
         new DRUReceiverTask(
             this->context,
             this->inputHolder,
-            ContextType::HANGAR));
+            ContextType::HANGAR),
+        0);
 }
 
 void IdleState::checkUpdate()

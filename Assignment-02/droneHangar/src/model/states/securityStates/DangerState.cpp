@@ -21,7 +21,8 @@ void DangerState::initializeTasks()
             this->hwPlatform->getButton(),
             this->context,
             this->inputHolder,
-            ContextType::SECURITY));
+            ContextType::SECURITY),
+        0);
 }
 
 void DangerState::checkUpdate()

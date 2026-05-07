@@ -66,7 +66,7 @@ public:
     /*
      * Method used to add tasks to the scheduler
      */
-    virtual void addTaskToScheduler(Task *task) = 0;
+    virtual void addTaskToScheduler(Task *task, int period) = 0;
 
     /**
      * Method used to remove task from the scheduler
@@ -107,9 +107,9 @@ public:
     /**
      * Adds a task and saves its id to a list.
      */
-    void addTask(Task *t)
+    void addTask(Task *t, int period)
     {
-        this->context->addTaskToScheduler(t);
+        this->context->addTaskToScheduler(t, period);
         this->taskAdded.add(t->getId());
     }
 
@@ -161,9 +161,9 @@ public:
     /**
      * Adds a task and saves its id to a list.
      */
-    void addTask(Task *t)
+    void addTask(Task *t, int period)
     {
-        this->context->addTaskToScheduler(t);
+        this->context->addTaskToScheduler(t, period);
         this->taskAdded.add(t->getId());
     }
 
