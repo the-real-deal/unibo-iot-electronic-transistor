@@ -21,6 +21,9 @@ private:
     long elapsedSweepingTime();
 
 public:
+    /**
+     * If forward is true, the destination angle is 180
+     */
     SweepingTask(ServoMotorImpl *_servo, Context *context, bool forward, ContextType destCtx);
     ~SweepingTask() = default;
 

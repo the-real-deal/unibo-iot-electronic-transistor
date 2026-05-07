@@ -26,7 +26,7 @@ void SweepingTask::execute()
         // Logger.log(String(this->servo->getPosition()));
         // Logger.log(F("Destination:"));
         // Logger.log(String(this->destination));
-        this->servo->on();
+        // this->servo->on();
         this->hasJustEntered = false;
         this->servo->setPosition(destination);
     }
@@ -36,9 +36,9 @@ void SweepingTask::execute()
         // Logger.log(String(this->servo->getPosition()));
         // Logger.log(F("Destination:"));
         // Logger.log(String(this->destination));
-        this->servo->off();
+        // this->servo->off();
         this->setCompleted();
-        this->ctx->checkUpdate(this->destContext);
+        // this->ctx->checkUpdate(this->destContext);
     }
     /* Old implementation */
     // long dt = elapsedSweepingTime();

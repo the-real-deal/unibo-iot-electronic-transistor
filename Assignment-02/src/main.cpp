@@ -32,12 +32,7 @@ void setup()
   pinMode(LED2, OUTPUT);
   pinMode(LED3, OUTPUT);
 
-  // Serial.println("Begin");
-  // Serial.flush();
-
-  // hwPlatform.getLed2()->switchOn();
-
-  Task *t1 = new SweepingTask(hwPlatform.getServoMotor(), nullptr, false, ContextType::HANGAR);
+  Task *t1 = new SweepingTask(hwPlatform.getServoMotor(), nullptr, true, ContextType::HANGAR);
   // Task *lb3 = new LedBlinkTask(hwPlatform.getLed3());
 
   t1->init();

@@ -7,25 +7,29 @@ ServoMotorImpl::ServoMotorImpl(int pin)
 {
     this->pin = pin;
     this->angle = 0;
+    this->motor.attach(pin, 500, 2740);
+    this->motor.write(0);
+    delay(1000);
+    // this->motor.detach();
 }
 
 void ServoMotorImpl::on()
 {
-    motor.attach(pin);
+    this->motor.attach(pin, 500, 2740);
 }
 
 void ServoMotorImpl::setPosition(int angle)
 {
     this->angle = angle;
-    motor.write(angle);
+    this->motor.write(angle);
 }
 
 void ServoMotorImpl::off()
 {
-    motor.detach();
+    this->motor.detach();
 }
 
 int ServoMotorImpl::getPosition()
 {
-    return motor.read();
+    return this->motor.read();
 }
