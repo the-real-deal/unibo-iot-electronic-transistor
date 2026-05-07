@@ -3,7 +3,7 @@
 #include "model/messageManager/MsgService.h"
 #include "kernel/Scheduler_Impl.hpp"
 #include "model/HWPlatform.hpp"
-// #include "kernel/Logger.h"
+#include "model/messageManager/Logger.h"
 // #include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/LedBlinkTask.hpp"
 // #include "kernel/tasks/ReadPIRTask.hpp"
@@ -14,35 +14,36 @@
  * https://lucid.app/lucidchart/c60760fd-f278-41b0-a28d-a48a83edcd56/edit?invitationId=inv_fc43df35-97c2-42f9-a25e-338626ab2d3e&page=0_0#
  */
 
-Scheduler *scheduler;
-HWPlatform *hwPlatform;
+Scheduler_Impl scheduler(SCHEDULER_PERIOD_MS);
+HWPlatform hwPlatform;
 
 void setup()
 {
-  delay(1000);
   MsgService.init();
+
+  hwPlatform.setup();
 
   pinMode(LED1, OUTPUT);
   digitalWrite(LED1, HIGH);
+  pinMode(LED2, OUTPUT);
+  pinMode(LED3, OUTPUT);
 
-  scheduler = new Scheduler_Impl(SCHEDULER_PERIOD_MS);
+  Serial.println("Begin");
+  Serial.flush();
 
-  Led *l2 = new Led(LED2);
-  l2->switchOn();
+  hwPlatform.getLed2()->switchOn();
 
-  Led *l3 = new Led(LED3);
-  Task *lbt2 = new LedBlinkTask(l3);
-  lbt2->init(500);
-  Task *ledBlinkTask = new LedBlinkTask(l2);
-  scheduler->addTask(ledBlinkTask);
-  ledBlinkTask->init(500);
-  scheduler->addTask(lbt2);
-  /*
-    Add Tasks to the scheduler here
-  */
+  Task *lb2 = new LedBlinkTask(hwPlatform.getLed2());
+  Task *lb3 = new LedBlinkTask(hwPlatform.getLed3());
+
+  lb2->init(500);
+  lb3->init(500);
+
+  scheduler.addTask(lb2);
+  scheduler.addTask(lb3);
 }
 
 void loop()
 {
-  scheduler->executeTask();
+  scheduler.executeTask();
 }

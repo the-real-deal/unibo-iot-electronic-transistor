@@ -7,6 +7,7 @@ class ButtonImpl : public Button
 {
 
 public:
+  ButtonImpl();
   ButtonImpl(int pin);
   bool isPressed();
 

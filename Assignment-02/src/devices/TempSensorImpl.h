@@ -11,6 +11,7 @@ class TempSensorDHT11 : public TempSensor
 {
 
 public:
+  TempSensorDHT11();
   TempSensorDHT11(int pin);
   ~TempSensorDHT11() override;
   virtual float getTemperature();

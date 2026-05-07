@@ -2,6 +2,8 @@
 // #include "../kernel/Logger.h"
 #include <Arduino.h>
 
+TempSensorDHT11::TempSensorDHT11() {}
+
 TempSensorDHT11::TempSensorDHT11(int pin)
 {
     this->dht = new DHT_Unified(pin, DHT11);

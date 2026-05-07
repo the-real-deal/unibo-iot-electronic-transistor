@@ -2,6 +2,8 @@
 
 #include "Arduino.h"
 
+Sonar::Sonar() {}
+
 Sonar::Sonar(int echoP, int trigP, long maxTime) : echoPin(echoP), trigPin(trigP), timeOut(maxTime)
 {
   pinMode(trigPin, OUTPUT);

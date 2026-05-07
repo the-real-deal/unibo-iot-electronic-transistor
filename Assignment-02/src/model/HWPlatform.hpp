@@ -11,25 +11,21 @@
 class HWPlatform
 {
 public:
-    HWPlatform() : _button(ButtonImpl(BUTTON1)),
-                   _led2(Led(LED2)),
-                   _led3(Led(LED3)),
-                   _pir(Pir(PIR_PIN)),
-                   _lcd(LCD(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS)),
-                   _distanceDetector(Sonar(SONAR_ECHO_PIN, SONAR_TRIG_PIN, 30000)),
-                   _temperatureSensor(TempSensorDHT11(DHTPIN)),
-                   _servo(ServoMotorImpl(SERVO_PIN)) {};
+    HWPlatform() {}
 
-    ~HWPlatform() {
-        // delete _button;
-        // delete _led2;
-        // delete _led3;
-        // delete _pir;
-        // delete _lcd;
-        // delete _distanceDetector;
-        // delete _temperatureSensor;
-        // delete _servo;
-    };
+    ~HWPlatform() {}
+
+    void setup()
+    {
+        _button = ButtonImpl(BUTTON1);
+        _led2 = Led(LED2);
+        _led3 = Led(LED3);
+        _pir = Pir(PIR_PIN);
+        _lcd = LCD(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);
+        _distanceDetector = Sonar(SONAR_ECHO_PIN, SONAR_TRIG_PIN, 30000);
+        _temperatureSensor = TempSensorDHT11(DHTPIN);
+        _servo = ServoMotorImpl(SERVO_PIN);
+    }
 
     ButtonImpl *getButton()
     {

@@ -15,4 +15,4 @@ public:
     void sendMSG(const String &msg);
 };
 
-extern DRUMessageManager Messanger;
+// extern DRUMessageManager Messanger;

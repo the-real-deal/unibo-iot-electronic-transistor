@@ -7,6 +7,7 @@ class ServoMotorImpl : public ServoMotor
 {
 
 public:
+    ServoMotorImpl();
     ServoMotorImpl(int pin);
     ~ServoMotorImpl() = default;
 

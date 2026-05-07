@@ -1,4 +1,4 @@
-#include "./kernel/MsgService.h"
+#include "MsgService.h"
 #include "DRUMessageManager.hpp"
 
 String DRUMessageManager::receiveMSG()

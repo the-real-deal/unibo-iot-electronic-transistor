@@ -8,6 +8,7 @@ private:
     int rows = 0;
 
 public:
+    LCD();
     LCD(int address, int columns, int rows_);
     virtual ~LCD() {};
     void print(const int nRows, ...);

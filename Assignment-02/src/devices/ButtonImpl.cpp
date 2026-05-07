@@ -1,6 +1,7 @@
 #include "ButtonImpl.h"
 #include <Arduino.h>
 
+ButtonImpl::ButtonImpl() {}
 ButtonImpl::ButtonImpl(int pin)
 {
   this->pin = pin;
