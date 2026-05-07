@@ -1,4 +1,5 @@
 #include "ReadTempTask.hpp"
+#include "model/messageManager/Logger.h"
 
 ReadTempTask::ReadTempTask(TempSensor *tempSensor, Context *ctx, InputHolder *holder, ContextType destCtx) : tempSensor(tempSensor),
                                                                                                              context(ctx),
@@ -7,12 +8,13 @@ ReadTempTask::ReadTempTask(TempSensor *tempSensor, Context *ctx, InputHolder *ho
 
 void ReadTempTask::cleanup()
 {
-    this->holder->setTemperature(Temp1 - 1.0);
+    // this->holder->setTemperature(Temp1 - 1.0);
 }
 
 void ReadTempTask::execute()
 {
     float temp = this->tempSensor->getTemperature();
-    this->holder->setTemperature(temp);
-    this->context->checkUpdate(destCtx);
+    Logger.log(String(temp));
+    // this->holder->setTemperature(temp);
+    // this->context->checkUpdate(destCtx);
 }

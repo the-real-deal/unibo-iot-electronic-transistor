@@ -1,18 +1,21 @@
 #include "ReadPIRTask.hpp"
+#include "model/messageManager/Logger.h"
 
-ReadPIRTask::ReadPIRTask(PresenceSensor *pir, Context *ctx, InputHolder *holder, ContextType destCtx) : pir(pir),
-                                                                                                        context(ctx),
-                                                                                                        holder(holder),
-                                                                                                        destCtx(destCtx) {}
+ReadPIRTask::ReadPIRTask(Pir *pir, Context *ctx, InputHolder *holder, ContextType destCtx) : pir(pir),
+                                                                                             context(ctx),
+                                                                                             holder(holder),
+                                                                                             destCtx(destCtx) {}
 
 void ReadPIRTask::cleanup()
 {
-    this->holder->setMotionDetected(false);
+    // this->holder->setMotionDetected(false);
 }
 
 void ReadPIRTask::execute()
 {
+    this->pir->sync();
     bool isDetected = this->pir->isDetected();
+    // Logger.log(String(isDetected));
     this->holder->setMotionDetected(isDetected);
     this->context->checkUpdate(destCtx);
 }

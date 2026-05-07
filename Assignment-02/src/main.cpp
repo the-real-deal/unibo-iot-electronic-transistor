@@ -4,10 +4,14 @@
 #include "kernel/Scheduler_Impl.hpp"
 #include "model/HWPlatform.hpp"
 #include "model/messageManager/Logger.h"
+
 // #include "kernel/tasks/LCDPrintTask.hpp"
-#include "kernel/tasks/LedBlinkTask.hpp"
+// #include "kernel/tasks/LedBlinkTask.hpp"
 // #include "kernel/tasks/ReadPIRTask.hpp"
 // #include "kernel/tasks/ReadDistanceTask.hpp"
+// #include "kernel/tasks/ButtonTask.hpp"
+#include "kernel/tasks/ReadTempTask.hpp"
+#include "kernel/tasks/SweepingTask.hpp"
 
 /**
  * FSM diagram
@@ -28,19 +32,19 @@ void setup()
   pinMode(LED2, OUTPUT);
   pinMode(LED3, OUTPUT);
 
-  Serial.println("Begin");
-  Serial.flush();
+  // Serial.println("Begin");
+  // Serial.flush();
 
-  hwPlatform.getLed2()->switchOn();
+  // hwPlatform.getLed2()->switchOn();
 
-  Task *lb2 = new LedBlinkTask(hwPlatform.getLed2());
-  Task *lb3 = new LedBlinkTask(hwPlatform.getLed3());
+  Task *t1 = new SweepingTask(hwPlatform.getServoMotor(), nullptr, false, ContextType::HANGAR);
+  // Task *lb3 = new LedBlinkTask(hwPlatform.getLed3());
 
-  lb2->init(500);
-  lb3->init(500);
+  t1->init();
+  // lb3->init(500);
 
-  scheduler.addTask(lb2);
-  scheduler.addTask(lb3);
+  scheduler.addTask(t1);
+  // scheduler.addTask(lb3);
 }
 
 void loop()

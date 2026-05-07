@@ -13,8 +13,9 @@ private:
     Context *context;
     InputHolder *holder;
     ContextType destCtx;
+
 public:
-    ReadDistanceTask(ProximitySensor *sonar, Context* ctx, InputHolder *valHolder, ContextType type);
+    ReadDistanceTask(ProximitySensor *sonar, Context *ctx, InputHolder *valHolder, ContextType type);
     ~ReadDistanceTask() = default;
 
     void execute() override;

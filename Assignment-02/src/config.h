@@ -1,16 +1,16 @@
 #define SCHEDULER_PERIOD_MS 200
 
 #define DHTTYPE DHT11
-#define DHTPIN 8
+#define DHTPIN 3
 #define LED1 5
 #define LED2 6
 #define LED3 7
-#define BUTTON1 9
+#define BUTTON1 8
 #define SONAR_TRIG_PIN 11
 #define SONAR_ECHO_PIN 12
 // #define NO_OBJECTS -1
-#define PIR_PIN 2
-#define SERVO_PIN 3
+#define PIR_PIN 4
+#define SERVO_PIN 9
 #define CALIBRATION_TIME_SEC 10
 
 // #define SWEEP_TIME 2700

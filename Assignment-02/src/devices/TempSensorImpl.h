@@ -2,10 +2,8 @@
 #define __TEMP_SENSOR_LM35__
 
 #include "TempSensor.h"
-#include <Adafruit_Sensor.h>
-#include <DHT.h>
-#include <DHT_U.h>
-#include "../config.h"
+#include "DHT.h"
+#include "config.h"
 
 class TempSensorDHT11 : public TempSensor
 {
@@ -17,8 +15,8 @@ public:
   virtual float getTemperature();
 
 private:
+  DHT dht;
   int pin;
-  DHT_Unified *dht;
 };
 
 #endif

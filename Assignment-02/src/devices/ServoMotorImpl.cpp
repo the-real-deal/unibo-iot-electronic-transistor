@@ -11,7 +11,7 @@ ServoMotorImpl::ServoMotorImpl(int pin)
 
 void ServoMotorImpl::on()
 {
-    motor.attach(pin, 500, 2740);
+    motor.attach(pin);
 }
 
 void ServoMotorImpl::setPosition(int angle)
