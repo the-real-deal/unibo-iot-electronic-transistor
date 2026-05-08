@@ -7,11 +7,12 @@
 
 #include "kernel/tasks/LedBlinkTask.hpp"
 // #include "kernel/tasks/ReadPIRTask.hpp"
-// #include "kernel/tasks/ReadDistanceTask.hpp"
+#include "kernel/tasks/ReadDistanceTask.hpp"
 // #include "kernel/tasks/ButtonTask.hpp"
 // #include "kernel/tasks/ReadTempTask.hpp"
-#include "kernel/tasks/SweepingTask.hpp"
-#include "kernel/tasks/DRUReceiverTask.hpp"
+// #include "kernel/tasks/SweepingTask.hpp"
+// #include "kernel/tasks/DRUReceiverTask.hpp"
+#include "kernel/tasks/SendDistanceTask.hpp"
 
 /**
  * FSM diagram
@@ -20,6 +21,7 @@
 
 Scheduler_Impl scheduler(SCHEDULER_PERIOD_MS);
 HWPlatform hwPlatform;
+InputHolder holder;
 
 void setup()
 {
@@ -32,17 +34,19 @@ void setup()
 
   Task *t1 = new LedBlinkTask(hwPlatform.getLed2());
   Task *t2 = new LedBlinkTask(hwPlatform.getLed3());
-  // Task *t3 = new DRUReceiverTask(nullptr, nullptr, ContextType::HANGAR);
+  Task *t3 = new ReadDistanceTask(hwPlatform.getDistanceDetector(), nullptr, &holder, ContextType::HANGAR);
+  Task *t4 = new SendDistanceTask(&holder);
   hwPlatform.getLed3()->switchOn();
-  // Task *t3 = new SweepingTask(hwPlatform.getServoMotor(), nullptr, true, ContextType::HANGAR);
 
   t1->init(500);
   t2->init(500);
-  // t3->init();
+  t3->init();
+  t4->init(250);
 
   scheduler.addTask(t1);
   scheduler.addTask(t2);
-  // scheduler.addTask(t3);
+  scheduler.addTask(t3);
+  scheduler.addTask(t4);
 }
 
 void loop()
