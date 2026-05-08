@@ -5,7 +5,6 @@
 #include "model/HWPlatform.hpp"
 #include "model/messageManager/Logger.h"
 
-// #include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/LedBlinkTask.hpp"
 // #include "kernel/tasks/ReadPIRTask.hpp"
 // #include "kernel/tasks/ReadDistanceTask.hpp"

@@ -1,6 +1,5 @@
 #include "IdleState.hpp"
 #include "TakeOffState.hpp"
-#include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/ReadTempTask.hpp"
 #include "kernel/tasks/DRUReceiverTask.hpp"
 #include "model/messageManager/MsgService.h"

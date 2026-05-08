@@ -1,6 +1,5 @@
 #include "LandingState.hpp"
 #include "IdleState.hpp"
-#include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/SweepingTask.hpp"
 #include "kernel/tasks/ReadDistanceTask.hpp"
 #include "kernel/tasks/ReadPIRTask.hpp"

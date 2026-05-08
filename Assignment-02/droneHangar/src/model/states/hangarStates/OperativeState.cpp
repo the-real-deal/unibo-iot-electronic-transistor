@@ -1,6 +1,5 @@
 #include "OperativeState.hpp"
 #include "LandingState.hpp"
-#include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/DRUReceiverTask.hpp"
 
 OperativeState::OperativeState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder) {}

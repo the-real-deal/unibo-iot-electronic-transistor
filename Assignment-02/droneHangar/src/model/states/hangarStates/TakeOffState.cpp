@@ -1,6 +1,5 @@
 #include "TakeOffState.hpp"
 #include "OperativeState.hpp"
-#include "kernel/tasks/LCDPrintTask.hpp"
 #include "kernel/tasks/SweepingTask.hpp"
 #include "kernel/tasks/ReadDistanceTask.hpp"
 #include "kernel/tasks/LedBlinkTask.hpp"
