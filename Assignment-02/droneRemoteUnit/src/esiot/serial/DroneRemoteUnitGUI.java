@@ -10,35 +10,27 @@ public class DroneRemoteUnitGUI extends JFrame {
     private static JLabel lblDroneState;
     private static JLabel lblHangarState;
     private static JLabel lblDistance;
-
-    private enum DroneState {
-        REST, TAKING_OFF, OPERATING, LANDING
-    }
-
-    private enum HangarState {
-        NORMAL, PREALARM, ALARM
-    }
-
-    private enum CmdType {
-        CMD, MSG
-    }
-
-    private enum CommandToReceive {
-        SET_DISTANCE, SET_HANGARSTATE, SET_DRONESTATE
-    }
+    private static JTextArea consoleArea;
 
     private enum CommandToSend {
-        LANDING, TAKE_OFF
+        LANDING("Landing"), TAKE_OFF("Taking Off");
+
+        private final String text;
+
+        private CommandToSend(String _text){
+            this.text = _text;
+        }
+
+        @Override
+        public String toString() {
+            return this.text;
+        }
     }
 
-    private static DroneState currentDroneState = DroneState.REST;
-    private static HangarState currentHangarState = HangarState.NORMAL;
-    private static int currentDistance = 0;
-
     public DroneRemoteUnitGUI() {
-        super("Drone Remote Unit – DRU");
+        super("Drone Remote Unit - DRU");
 
-        setSize(480, 340);
+        setSize(1780, 840);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(15, 15));
         JPanel commandsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -49,9 +41,9 @@ public class DroneRemoteUnitGUI extends JFrame {
         commandsPanel.add(btnLand);
 
         btnTakeOff.addActionListener(
-                e -> sendCommand(new ProtocolMessage("<CMD|" + CommandToSend.TAKE_OFF.toString() + ">")));
+                e -> sendCommand(new ProtocolMessage(CommandToSend.TAKE_OFF.toString())));
         btnLand.addActionListener(
-                e -> sendCommand(new ProtocolMessage("<CMD|" + CommandToSend.LANDING.toString() + ">")));
+                e -> sendCommand(new ProtocolMessage(CommandToSend.LANDING.toString())));
 
         JPanel statePanel = new JPanel();
         statePanel.setLayout(new GridLayout(3, 1, 5, 5));
@@ -69,6 +61,20 @@ public class DroneRemoteUnitGUI extends JFrame {
 
         add(commandsPanel, BorderLayout.NORTH);
         add(statePanel, BorderLayout.CENTER);
+
+
+
+        // in the constructor, after building statePanel:
+        consoleArea = new JTextArea(6, 40);
+        consoleArea.setEditable(false);
+        consoleArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        consoleArea.setBackground(Color.decode("#1a1a1a"));
+        consoleArea.setForeground(Color.decode("#d4d4d4"));
+        
+        JScrollPane consoleScroll = new JScrollPane(consoleArea);
+        consoleScroll.setBorder(BorderFactory.createTitledBorder("Console"));
+        
+        add(consoleScroll, BorderLayout.SOUTH);
 
         setVisible(true);
     }
@@ -97,52 +103,40 @@ public class DroneRemoteUnitGUI extends JFrame {
     static CommChannel channel;
 
     private void sendCommand(ProtocolMessage msg) {
-
-        System.out.println("Info: Sending " + msg.getRaw());
-        channel.sendMsg(msg.getRaw());
+        logConsole("Info: Sending " + msg.getData());
+        channel.sendMsg(msg.getData());
     }
 
     private static void msgHandler(ProtocolMessage msg) {
-        System.out.println("Arduino Info: " + msg.getCommand());
+        logConsole("Arduino Info: " + "[" + msg.getType().toString() + "] " + msg.getData());
     }
 
     private static void cmdHandler(ProtocolMessage msg) {
-        CommandToReceive cmd = CommandToReceive.valueOf(msg.getCommand());
-        switch (cmd) {
-            case CommandToReceive.SET_DISTANCE:
-                updateDistance(msg.getArg(0));
-                break;
-            case CommandToReceive.SET_DRONESTATE:
-                updateDroneState(msg.getArg(0));
-                break;
-            case CommandToReceive.SET_HANGARSTATE:
-                updateHangarState(msg.getArg(0));
-                break;
-            default:
-                msgHandler(new ProtocolMessage(msg.getRaw()));
-                break;
+        System.out.println(msg);
+        switch (msg.getType()) {
+            case ProtocolMessage.MSGType.DISTANCE -> updateDistance(msg.getData());
+            case ProtocolMessage.MSGType.SECURITY_STATE -> updateHangarState(msg.getData());
+            case ProtocolMessage.MSGType.HANGAR_STATE -> updateDroneState(msg.getData());
+            case ProtocolMessage.MSGType.LOG -> msgHandler(msg);
+            default -> throw new AssertionError();
         }
     }
 
     public static void updateDistance(String arg) {
         SwingUtilities.invokeLater(() -> {
-            int dist = Integer.parseInt(arg);
-            currentDistance = dist;
-            lblDistance.setText("Distanza: " + currentDistance + " cm");
+            lblDistance.setText("Distanza: " + arg + " cm");
         });
     }
 
     private static void updateDroneState(String arg) {
         SwingUtilities.invokeLater(() -> {
-            currentDroneState = DroneState.valueOf(arg);
-            lblDroneState.setText("Drone: " + currentDroneState);
+            lblDroneState.setText("Drone: " + arg);
         });
     }
 
     private static void updateHangarState(String arg) {
         SwingUtilities.invokeLater(() -> {
-            currentHangarState = HangarState.valueOf(arg);
-            lblDroneState.setText("Hangar: " + currentHangarState);
+            lblDroneState.setText("Hangar: " + arg);
         });
     }
 
@@ -152,20 +146,23 @@ public class DroneRemoteUnitGUI extends JFrame {
             while (true) {
                 try {
                     ProtocolMessage msg = new ProtocolMessage(channel.receiveMsg());
-                    CmdType type = CmdType.valueOf(msg.getType());
-                    if (type.equals(CmdType.CMD)) {
-                        cmdHandler(msg);
-                    } else if (type.equals(CmdType.MSG)) {
-                        msgHandler(msg);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    cmdHandler(msg);
+                } catch (InterruptedException e) {
                 }
             }
         });
 
         serialThread.setDaemon(true);
         serialThread.start();
+    }
+
+    private static void logConsole(String text) {
+        SwingUtilities.invokeLater(() -> {
+            String ts = java.time.LocalTime.now()
+            .format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
+            consoleArea.append("[" + ts + "] " + text + "\n");
+            consoleArea.setCaretPosition(consoleArea.getDocument().getLength()); // auto-scroll
+        });
     }
 
     public static void main(String[] args) throws Exception {

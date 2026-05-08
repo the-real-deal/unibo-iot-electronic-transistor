@@ -9,7 +9,7 @@ ServoMotorImpl::ServoMotorImpl(int pin)
     this->angle = 0;
     this->motor.attach(pin, 500, 2740);
     this->motor.write(0);
-    delay(500);
+    delay(1000);
     this->motor.detach();
 }
 

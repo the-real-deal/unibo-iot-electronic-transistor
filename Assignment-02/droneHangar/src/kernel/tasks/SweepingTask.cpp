@@ -12,6 +12,7 @@ SweepingTask::SweepingTask(ServoMotorImpl *_servo, Context *context, bool forwar
     this->sweepSign = forward ? -1 : 1;
     this->destination = forward ? 180 : 0;
     this->hasJustEntered = true;
+    this->servo->on();
 }
 
 void SweepingTask::cleanup()
@@ -26,7 +27,6 @@ void SweepingTask::execute()
         // Logger.log(String(this->servo->getPosition()));
         // Logger.log(F("Destination:"));
         // Logger.log(String(this->destination));
-        // this->servo->on();
         this->hasJustEntered = false;
         this->servo->setPosition(destination);
     }
@@ -36,9 +36,9 @@ void SweepingTask::execute()
         // Logger.log(String(this->servo->getPosition()));
         // Logger.log(F("Destination:"));
         // Logger.log(String(this->destination));
-        // this->servo->off();
+        this->servo->off();
         this->setCompleted();
-        // this->ctx->checkUpdate(this->destContext);
+        this->ctx->checkUpdate(this->destContext);
     }
     /* Old implementation */
     // long dt = elapsedSweepingTime();

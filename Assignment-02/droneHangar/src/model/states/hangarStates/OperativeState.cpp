@@ -7,11 +7,14 @@ OperativeState::OperativeState(HWPlatform *platform, InputHolder *holder) : Hang
 
 void OperativeState::initializeTasks()
 {
-    this->addTask(
-        new LCDPrintTask(
-            this->hwPlatform->getLCD(),
-            F("DRONE OUT")),
-        0);
+    // this->addTask(
+    //     new LCDPrintTask(
+    //         this->hwPlatform->getLCD(),
+    //         F("DRONE OUT")),
+    //     0);
+
+    this->hwPlatform->getLCD()->print(F("Drone Out"));
+
     this->addTask(
         new DRUReceiverTask(
             this->context,

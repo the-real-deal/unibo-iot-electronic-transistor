@@ -4,6 +4,7 @@
 #include "kernel/tasks/SweepingTask.hpp"
 #include "kernel/tasks/ReadDistanceTask.hpp"
 #include "kernel/tasks/LedBlinkTask.hpp"
+#include "model/messageManager/MsgService.h"
 
 TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
 {
@@ -14,11 +15,14 @@ TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarSt
 
 void TakeOffState::initializeTasks()
 {
-    this->addTask(
-        new LCDPrintTask(
-            this->hwPlatform->getLCD(),
-            F("DRONE INSIDE")),
-        0);
+    // this->addTask(
+    //     new LCDPrintTask(
+    //         this->hwPlatform->getLCD(),
+    //         F("DRONE INSIDE")),
+    //     0);
+    this->hwPlatform->getLCD()->print(TAKEOFF_STATE_MESSAGE);
+
+    MsgService.sendMsg(TAKEOFF_STATE_MESSAGE);
 
     this->addTask(
         new SweepingTask(

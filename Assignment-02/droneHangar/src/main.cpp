@@ -11,7 +11,8 @@
 // #include "kernel/tasks/ReadDistanceTask.hpp"
 // #include "kernel/tasks/ButtonTask.hpp"
 // #include "kernel/tasks/ReadTempTask.hpp"
-// #include "kernel/tasks/SweepingTask.hpp"
+#include "kernel/tasks/SweepingTask.hpp"
+#include "kernel/tasks/DRUReceiverTask.hpp"
 
 /**
  * FSM diagram
@@ -29,20 +30,20 @@ void setup()
 
   pinMode(LED1, OUTPUT);
   digitalWrite(LED1, HIGH);
-  pinMode(LED2, OUTPUT);
-  pinMode(LED3, OUTPUT);
 
   Task *t1 = new LedBlinkTask(hwPlatform.getLed2());
-  Task *lb3 = new LedBlinkTask(hwPlatform.getLed3());
+  Task *t2 = new LedBlinkTask(hwPlatform.getLed3());
+  // Task *t3 = new DRUReceiverTask(nullptr, nullptr, ContextType::HANGAR);
+  hwPlatform.getLed3()->switchOn();
+  // Task *t3 = new SweepingTask(hwPlatform.getServoMotor(), nullptr, true, ContextType::HANGAR);
 
   t1->init(500);
-  lb3->init(500);
-
-  Logger.log(String(t1->getId()));
-  Logger.log(String(lb3->getId()));
+  t2->init(500);
+  // t3->init();
 
   scheduler.addTask(t1);
-  scheduler.addTask(lb3);
+  scheduler.addTask(t2);
+  // scheduler.addTask(t3);
 }
 
 void loop()

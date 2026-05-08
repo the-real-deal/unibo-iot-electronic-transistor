@@ -1,4 +1,6 @@
 #include "DRUReceiverTask.hpp"
+#include "model/messageManager/MsgService.h"
+#include "model/messageManager/Logger.h"
 
 DRUReceiverTask::DRUReceiverTask(Context *ctx, InputHolder *holder, ContextType type) : context(ctx),
                                                                                         holder(holder),
@@ -6,15 +8,16 @@ DRUReceiverTask::DRUReceiverTask(Context *ctx, InputHolder *holder, ContextType 
 
 void DRUReceiverTask::execute()
 {
-    String msg = "[TODO] read from serial";
-    if (msg.length() > 0 && /*message is directed to controller*/ true)
+    if (MsgService.isMsgAvailable())
     {
-        this->holder->setMessage(msg);
+        Msg *msg = MsgService.receiveMsg();
+        // Logger.log(msg->getContent());
+        this->holder->setMessage(msg->getContent());
         this->context->handleDRURequest();
     }
 }
 
 void DRUReceiverTask::cleanup()
 {
-    this->holder->setMessage("");
+    // this->holder->setMessage();
 }

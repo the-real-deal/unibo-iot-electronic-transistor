@@ -5,6 +5,8 @@
 #include "kernel/tasks/ReadDistanceTask.hpp"
 #include "kernel/tasks/ReadPIRTask.hpp"
 #include "kernel/tasks/LedBlinkTask.hpp"
+#include "kernel/tasks/SendDistanceTask.hpp"
+#include "model/messageManager/MsgService.h"
 
 LandingState::LandingState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
 {
@@ -15,11 +17,14 @@ LandingState::LandingState(HWPlatform *platform, InputHolder *holder) : HangarSt
 
 void LandingState::initializeTasks()
 {
-    this->addTask(
-        new LCDPrintTask(
-            this->hwPlatform->getLCD(),
-            F("LANDING")),
-        0);
+    // this->addTask(
+    //     new LCDPrintTask(
+    //         this->hwPlatform->getLCD(),
+    //         F("LANDING")),
+    //     0);
+    this->hwPlatform->getLCD()->print(LANDING_STATE_MESSAGE);
+
+    MsgService.sendMsg(LANDING_STATE_MESSAGE);
 
     this->addTask(
         new ReadPIRTask(
@@ -66,6 +71,7 @@ void LandingState::checkUpdate()
                 this->inputHolder,
                 ContextType::HANGAR),
             0);
+        this->addTask(new SendDistanceTask(this->inputHolder), 250);
         break;
     case HangarSubState::DETECTING:
         d = this->inputHolder->getDistance();

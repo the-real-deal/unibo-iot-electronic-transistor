@@ -4,47 +4,54 @@ import java.util.*;
 
 public class ProtocolMessage {
 
-    private final String raw;
-    private final String type;
-    private final String command;
-    private final List<String> args;
+    public enum MSGType{
+        DISTANCE,
+        SECURITY_STATE,
+        HANGAR_STATE,
+        LOG
+    }
+
+    private static final List<String> HANGAR_STATES = List.of(
+        "Drone Inside",
+        "Taking Off",
+        "Landing",
+        "Drone Outside"
+    );
+    private static final List<String> SECURITY_STATES = List.of(
+        "Normal",
+        "Alarm"
+    );
+
+    private final String data;
+    private MSGType type;
 
     public ProtocolMessage(String input) {
-        if (input == null || input.length() < 3 || !input.startsWith("<") || !input.endsWith(">")) {
-            throw new IllegalArgumentException("Formato non valido: " + input);
-        }
-
-        this.raw = input;
-        String content = input.substring(1, input.length() - 1);
-        String[] parts = content.split("\\|");
-
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("Formato incompleto: " + input);
-        }
-
-        this.type = parts[0];
-        this.command = parts[1];
-        if (parts.length > 2) {
-            this.args = Collections.unmodifiableList(
-                    Arrays.asList(parts).subList(2, parts.length));
-        } else {
-            this.args = Collections.emptyList();
+        this.data = input;
+        try {
+            if(Double.parseDouble(this.data) > 0){
+                this.type = MSGType.DISTANCE;
+            }
+        } catch(NumberFormatException nfe) {
+            if (HANGAR_STATES.contains(this.data)){
+                this.type = MSGType.HANGAR_STATE;
+            } else if(SECURITY_STATES.contains(this.data)) {
+                this.type = MSGType.SECURITY_STATE;
+            } else {
+                this.type = MSGType.LOG;
+            }
         }
     }
 
-    public String getType() {
+    public MSGType getType() {
         return type;
     }
 
-    public String getCommand() {
-        return command;
+    public String getData() {
+        return data;
     }
 
-    public String getArg(int index) {
-        return args.get(index);
-    }
-
-    public String getRaw() {
-        return raw;
+    @Override
+    public String toString() {
+        return this.getData() + ": " + this.getType();
     }
 }

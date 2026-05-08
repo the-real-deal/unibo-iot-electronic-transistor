@@ -29,4 +29,12 @@
 #define Temp1 25
 #define Temp2 30
 
-#define DEBUG
+#define TAKEOFF_STATE_MESSAGE F("Take Off")
+#define LANDING_STATE_MESSAGE F("Landing")
+#define OPERATING_STATE_MESSAGE F("Drone Outside")
+#define IDLE_STATE_MESSAGE F("Drone Inside")
+
+#define NORMAL_STATE_MESSAGE F("Normal")
+#define ALARM_STATE_MESSAGE F("Alarm")
+
+// #define DEBUG

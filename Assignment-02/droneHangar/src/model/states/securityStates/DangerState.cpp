@@ -2,7 +2,9 @@
 #include "NormalState.hpp"
 #include "model/states/hangarStates/IdleState.hpp"
 #include "model/states/hangarStates/StopState.hpp"
+#include "kernel/tasks/SweepingTask.hpp"
 #include "kernel/tasks/ButtonTask.hpp"
+#include "model/messageManager/MsgService.h"
 
 DangerState::DangerState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder) {}
 
@@ -14,6 +16,9 @@ bool DangerState::canReceiveMsg()
 void DangerState::initializeTasks()
 {
     this->hwPlatform->getLed3()->switchOn();
+    this->hwPlatform->getLCD()->print(ALARM_STATE_MESSAGE);
+    MsgService.sendMsg(ALARM_STATE_MESSAGE);
+
     // halts the hangar and deletes his task inside the scheduler
     this->context->setHangarState(new StopState(this->hwPlatform, this->inputHolder));
     this->addTask(
@@ -21,6 +26,13 @@ void DangerState::initializeTasks()
             this->hwPlatform->getButton(),
             this->context,
             this->inputHolder,
+            ContextType::SECURITY),
+        0);
+    this->addTask(
+        new SweepingTask(
+            this->hwPlatform->getServoMotor(),
+            this->context,
+            false,
             ContextType::SECURITY),
         0);
 }

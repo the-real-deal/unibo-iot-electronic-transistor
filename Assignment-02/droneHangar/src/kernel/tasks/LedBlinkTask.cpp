@@ -11,7 +11,6 @@ void LedBlinkTask::cleanup()
 
 void LedBlinkTask::execute()
 {
-    Logger.log("Blinking");
     if (led->isOn())
     {
         led->switchOff();
