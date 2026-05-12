@@ -32,7 +32,7 @@ void MsgServiceClass::init()
   while (!Serial)
     ;
   Serial.println(F("Begin"));
-  content.reserve(128);
+  content.reserve(64);
   content = "";
   currentMsg = NULL;
   msgAvailable = false;

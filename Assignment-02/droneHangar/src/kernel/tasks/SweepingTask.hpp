@@ -15,8 +15,6 @@ private:
     bool hasJustEntered;
     int destination;
 
-    long elapsedSweepingTime();
-
 public:
     /**
      * If forward is true, the destination angle is 180

@@ -7,12 +7,9 @@ SweepingTask::SweepingTask(ServoMotorImpl *_servo, Context *context, bool forwar
                                                                                                           ctx(context),
                                                                                                           destContext(destCtx)
 {
-    // this->stateTimestamp = millis();
-    // this->sweepConstant = forward ? 0 : 180;
     this->sweepSign = forward ? -1 : 1;
     this->destination = forward ? 180 : 0;
     this->hasJustEntered = true;
-    // this->servo->on();
 }
 
 void SweepingTask::cleanup()
@@ -24,6 +21,7 @@ void SweepingTask::execute()
     if (this->hasJustEntered)
     {
         this->hasJustEntered = false;
+        // this->servo->on();
         this->servo->setPosition(destination);
     }
     else if (this->destination + this->sweepSign * this->servo->getPosition() <= DELTA)
@@ -32,10 +30,4 @@ void SweepingTask::execute()
         this->setCompleted();
         this->ctx->checkUpdate(this->destContext);
     }
-}
-
-long SweepingTask::elapsedSweepingTime()
-{
-    return 0;
-    // return millis() - stateTimestamp;
 }

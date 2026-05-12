@@ -13,7 +13,6 @@ void ButtonTask::cleanup()
 
 void ButtonTask::execute()
 {
-    // Logger.log(String(this->btn->isPressed()));
     this->holder->setIsPressed(this->btn->isPressed());
     this->context->checkUpdate(type);
 }

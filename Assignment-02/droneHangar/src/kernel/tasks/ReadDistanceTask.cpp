@@ -13,7 +13,6 @@ void ReadDistanceTask::cleanup()
 void ReadDistanceTask::execute()
 {
     float dist = this->sonar->getDistance();
-    // Logger.log(String(dist));
     this->holder->setDistance(dist);
     this->context->checkUpdate(this->destCtx);
 }

@@ -28,11 +28,8 @@ void Scheduler::executeTask()
     Serial.println(freeMemory());
     Serial.flush();
     long currentTime = millis();
-    int size = queue.size();
-    Serial.print(F("Queue Size: "));
-    Serial.println(size);
     Serial.flush();
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < queue.size(); i++)
     {
         Task *currentTask = queue.get(i);
         if (currentTask->isActive())

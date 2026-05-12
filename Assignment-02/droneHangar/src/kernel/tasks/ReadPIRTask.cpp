@@ -14,8 +14,6 @@ void ReadPIRTask::cleanup()
 void ReadPIRTask::execute()
 {
     this->pir->sync();
-    bool isDetected = this->pir->isDetected();
-    // Logger.log(String(isDetected));
-    this->holder->setMotionDetected(isDetected);
+    this->holder->setMotionDetected(this->pir->isDetected());
     this->context->checkUpdate(destCtx);
 }
