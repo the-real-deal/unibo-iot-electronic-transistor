@@ -2,9 +2,8 @@
 #include "DangerState.hpp"
 #include "NormalState.hpp"
 
-WarningState::WarningState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder)
+WarningState::WarningState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder), t(Timer())
 {
-    this->t = Timer();
 }
 
 bool WarningState::canReceiveMsg()

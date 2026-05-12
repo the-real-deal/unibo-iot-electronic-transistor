@@ -136,7 +136,7 @@ public class DroneRemoteUnitGUI extends JFrame {
 
     private static void updateHangarState(String arg) {
         SwingUtilities.invokeLater(() -> {
-            lblDroneState.setText("Hangar: " + arg);
+            lblHangarState.setText("Hangar: " + arg);
         });
     }
 

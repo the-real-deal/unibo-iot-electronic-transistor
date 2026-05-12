@@ -7,12 +7,10 @@
 #include "kernel/tasks/SendDistanceTask.hpp"
 #include "model/messageManager/MsgService.h"
 
-LandingState::LandingState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
-{
-    this->currentSubState = HangarSubState::CHECKING;
-    this->t = Timer();
-    this->blinkTaskId = 0;
-}
+LandingState::LandingState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder),
+                                                                        currentSubState(HangarSubState::CHECKING),
+                                                                        t(Timer()),
+                                                                        blinkTaskId(0) {}
 
 void LandingState::initializeTasks()
 {
@@ -90,7 +88,8 @@ void LandingState::checkUpdate()
                 this->addTask(
                     new SweepingTask(
                         this->hwPlatform->getServoMotor(),
-                        this->context, false,
+                        this->context,
+                        false,
                         ContextType::HANGAR),
                     0);
             }

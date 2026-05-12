@@ -2,9 +2,8 @@
 #include "WarningState.hpp"
 #include "model/messageManager/MsgService.h"
 
-NormalState::NormalState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder)
+NormalState::NormalState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder), t(Timer())
 {
-    this->t = Timer();
 }
 
 bool NormalState::canReceiveMsg()

@@ -29,7 +29,7 @@ public class ProtocolMessage {
     public ProtocolMessage(String input) {
         this.data = input;
         try {
-            if(Double.parseDouble(this.data) > 0){
+            if(Double.parseDouble(this.data) > 0){ // horrible but works
                 this.type = MSGType.DISTANCE;
             } else {
                 this.type = MSGType.LOG;
