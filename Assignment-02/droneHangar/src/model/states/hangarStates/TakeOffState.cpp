@@ -5,12 +5,10 @@
 #include "kernel/tasks/LedBlinkTask.hpp"
 #include "model/messageManager/MsgService.h"
 
-TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder)
-{
-    this->currentSubState = HangarSubState::OPENING;
-    this->t = Timer();
-    this->blinkTaskId = 0;
-}
+TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder),
+                                                                        currentSubState(HangarSubState::OPENING),
+                                                                        t(Timer()),
+                                                                        blinkTaskId(0) {}
 
 void TakeOffState::initializeTasks()
 {

@@ -15,7 +15,8 @@ enum TasksType
     READ_DISTANCE_TASK,
     READ_PIR_TASK,
     READ_TEMP_TASK,
-    SWEEPING_TASK
+    SWEEPING_TASK,
+    SEND_DISTANCE_TASK
 };
 
 class Task
@@ -49,6 +50,7 @@ public:
 
     virtual void execute() = 0;
     virtual void cleanup() = 0;
+    // virtual void setup() = 0;
 
     bool updateAndCheckTime(int basePeriod)
     {

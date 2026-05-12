@@ -1,10 +1,15 @@
 #include "ButtonTask.hpp"
-#include "model/messageManager/Logger.h"
+// #include "model/messageManager/Logger.h"
 
 ButtonTask::ButtonTask(Button *btn, Context *ctx, InputHolder *holder, ContextType type) : btn(btn),
                                                                                            context(ctx),
                                                                                            holder(holder),
                                                                                            type(type) {}
+
+ButtonTask::~ButtonTask()
+{
+    cleanup();
+}
 
 void ButtonTask::cleanup()
 {

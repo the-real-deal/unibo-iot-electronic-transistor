@@ -5,6 +5,7 @@
 #include "kernel/Scheduler.hpp"
 #include "model/HWPlatform.hpp"
 #include "model/InputHolder.hpp"
+#include "debug.hpp"
 
 /**
  * State pattern concepts taken from:
@@ -41,37 +42,39 @@ private:
     InputHolder *holder;
 
 public:
-    Context(Scheduler *sched, InputHolder *holder);
-    virtual ~Context() = 0;
+    Context();
+    ~Context();
+
+    void init(Scheduler *sched, InputHolder *holder);
 
     /*
      * Setters for the hangar state, method called by the states themselves
      */
-    virtual void setHangarState(HangarState *state) = 0;
+    void setHangarState(HangarState *state);
     /*
      * Setters for the security state, method called by the states themselves
      */
-    virtual void setSecurityState(SecurityState *state) = 0;
+    void setSecurityState(SecurityState *state);
 
     /*
      * Method called by tasks (ex. pir read), checks the condition for the state change
      */
-    virtual void checkUpdate(ContextType destinationCtx) = 0;
+    void checkUpdate(ContextType destinationCtx);
 
     /*
      * Method to handle incoming DRU requests
      */
-    virtual void handleDRURequest() = 0;
+    void handleDRURequest();
 
     /*
      * Method used to add tasks to the scheduler
      */
-    virtual void addTaskToScheduler(Task *task, int period) = 0;
+    void addTaskToScheduler(Task *task, int period);
 
     /**
      * Method used to remove task from the scheduler
      */
-    virtual void removeTaskFromScheduler(int id) = 0;
+    void removeTaskFromScheduler(int id);
 };
 
 /**
@@ -92,7 +95,7 @@ protected:
     InputHolder *inputHolder;
 
 public:
-    HangarState(HWPlatform *platform, InputHolder *holder) : hwPlatform(platform), inputHolder(holder) {}
+    HangarState(HWPlatform *platform, InputHolder *holder) : context(nullptr), hwPlatform(platform), inputHolder(holder) {}
     virtual ~HangarState()
     {
         removeAddedTasks();
@@ -146,7 +149,7 @@ protected:
     InputHolder *inputHolder;
 
 public:
-    SecurityState(HWPlatform *platform, InputHolder *holder) : hwPlatform(platform), inputHolder(holder) {}
+    SecurityState(HWPlatform *platform, InputHolder *holder) : context(nullptr), hwPlatform(platform), inputHolder(holder) {}
     virtual ~SecurityState()
     {
         removeAddedTasks();

@@ -4,6 +4,11 @@
 
 LedBlinkTask::LedBlinkTask(Led *led) : led(led) {}
 
+LedBlinkTask::~LedBlinkTask()
+{
+    cleanup();
+}
+
 void LedBlinkTask::cleanup()
 {
     led->switchOff();

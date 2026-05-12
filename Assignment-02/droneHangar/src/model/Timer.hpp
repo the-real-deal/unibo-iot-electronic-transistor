@@ -8,8 +8,9 @@ private:
     unsigned long elapsedInterruption;
     bool isStopped;
     bool isReset;
+
 public:
-    Timer() = default;
+    Timer() : startTime(0), stopInit(0), elapsedInterruption(0), isStopped(false), isReset(true) {}
     ~Timer() = default;
 
     /**
@@ -22,7 +23,7 @@ public:
      * @param sec The target time in seconds
      */
     bool hasExeeded(unsigned int sec);
-    
+
     /**
      * Restarts the timer from zero
      */
@@ -42,4 +43,9 @@ public:
      * Checks if the timer is currently running
      */
     bool isRunning();
+
+    /**
+     * Returns the current time tracked
+     */
+    int getCurrentTimeSec();
 };

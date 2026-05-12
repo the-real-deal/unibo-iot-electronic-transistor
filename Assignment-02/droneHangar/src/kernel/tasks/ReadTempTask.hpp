@@ -12,9 +12,10 @@ private:
     Context *context;
     InputHolder *holder;
     ContextType destCtx;
+
 public:
     ReadTempTask(TempSensor *tempSensor, Context *ctx, InputHolder *holder, ContextType destCtx);
-    ~ReadTempTask() = default;
+    ~ReadTempTask();
 
     void execute() override;
     void cleanup() override;

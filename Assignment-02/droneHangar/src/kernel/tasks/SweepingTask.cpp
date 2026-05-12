@@ -23,19 +23,11 @@ void SweepingTask::execute()
 {
     if (this->hasJustEntered)
     {
-        // Logger.log(F("START MOVING DOOR, Position:"));
-        // Logger.log(String(this->servo->getPosition()));
-        // Logger.log(F("Destination:"));
-        // Logger.log(String(this->destination));
         this->hasJustEntered = false;
         this->servo->setPosition(destination);
     }
     else if (this->destination + this->sweepSign * this->servo->getPosition() <= DELTA)
     {
-        // Logger.log(F("Finished, Position:"));
-        // Logger.log(String(this->servo->getPosition()));
-        // Logger.log(F("Destination:"));
-        // Logger.log(String(this->destination));
         this->servo->off();
         this->setCompleted();
         this->ctx->checkUpdate(this->destContext);

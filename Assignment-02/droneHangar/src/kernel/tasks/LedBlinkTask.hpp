@@ -11,7 +11,7 @@ private:
 
 public:
     LedBlinkTask(Led *led);
-    ~LedBlinkTask() = default;
+    ~LedBlinkTask();
 
     void execute() override;
     void cleanup() override;

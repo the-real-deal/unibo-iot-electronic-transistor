@@ -12,7 +12,8 @@ private:
 
 public:
     ButtonTask(Button *btn, Context *ctx, InputHolder *holder, ContextType type);
-    ~ButtonTask() = default;
+    ~ButtonTask();
     void execute() override;
     void cleanup() override;
+    // void setup(Button *btn, Context *ctx, InputHolder *holder, ContextType type) override;
 };

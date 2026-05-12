@@ -12,7 +12,10 @@ void Timer::init()
 
 bool Timer::hasExeeded(unsigned int sec)
 {
-    return (millis() - this->startTime) - elapsedInterruption > sec * 1000U;
+    if (this->isReset || this->isStopped)
+        return false;
+    else
+        return (millis() - this->startTime) - elapsedInterruption > sec * 1000U;
 }
 
 void Timer::reset()
@@ -22,7 +25,7 @@ void Timer::reset()
 
 void Timer::stop()
 {
-    if(!this->isStopped && !this->isReset)
+    if (!this->isStopped && !this->isReset)
     {
         this->stopInit = millis();
         this->isStopped = true;
@@ -31,7 +34,7 @@ void Timer::stop()
 
 void Timer::resume()
 {
-    if(this->isStopped && !this->isReset)
+    if (this->isStopped && !this->isReset)
     {
         this->elapsedInterruption += millis() - this->stopInit;
         this->isStopped = false;
@@ -40,5 +43,10 @@ void Timer::resume()
 
 bool Timer::isRunning()
 {
-    return !this->isReset;
+    return !this->isReset && !this->isStopped;
+}
+
+int Timer::getCurrentTimeSec()
+{
+    return ((millis() - this->startTime) - elapsedInterruption) / 1000;
 }

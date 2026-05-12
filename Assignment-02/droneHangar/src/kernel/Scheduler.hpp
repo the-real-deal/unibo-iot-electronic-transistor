@@ -1,17 +1,26 @@
 #pragma once
 
+#include <Arduino.h>
+#include <LinkedList.h>
 #include "Task.hpp"
+#include "devices/Led.h"
 
 class Scheduler
 {
 private:
-    /* data */
-public:
-    Scheduler() {};
-    virtual ~Scheduler() {};
+    long period;
+    LinkedList<Task *> queue;
+    LinkedList<int> tasksToRemove;
+    Led builtIn;
 
-    virtual void addTask(Task *t) = 0;
-    virtual void removeTask(int id) = 0;
-    virtual void executeTask() = 0;
-    virtual void clearQueue() = 0;
+    void removeTaskFromQueue();
+
+public:
+    Scheduler(long period);
+    ~Scheduler();
+
+    void addTask(Task *t);
+    void removeTask(int id);
+    void executeTask();
+    void clearQueue();
 };

@@ -1,11 +1,18 @@
 #include "Context.hpp"
+#include "model/messageManager/Logger.h"
 
-Context::Context(Scheduler *sched, InputHolder *holder) : hangarState(nullptr), securityState(nullptr), scheduler(sched), holder(holder) {}
+Context::Context() : hangarState(nullptr), securityState(nullptr), scheduler(nullptr), holder(nullptr) {}
 
 Context::~Context()
 {
     delete hangarState;
     delete securityState;
+}
+
+void Context::init(Scheduler *sched, InputHolder *hold)
+{
+    this->scheduler = sched;
+    this->holder = hold;
 }
 
 void Context::setHangarState(HangarState *state)
@@ -46,6 +53,7 @@ void Context::checkUpdate(ContextType destinationCtx)
 
 void Context::handleDRURequest()
 {
+    Logger.log(String(securityState->canReceiveMsg()));
     if (this->securityState->canReceiveMsg())
     {
         this->hangarState->checkUpdate();
@@ -54,7 +62,8 @@ void Context::handleDRURequest()
 
 void Context::addTaskToScheduler(Task *task, int period)
 {
-    this->scheduler->addTask(task);
+    // Logger.log("addSchedAddr: " + String((unsigned int)this->scheduler));
+    // Logger.log("addCtxAddr: " + String((unsigned int)this));
     if (period > 0)
     {
         task->init(period);
@@ -63,6 +72,7 @@ void Context::addTaskToScheduler(Task *task, int period)
     {
         task->init();
     }
+    this->scheduler->addTask(task);
 }
 
 void Context::removeTaskFromScheduler(int id)

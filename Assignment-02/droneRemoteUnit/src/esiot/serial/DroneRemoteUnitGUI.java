@@ -13,7 +13,7 @@ public class DroneRemoteUnitGUI extends JFrame {
     private static JTextArea consoleArea;
 
     private enum CommandToSend {
-        LANDING("Landing"), TAKE_OFF("Taking Off");
+        LANDING("Landing"), TAKE_OFF("Take Off");
 
         private final String text;
 
@@ -103,16 +103,16 @@ public class DroneRemoteUnitGUI extends JFrame {
     static CommChannel channel;
 
     private void sendCommand(ProtocolMessage msg) {
-        logConsole("Info: Sending " + msg.getData());
+        logConsole("[Info]: Sending " + msg.getData());
         channel.sendMsg(msg.getData());
     }
 
     private static void msgHandler(ProtocolMessage msg) {
-        logConsole("Arduino Info: " + "[" + msg.getType().toString() + "] " + msg.getData());
+        logConsole("[" + msg.getType().toString() + "]-<" + msg.getData() + ">");
     }
 
     private static void cmdHandler(ProtocolMessage msg) {
-        System.out.println(msg);
+        // System.out.println(msg);
         switch (msg.getType()) {
             case ProtocolMessage.MSGType.DISTANCE -> updateDistance(msg.getData());
             case ProtocolMessage.MSGType.SECURITY_STATE -> updateHangarState(msg.getData());
@@ -170,7 +170,7 @@ public class DroneRemoteUnitGUI extends JFrame {
         System.out.println("Info: Waiting Arduino for rebooting...");
         Thread.sleep(4000);
         System.out.println("Info: Ready.");
-        startSerialListener();
         SwingUtilities.invokeLater(DroneRemoteUnitGUI::new);
+        startSerialListener();
     }
 }

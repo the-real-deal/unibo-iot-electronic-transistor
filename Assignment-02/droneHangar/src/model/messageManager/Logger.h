@@ -12,12 +12,6 @@ private:
   LoggerService() {}
 
 public:
-  // static LoggerService &instance()
-  // {
-  //   static LoggerService logger;
-  //   return logger;
-  // }
-
   // Delete copy constructor and assignment to enforce singleton
   LoggerService(const LoggerService &) = delete;
   LoggerService &operator=(const LoggerService &) = delete;

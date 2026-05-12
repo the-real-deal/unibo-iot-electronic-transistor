@@ -4,7 +4,14 @@
 ReadTempTask::ReadTempTask(TempSensor *tempSensor, Context *ctx, InputHolder *holder, ContextType destCtx) : tempSensor(tempSensor),
                                                                                                              context(ctx),
                                                                                                              holder(holder),
-                                                                                                             destCtx(destCtx) {}
+                                                                                                             destCtx(destCtx)
+{
+}
+
+ReadTempTask::~ReadTempTask()
+{
+    cleanup();
+}
 
 void ReadTempTask::cleanup()
 {

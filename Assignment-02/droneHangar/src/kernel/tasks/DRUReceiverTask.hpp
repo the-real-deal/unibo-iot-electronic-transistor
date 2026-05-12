@@ -10,9 +10,10 @@ private:
     Context *context;
     InputHolder *holder;
     ContextType destCtx;
+
 public:
-    DRUReceiverTask(Context *ctx, InputHolder * holder, ContextType type);
-    ~DRUReceiverTask() = default;
+    DRUReceiverTask(Context *ctx, InputHolder *holder, ContextType type);
+    ~DRUReceiverTask();
 
     void execute() override;
     void cleanup() override;

@@ -1,32 +1,36 @@
 #include "Arduino.h"
-#include "Scheduler_Impl.hpp"
 #include "model/messageManager/Logger.h"
+#include "debug.hpp"
+#include "Scheduler.hpp"
+#include "model/Timer.hpp"
 
-Scheduler_Impl::Scheduler_Impl(long period) : period(period)
+Scheduler::Scheduler(long period) : period(period), queue(), tasksToRemove(), builtIn(Led(LED_BUILTIN))
 {
-    queue = LinkedList<Task *>();
-    tasksToRemove = LinkedList<int>();
 }
 
-Scheduler_Impl::~Scheduler_Impl()
+Scheduler::~Scheduler()
 {
     queue.clear();
     tasksToRemove.clear();
-
     // delete queue;
     // delete tasksToRemove;
 }
 
-void Scheduler_Impl::addTask(Task *t)
+void Scheduler::addTask(Task *t)
 {
-    // Logger.log(String(t->getId()));
     queue.add(t);
 }
 
-void Scheduler_Impl::executeTask()
+void Scheduler::executeTask()
 {
+    // Serial.print("Free Memory: ");
+    // Serial.println(freeMemory());
+    // Serial.flush();
     long currentTime = millis();
     int size = queue.size();
+    // Serial.print("Queue Size: ");
+    // Serial.println(size);
+    // Serial.flush();
     for (int i = 0; i < size; i++)
     {
         Task *currentTask = queue.get(i);
@@ -52,29 +56,29 @@ void Scheduler_Impl::executeTask()
 
     removeTaskFromQueue();
 
+    if (builtIn.isOn())
+        builtIn.switchOff();
+    else
+        builtIn.switchOn();
+
     long elapsedTime = millis() - currentTime;
     if (elapsedTime < period)
     {
         delay(period - elapsedTime);
     }
-
-#define DEBUG
-#ifdef DEBUG
-    // Logger.log("Total tasks in queue: " + String(queue.size()));
-#endif
 }
 
-void Scheduler_Impl::clearQueue()
+void Scheduler::clearQueue()
 {
     queue.clear();
 }
 
-void Scheduler_Impl::removeTask(int id)
+void Scheduler::removeTask(int id)
 {
     tasksToRemove.add(id);
 }
 
-void Scheduler_Impl::removeTaskFromQueue()
+void Scheduler::removeTaskFromQueue()
 {
     while (tasksToRemove.size() > 0)
     {

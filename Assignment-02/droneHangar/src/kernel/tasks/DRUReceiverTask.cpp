@@ -6,12 +6,16 @@ DRUReceiverTask::DRUReceiverTask(Context *ctx, InputHolder *holder, ContextType 
                                                                                         holder(holder),
                                                                                         destCtx(type) {}
 
+DRUReceiverTask::~DRUReceiverTask()
+{
+    cleanup();
+}
+
 void DRUReceiverTask::execute()
 {
     if (MsgService.isMsgAvailable())
     {
         Msg *msg = MsgService.receiveMsg();
-        // Logger.log(msg->getContent());
         this->holder->setMessage(msg->getContent());
         this->context->handleDRURequest();
     }

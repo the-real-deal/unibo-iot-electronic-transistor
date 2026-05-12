@@ -20,14 +20,14 @@
 #define LCD_ROWS 2
 
 // [TODO] adjust values
-#define D1 5
-#define D2 5
+#define D1 1
+#define D2 1
 #define T1 5
 #define T2 5
 #define T3 5
 #define T4 5
-#define Temp1 25
-#define Temp2 30
+#define Temp1 100
+#define Temp2 100
 
 #define TAKEOFF_STATE_MESSAGE F("Take Off")
 #define LANDING_STATE_MESSAGE F("Landing")

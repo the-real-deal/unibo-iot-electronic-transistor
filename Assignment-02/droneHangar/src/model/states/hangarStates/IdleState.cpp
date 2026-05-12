@@ -3,6 +3,7 @@
 #include "kernel/tasks/ReadTempTask.hpp"
 #include "kernel/tasks/DRUReceiverTask.hpp"
 #include "model/messageManager/MsgService.h"
+#include "model/messageManager/Logger.h"
 
 IdleState::IdleState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder) {}
 
@@ -35,6 +36,7 @@ void IdleState::initializeTasks()
 
 void IdleState::checkUpdate()
 {
+    // Logger.log(inputHolder->getMessage());
     if (inputHolder->getMessage() == TAKEOFF_STATE_MESSAGE)
     {
         this->context->setHangarState(new TakeOffState(this->hwPlatform, this->inputHolder));

@@ -52,7 +52,7 @@ public class SerialMonitor implements SerialPortEventListener {
         if(event.isRXCHAR() && event.getEventValue() > 0) {
             try {
                 String receivedData = serialPort.readString(event.getEventValue());
-                System.out.print(receivedData);
+                // System.out.print(receivedData);
             }
             catch (SerialPortException ex) {
                 System.out.println("Error in receiving string from COM-port: " + ex);

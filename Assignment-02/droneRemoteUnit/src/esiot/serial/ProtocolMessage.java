@@ -13,7 +13,7 @@ public class ProtocolMessage {
 
     private static final List<String> HANGAR_STATES = List.of(
         "Drone Inside",
-        "Taking Off",
+        "Take Off",
         "Landing",
         "Drone Outside"
     );
