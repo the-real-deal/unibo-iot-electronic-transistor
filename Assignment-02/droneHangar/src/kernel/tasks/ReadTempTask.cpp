@@ -21,7 +21,7 @@ void ReadTempTask::cleanup()
 void ReadTempTask::execute()
 {
     float temp = this->tempSensor->getTemperature();
-    // Logger.log(String(temp));
     this->holder->setTemperature(temp);
+    Logger.log(String(holder->getTemperature()));
     this->context->checkUpdate(destCtx);
 }

@@ -23,14 +23,15 @@ void Scheduler::addTask(Task *t)
 
 void Scheduler::executeTask()
 {
-    // Serial.print("Free Memory: ");
-    // Serial.println(freeMemory());
-    // Serial.flush();
+
+    Serial.print("Free Memory: ");
+    Serial.println(freeMemory());
+    Serial.flush();
     long currentTime = millis();
     int size = queue.size();
-    // Serial.print("Queue Size: ");
-    // Serial.println(size);
-    // Serial.flush();
+    Serial.print("Queue Size: ");
+    Serial.println(size);
+    Serial.flush();
     for (int i = 0; i < size; i++)
     {
         Task *currentTask = queue.get(i);

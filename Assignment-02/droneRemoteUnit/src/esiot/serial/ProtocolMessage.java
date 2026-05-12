@@ -23,6 +23,7 @@ public class ProtocolMessage {
     );
 
     private final String data;
+    @SuppressWarnings("FieldMayBeFinal")
     private MSGType type;
 
     public ProtocolMessage(String input) {
@@ -30,6 +31,8 @@ public class ProtocolMessage {
         try {
             if(Double.parseDouble(this.data) > 0){
                 this.type = MSGType.DISTANCE;
+            } else {
+                this.type = MSGType.LOG;
             }
         } catch(NumberFormatException nfe) {
             if (HANGAR_STATES.contains(this.data)){
