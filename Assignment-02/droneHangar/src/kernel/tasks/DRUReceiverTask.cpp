@@ -6,11 +6,6 @@ DRUReceiverTask::DRUReceiverTask(Context *ctx, InputHolder *holder, ContextType 
                                                                                         holder(holder),
                                                                                         destCtx(type) {}
 
-DRUReceiverTask::~DRUReceiverTask()
-{
-    cleanup();
-}
-
 void DRUReceiverTask::execute()
 {
     if (MsgService.isMsgAvailable())

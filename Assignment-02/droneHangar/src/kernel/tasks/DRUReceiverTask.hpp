@@ -13,7 +13,7 @@ private:
 
 public:
     DRUReceiverTask(Context *ctx, InputHolder *holder, ContextType type);
-    ~DRUReceiverTask();
+    ~DRUReceiverTask() = default;
 
     void execute() override;
     void cleanup() override;

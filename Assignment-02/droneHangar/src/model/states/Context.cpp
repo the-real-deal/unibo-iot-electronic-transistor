@@ -45,15 +45,8 @@ void Context::checkUpdate(ContextType destinationCtx)
         this->hangarState->checkUpdate();
 }
 
-// String Context::getStateInfo()
-// {
-//     String sec = this->securityState->getStateInfo();
-//     return sec.length() > 0 ? sec : this->hangarState->getStateInfo();
-// }
-
 void Context::handleDRURequest()
 {
-    Logger.log(String(securityState->canReceiveMsg()));
     if (this->securityState->canReceiveMsg())
     {
         this->hangarState->checkUpdate();
@@ -62,8 +55,6 @@ void Context::handleDRURequest()
 
 void Context::addTaskToScheduler(Task *task, int period)
 {
-    // Logger.log("addSchedAddr: " + String((unsigned int)this->scheduler));
-    // Logger.log("addCtxAddr: " + String((unsigned int)this));
     if (period > 0)
     {
         task->init(period);

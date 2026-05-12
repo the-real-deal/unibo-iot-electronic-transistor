@@ -6,11 +6,6 @@ ButtonTask::ButtonTask(Button *btn, Context *ctx, InputHolder *holder, ContextTy
                                                                                            holder(holder),
                                                                                            type(type) {}
 
-ButtonTask::~ButtonTask()
-{
-    cleanup();
-}
-
 void ButtonTask::cleanup()
 {
     this->holder->setIsPressed(false);

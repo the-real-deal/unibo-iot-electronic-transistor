@@ -4,24 +4,19 @@
 
 LedBlinkTask::LedBlinkTask(Led *led) : led(led) {}
 
-LedBlinkTask::~LedBlinkTask()
-{
-    cleanup();
-}
-
 void LedBlinkTask::cleanup()
 {
-    led->switchOff();
+    this->led->switchOff();
 }
 
 void LedBlinkTask::execute()
 {
-    if (led->isOn())
+    if (this->led->isOn())
     {
-        led->switchOff();
+        this->led->switchOff();
     }
     else
     {
-        led->switchOn();
+        this->led->switchOn();
     }
 }

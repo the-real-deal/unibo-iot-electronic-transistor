@@ -86,8 +86,10 @@ void Scheduler::removeTaskFromQueue()
         int idToRemove = tasksToRemove.pop();
         for (int j = 0; j < queue.size(); j++)
         {
-            if (queue.get(j)->getId() == idToRemove)
+            Task *t = queue.get(j);
+            if (t->getId() == idToRemove)
             {
+                t->cleanup();
                 queue.remove(j);
                 break;
             }

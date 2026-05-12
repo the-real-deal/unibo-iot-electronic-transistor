@@ -15,7 +15,7 @@ private:
 
 public:
     ReadTempTask(TempSensor *tempSensor, Context *ctx, InputHolder *holder, ContextType destCtx);
-    ~ReadTempTask();
+    ~ReadTempTask() = default;
 
     void execute() override;
     void cleanup() override;

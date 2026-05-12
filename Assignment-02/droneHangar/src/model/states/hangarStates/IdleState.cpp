@@ -36,7 +36,6 @@ void IdleState::initializeTasks()
 
 void IdleState::checkUpdate()
 {
-    // Logger.log(inputHolder->getMessage());
     if (inputHolder->getMessage() == TAKEOFF_STATE_MESSAGE)
     {
         this->context->setHangarState(new TakeOffState(this->hwPlatform, this->inputHolder));

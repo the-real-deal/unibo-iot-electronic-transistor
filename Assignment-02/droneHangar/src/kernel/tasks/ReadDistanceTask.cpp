@@ -5,11 +5,6 @@ ReadDistanceTask::ReadDistanceTask(ProximitySensor *sonar, Context *ctx, InputHo
                                                                                                                      context(ctx),
                                                                                                                      holder(valHolder),
                                                                                                                      destCtx(type) {}
-ReadDistanceTask::~ReadDistanceTask()
-{
-    cleanup();
-}
-
 void ReadDistanceTask::cleanup()
 {
     this->holder->setDistance(0.0);

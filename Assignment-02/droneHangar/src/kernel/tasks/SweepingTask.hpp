@@ -11,9 +11,6 @@ private:
     ServoMotorImpl *servo;
     Context *ctx;
     ContextType destContext;
-    // long stateTimestamp;
-    // int currentPos;
-    // int sweepConstant;
     int sweepSign;
     bool hasJustEntered;
     int destination;

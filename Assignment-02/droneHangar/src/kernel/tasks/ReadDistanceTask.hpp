@@ -16,7 +16,7 @@ private:
 
 public:
     ReadDistanceTask(ProximitySensor *sonar, Context *ctx, InputHolder *valHolder, ContextType type);
-    ~ReadDistanceTask();
+    ~ReadDistanceTask() = default;
 
     void execute() override;
     void cleanup() override;

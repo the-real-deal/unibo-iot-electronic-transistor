@@ -8,6 +8,7 @@
 
 #include "model/states/hangarStates/IdleState.hpp"
 #include "model/states/securityStates/NormalState.hpp"
+#include "model/states/hangarStates/OperativeState.hpp"
 /**
  * FSM diagram
  * https://lucid.app/lucidchart/c60760fd-f278-41b0-a28d-a48a83edcd56/edit?invitationId=inv_fc43df35-97c2-42f9-a25e-338626ab2d3e&page=0_0#
@@ -30,14 +31,17 @@ void setup()
 
   ctx.init(&scheduler, &holder);
 
-  ctx.setSecurityState(new NormalState(
-      &hwPlatform,
-      &holder));
+  ctx.setSecurityState(
+      new NormalState(
+          &hwPlatform,
+          &holder));
   ctx.setHangarState(new IdleState(
       &hwPlatform,
       &holder));
-
-  MsgService.sendMsg(F("Starting Loop..."));
+  // ctx.setHangarState(
+  //     new OperativeState(
+  //         &hwPlatform,
+  //         &holder));
 
   // Task *t1 = new LedBlinkTask(hwPlatform.getLed2());
   // Task *t2 = new LedBlinkTask(hwPlatform.getLed3());

@@ -6,11 +6,6 @@ ReadPIRTask::ReadPIRTask(Pir *pir, Context *ctx, InputHolder *holder, ContextTyp
                                                                                              holder(holder),
                                                                                              destCtx(destCtx) {}
 
-ReadPIRTask::~ReadPIRTask()
-{
-    cleanup();
-}
-
 void ReadPIRTask::cleanup()
 {
     // this->holder->setMotionDetected(false);
