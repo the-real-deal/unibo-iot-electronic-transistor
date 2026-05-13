@@ -32,4 +32,5 @@
 #define IDLE_STATE_MESSAGE F("Drone Inside")
 
 #define NORMAL_STATE_MESSAGE F("Normal")
+#define WARNING_STATE_MESSAGE F("Warning")
 #define ALARM_STATE_MESSAGE F("Alarm")

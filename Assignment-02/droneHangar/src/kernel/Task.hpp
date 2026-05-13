@@ -2,23 +2,6 @@
 
 static int taskIdCounter = 0;
 
-/**
- * !!! IMPORTANT !!!
- * These types MUST be in the same order as in the scheduler array.
- */
-enum TasksType
-{
-    BUTTON_TASK = 0,
-    DRU_TASK,
-    LCD_TASK,
-    BLINK_TASK,
-    READ_DISTANCE_TASK,
-    READ_PIR_TASK,
-    READ_TEMP_TASK,
-    SWEEPING_TASK,
-    SEND_DISTANCE_TASK
-};
-
 class Task
 {
 public:

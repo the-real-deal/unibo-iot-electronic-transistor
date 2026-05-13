@@ -10,10 +10,8 @@ Scheduler::Scheduler(long period) : period(period), queue(), tasksToRemove(), bu
 
 Scheduler::~Scheduler()
 {
-    queue.clear();
+    this->clearQueue();
     tasksToRemove.clear();
-    // delete queue;
-    // delete tasksToRemove;
 }
 
 void Scheduler::addTask(Task *t)
@@ -28,7 +26,6 @@ void Scheduler::executeTask()
     Serial.println(freeMemory());
     Serial.flush();
     long currentTime = millis();
-    Serial.flush();
     for (int i = 0; i < queue.size(); i++)
     {
         Task *currentTask = queue.get(i);
@@ -45,10 +42,6 @@ void Scheduler::executeTask()
             {
                 currentTask->execute();
             }
-            // if (currentTask->isCompleted())
-            // {
-            //     removeTask(currentTask->getId());
-            // }
         }
     }
 
@@ -68,7 +61,11 @@ void Scheduler::executeTask()
 
 void Scheduler::clearQueue()
 {
-    queue.clear();
+    while (queue.size() > 0)
+    {
+        Task *toDelete = queue.shift();
+        delete toDelete;
+    }
 }
 
 void Scheduler::removeTask(int id)
@@ -87,7 +84,9 @@ void Scheduler::removeTaskFromQueue()
             if (t->getId() == idToRemove)
             {
                 t->cleanup();
-                queue.remove(j);
+                // [TODO] check if correct
+                Task *toRemove = queue.remove(j);
+                delete toRemove;
                 break;
             }
         }

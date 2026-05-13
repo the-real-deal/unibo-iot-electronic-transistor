@@ -19,6 +19,7 @@ public class ProtocolMessage {
     );
     private static final List<String> SECURITY_STATES = List.of(
         "Normal",
+        "Warning",
         "Alarm"
     );
 

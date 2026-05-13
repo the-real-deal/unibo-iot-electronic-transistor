@@ -53,7 +53,7 @@ public class DroneRemoteUnitGUI extends JFrame {
         lblHangarState = bigLabel("Hangar: NORMAL");
 
         lblDistance = new JLabel("Distanza: -- cm", SwingConstants.CENTER);
-        lblDistance.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        lblDistance.setFont(new Font("SansSerif", Font.PLAIN, 24));
 
         statePanel.add(lblDroneState);
         statePanel.add(lblHangarState);
@@ -67,7 +67,7 @@ public class DroneRemoteUnitGUI extends JFrame {
         // in the constructor, after building statePanel:
         consoleArea = new JTextArea(6, 40);
         consoleArea.setEditable(false);
-        consoleArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        consoleArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
         consoleArea.setBackground(Color.decode("#1a1a1a"));
         consoleArea.setForeground(Color.decode("#d4d4d4"));
         
@@ -85,20 +85,16 @@ public class DroneRemoteUnitGUI extends JFrame {
         b.setFocusPainted(false);
         b.setBackground(color);
         b.setForeground(Color.white);
-        b.setFont(new Font("SansSerif", Font.BOLD, 14));
-        b.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        b.setFont(new Font("SansSerif", Font.BOLD, 24));
+        b.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 18));
         return b;
     }
 
     private JLabel bigLabel(String text) {
         JLabel l = new JLabel(text, SwingConstants.CENTER);
-        l.setFont(new Font("SansSerif", Font.BOLD, 17));
+        l.setFont(new Font("SansSerif", Font.BOLD, 30));
         return l;
     }
-
-    // ================================================================
-    // METODI PER INVIO COMANDI (seriale)
-    // ================================================================
 
     static CommChannel channel;
 

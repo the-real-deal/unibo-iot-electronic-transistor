@@ -33,7 +33,7 @@ void MsgServiceClass::init()
     ;
   Serial.println(F("Begin"));
   content.reserve(64);
-  content = "";
+  content = F("");
   currentMsg = NULL;
   msgAvailable = false;
 }
@@ -74,7 +74,7 @@ Msg *MsgServiceClass::receiveMsg(Pattern &pattern)
     Msg *msg = currentMsg;
     msgAvailable = false;
     currentMsg = NULL;
-    content = "";
+    content = F("");
     return msg;
   }
   else

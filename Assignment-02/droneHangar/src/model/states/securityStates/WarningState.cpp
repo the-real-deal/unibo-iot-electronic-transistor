@@ -1,6 +1,7 @@
 #include "WarningState.hpp"
 #include "DangerState.hpp"
 #include "NormalState.hpp"
+#include "model/messageManager/MsgService.h"
 
 WarningState::WarningState(HWPlatform *platform, InputHolder *holder) : SecurityState(platform, holder), t(Timer())
 {
@@ -11,7 +12,10 @@ bool WarningState::canReceiveMsg()
     return false;
 }
 
-void WarningState::initializeTasks() {}
+void WarningState::initializeTasks()
+{
+    MsgService.sendMsg(WARNING_STATE_MESSAGE);
+}
 
 void WarningState::checkUpdate()
 {
