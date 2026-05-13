@@ -7,12 +7,6 @@ OperativeState::OperativeState(HWPlatform *platform, InputHolder *holder) : Hang
 
 void OperativeState::initializeTasks()
 {
-    // this->addTask(
-    //     new LCDPrintTask(
-    //         this->hwPlatform->getLCD(),
-    //         F("DRONE OUT")),
-    //     0);
-
     this->hwPlatform->getLCD()->print(OPERATING_STATE_MESSAGE);
     MsgService.sendMsg(OPERATING_STATE_MESSAGE);
 

@@ -10,11 +10,6 @@ IdleState::IdleState(HWPlatform *platform, InputHolder *holder) : HangarState(pl
 void IdleState::initializeTasks()
 {
     /* Tasks will be destroyed by the scheduler, since the state has no acces to it */
-    // this->addTask(
-    //     new LCDPrintTask(
-    //         this->hwPlatform->getLCD(),
-    //         F("DRONE INSIDE")),
-    //     0);
     this->hwPlatform->getLCD()->print(IDLE_STATE_MESSAGE);
 
     MsgService.sendMsg(IDLE_STATE_MESSAGE);

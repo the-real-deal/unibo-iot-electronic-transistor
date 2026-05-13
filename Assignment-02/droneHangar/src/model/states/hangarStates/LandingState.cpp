@@ -14,11 +14,6 @@ LandingState::LandingState(HWPlatform *platform, InputHolder *holder) : HangarSt
 
 void LandingState::initializeTasks()
 {
-    // this->addTask(
-    //     new LCDPrintTask(
-    //         this->hwPlatform->getLCD(),
-    //         F("LANDING")),
-    //     0);
     this->hwPlatform->getLCD()->print(LANDING_STATE_MESSAGE);
 
     MsgService.sendMsg(LANDING_STATE_MESSAGE);

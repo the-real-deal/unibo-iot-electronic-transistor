@@ -46,6 +46,14 @@ void MsgServiceClass::sendMsg(const String &msg)
 
 void serialEvent()
 {
+  /* Delete the old message */
+  if (MsgService.currentMsg != nullptr)
+  {
+    Serial.print(F("Del last msg"));
+    Serial.flush();
+    delete MsgService.currentMsg;
+  }
+
   /* reading the content */
   while (Serial.available())
   {

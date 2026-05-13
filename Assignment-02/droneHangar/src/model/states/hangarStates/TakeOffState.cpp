@@ -12,11 +12,6 @@ TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarSt
 
 void TakeOffState::initializeTasks()
 {
-    // this->addTask(
-    //     new LCDPrintTask(
-    //         this->hwPlatform->getLCD(),
-    //         F("DRONE INSIDE")),
-    //     0);
     this->hwPlatform->getLCD()->print(TAKEOFF_STATE_MESSAGE);
 
     MsgService.sendMsg(TAKEOFF_STATE_MESSAGE);
