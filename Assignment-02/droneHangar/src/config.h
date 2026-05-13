@@ -10,7 +10,7 @@
 #define SONAR_ECHO_PIN 12
 
 #define PIR_PIN 4
-#define SERVO_PIN 9
+#define SERVO_PIN 10
 #define CALIBRATION_TIME_SEC 10
 
 #define LCD_ADDRESS 0x27

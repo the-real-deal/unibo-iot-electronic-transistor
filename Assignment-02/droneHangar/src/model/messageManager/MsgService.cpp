@@ -7,86 +7,78 @@ MsgServiceClass MsgService;
 
 bool MsgServiceClass::isMsgAvailable()
 {
-  return msgAvailable;
+	return msgAvailable;
 }
 
 Msg *MsgServiceClass::receiveMsg()
 {
-  if (msgAvailable)
-  {
-    Msg *msg = currentMsg;
-    msgAvailable = false;
-    currentMsg = NULL;
-    content = "";
-    return msg;
-  }
-  else
-  {
-    return NULL;
-  }
+	if (msgAvailable)
+	{
+		Msg *msg = currentMsg;
+		msgAvailable = false;
+		currentMsg = NULL;
+		content = "";
+		return msg;
+	}
+	else
+	{
+		return NULL;
+	}
 }
 
 void MsgServiceClass::init()
 {
-  Serial.begin(9600);
-  while (!Serial)
-    ;
-  Serial.println(F("Begin"));
-  content.reserve(64);
-  content = F("");
-  currentMsg = NULL;
-  msgAvailable = false;
+	Serial.begin(9600);
+	while (!Serial)
+		;
+	Serial.println(F("Begin"));
+	content.reserve(64);
+	content = F("");
+	currentMsg = NULL;
+	msgAvailable = false;
 }
 
 void MsgServiceClass::sendMsg(const String &msg)
 {
-  Serial.println(msg);
-  Serial.flush();
+	Serial.println(msg);
+	Serial.flush();
 }
 
 void serialEvent()
 {
-  /* Delete the old message */
-  if (MsgService.currentMsg != nullptr)
-  {
-    Serial.print(F("Del last msg"));
-    Serial.flush();
-    delete MsgService.currentMsg;
-  }
-
-  /* reading the content */
-  while (Serial.available())
-  {
-    char ch = (char)Serial.read();
-    if (ch == '\n')
-    {
-      MsgService.currentMsg = new Msg(content);
-      MsgService.msgAvailable = true;
-    }
-    else
-    {
-      content += ch;
-    }
-  }
+	/* reading the content */
+	while (Serial.available())
+	{
+		char ch = (char)Serial.read();
+		if (ch == '\n')
+		{
+			MsgService.currentMsg = new Msg(content);
+			MsgService.msgAvailable = true;
+		}
+		else
+		{
+			content += ch;
+		}
+	}
 }
 
 bool MsgServiceClass::isMsgAvailable(Pattern &pattern)
 {
-  return (msgAvailable && pattern.match(*currentMsg));
+	return (msgAvailable && pattern.match(*currentMsg));
 }
 
 Msg *MsgServiceClass::receiveMsg(Pattern &pattern)
 {
-  if (msgAvailable && pattern.match(*currentMsg))
-  {
-    Msg *msg = currentMsg;
-    msgAvailable = false;
-    currentMsg = NULL;
-    content = F("");
-    return msg;
-  }
-  else
-  {
-    return NULL;
-  }
+	if (msgAvailable && pattern.match(*currentMsg))
+	{
+		Msg *msg = currentMsg;
+		msgAvailable = false;
+		currentMsg = NULL;
+		content = F("");
+		return msg;
+	}
+	else
+	{
+		return NULL;
+	}
 }

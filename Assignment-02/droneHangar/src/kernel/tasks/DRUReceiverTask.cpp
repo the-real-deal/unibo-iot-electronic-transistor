@@ -12,6 +12,7 @@ void DRUReceiverTask::execute()
     {
         Msg *msg = MsgService.receiveMsg();
         this->holder->setMessage(msg->getContent());
+        delete msg;
         this->context->handleDRURequest();
     }
 }

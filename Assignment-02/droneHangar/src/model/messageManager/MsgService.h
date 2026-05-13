@@ -3,43 +3,46 @@
 
 #include "Arduino.h"
 
-class Msg {
-  String content;
+class Msg
+{
+	String content;
 
 public:
-  Msg(String content){
-    this->content = content;
-  }
-  
-  String getContent(){
-    return content;
-  }
+	Msg(String content)
+	{
+		this->content = content;
+	}
+
+	String getContent()
+	{
+		return content;
+	}
 };
 
-class Pattern {
+class Pattern
+{
 public:
-  virtual boolean match(const Msg& m) = 0;  
+	virtual boolean match(const Msg &m) = 0;
 };
 
-class MsgServiceClass {
-    
-public: 
-  
-  Msg* currentMsg;
-  bool msgAvailable;
+class MsgServiceClass
+{
 
-  void init();  
+public:
+	Msg *currentMsg;
+	bool msgAvailable;
 
-  bool isMsgAvailable();
-  Msg* receiveMsg();
+	void init();
 
-  bool isMsgAvailable(Pattern& pattern);
-  Msg* receiveMsg(Pattern& pattern);
-  
-  void sendMsg(const String& msg);
+	bool isMsgAvailable();
+	Msg *receiveMsg();
+
+	bool isMsgAvailable(Pattern &pattern);
+	Msg *receiveMsg(Pattern &pattern);
+
+	void sendMsg(const String &msg);
 };
 
 extern MsgServiceClass MsgService;
 
 #endif
-

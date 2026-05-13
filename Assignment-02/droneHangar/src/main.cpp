@@ -34,9 +34,10 @@ void setup()
       new NormalState(
           &hwPlatform,
           &holder));
-  ctx.setHangarState(new IdleState(
-      &hwPlatform,
-      &holder));
+  ctx.setHangarState(
+      new IdleState(
+          &hwPlatform,
+          &holder));
 }
 
 void loop()
