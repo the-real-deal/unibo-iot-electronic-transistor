@@ -1,11 +1,11 @@
 # Assignment #02 – Smart Drone Hangar
-### Embedded Systems and IoT – ISI LT – a.y. 2025/2026
+## Embedded Systems and IoT – ISI LT – a.y. 2025/2026
 
 ---
 
 **Authors:** Gioele Foschi, Matteo Tonelli, Manuel Benagli  
-**Student IDs:**
-**Date:**
+**Student IDs:** 0001122551, 0001117913, 0001128371
+**Date:** `15/05/2026`
 
 ---
 
