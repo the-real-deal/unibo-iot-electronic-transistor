@@ -23,8 +23,8 @@
 #define T2 5
 #define T3 5
 #define T4 5
-#define Temp1 27.5
-#define Temp2 29
+#define Temp1 27
+#define Temp2 30
 
 #define TAKEOFF_STATE_MESSAGE F("Take Off")
 #define LANDING_STATE_MESSAGE F("Landing")
