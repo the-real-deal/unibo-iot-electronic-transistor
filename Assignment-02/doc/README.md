@@ -37,7 +37,7 @@ The following values were chosen for the configurable parameters:
 ## 3. Architecture
 ### 3.1 Finite State Machines
 
-![FSMDiagram](Assignment#2-State.png)
+![FSMDiagram](assignment-02-state.png)
 
 | State | Description | Transitions |
 |-------|-------------|-------------|
@@ -93,9 +93,9 @@ Some task are special task, these task can trigger a context switch, these task 
 
 ## 5. Hardware Schema
 
-![Breadboard Schema](./Assignment#2.png)
+![Breadboard Schema](assignement-02.png)
 
 
 ## 8. Demo Video
 
-> See `doc/Assignment#02.mp4`
+> See `doc/assignment-02.mp4` (not present in the remote repository for dimension problems)
