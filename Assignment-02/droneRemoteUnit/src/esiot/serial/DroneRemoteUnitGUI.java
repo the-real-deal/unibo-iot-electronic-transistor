@@ -43,7 +43,7 @@ public class DroneRemoteUnitGUI extends JFrame {
         btnTakeOff.addActionListener(
                 e -> sendCommand(new ProtocolMessage(CommandToSend.TAKE_OFF.toString())));
         btnLand.addActionListener(
-                e -> sendCommand(new ProtocolMessage(CommandToSend.LANDING.toString())));
+                e -> sendCommand(new ProtocolMessage(CommandToSend.LANDING.toString())));   
 
         JPanel statePanel = new JPanel();
         statePanel.setLayout(new GridLayout(3, 1, 5, 5));
@@ -52,7 +52,7 @@ public class DroneRemoteUnitGUI extends JFrame {
         lblDroneState = bigLabel("Drone: REST");
         lblHangarState = bigLabel("Hangar: NORMAL");
 
-        lblDistance = new JLabel("Distanza: -- cm", SwingConstants.CENTER);
+        lblDistance = new JLabel("Distanza: -- m", SwingConstants.CENTER);
         lblDistance.setFont(new Font("SansSerif", Font.PLAIN, 24));
 
         statePanel.add(lblDroneState);
@@ -120,7 +120,7 @@ public class DroneRemoteUnitGUI extends JFrame {
 
     public static void updateDistance(String arg) {
         SwingUtilities.invokeLater(() -> {
-            lblDistance.setText("Distanza: " + arg + " cm");
+            lblDistance.setText("Distanza: " + arg + " m");
         });
     }
 

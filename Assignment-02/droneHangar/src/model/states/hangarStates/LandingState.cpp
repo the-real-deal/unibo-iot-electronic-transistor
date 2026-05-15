@@ -5,6 +5,7 @@
 #include "kernel/tasks/ReadPIRTask.hpp"
 #include "kernel/tasks/LedBlinkTask.hpp"
 #include "kernel/tasks/SendDistanceTask.hpp"
+#include "kernel/tasks/ReadTempTask.hpp"
 #include "model/messageManager/MsgService.h"
 
 LandingState::LandingState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder),
@@ -31,6 +32,14 @@ void LandingState::initializeTasks()
 
     // remove taskid from added task, the queue is cleared multiple times during the state execution
     this->blinkTaskId = this->taskAdded.pop();
+    this->addTask(
+        new ReadTempTask(
+            this->hwPlatform->getTemperatureSensor(),
+            this->context,
+            this->inputHolder,
+            ContextType::SECURITY),
+        0);
+    this->tempTaskId = this->taskAdded.pop();
     // will be re-added before a context change
 }
 
@@ -94,6 +103,7 @@ void LandingState::checkUpdate()
     case HangarSubState::CLOSING:
         // re-adding the task id
         this->taskAdded.add(this->blinkTaskId);
+        this->taskAdded.add(this->tempTaskId);
         this->context->setHangarState(new IdleState(this->hwPlatform, this->inputHolder));
         break;
     default:

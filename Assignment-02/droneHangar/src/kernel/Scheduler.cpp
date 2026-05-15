@@ -21,10 +21,9 @@ void Scheduler::addTask(Task *t)
 
 void Scheduler::executeTask()
 {
-
-    Serial.print(F("Free Memory: "));
-    Serial.println(freeMemory());
-    Serial.flush();
+    // Serial.print(F("Free Memory: "));
+    // Serial.println(freeMemory());
+    // Serial.flush();
     long currentTime = millis();
     for (int i = 0; i < queue.size(); i++)
     {
@@ -84,7 +83,6 @@ void Scheduler::removeTaskFromQueue()
             if (t->getId() == idToRemove)
             {
                 t->cleanup();
-                // [TODO] check if correct
                 Task *toRemove = queue.remove(j);
                 delete toRemove;
                 break;

@@ -3,6 +3,7 @@
 #include "kernel/tasks/SweepingTask.hpp"
 #include "kernel/tasks/ReadDistanceTask.hpp"
 #include "kernel/tasks/LedBlinkTask.hpp"
+#include "kernel/tasks/ReadTempTask.hpp"
 #include "model/messageManager/MsgService.h"
 
 TakeOffState::TakeOffState(HWPlatform *platform, InputHolder *holder) : HangarState(platform, holder),
@@ -29,6 +30,14 @@ void TakeOffState::initializeTasks()
 
     // remove taskid from added task, the queue is cleared multiple times during the state execution
     this->blinkTaskId = this->taskAdded.pop();
+    this->addTask(
+        new ReadTempTask(
+            this->hwPlatform->getTemperatureSensor(),
+            this->context,
+            this->inputHolder,
+            ContextType::SECURITY),
+        0);
+    this->tempTaskId = this->taskAdded.pop();
     // will be re-added before a context change
 }
 
@@ -80,6 +89,7 @@ void TakeOffState::checkUpdate()
     case HangarSubState::CLOSING:
         // re-adding the task id
         this->taskAdded.add(this->blinkTaskId);
+        this->taskAdded.add(this->tempTaskId);
         this->context->setHangarState(new OperativeState(this->hwPlatform, this->inputHolder));
         break;
     }

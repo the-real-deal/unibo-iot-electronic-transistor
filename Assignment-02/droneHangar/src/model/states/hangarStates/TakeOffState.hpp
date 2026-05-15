@@ -8,6 +8,7 @@ private:
     HangarSubState currentSubState;
     Timer t;
     int blinkTaskId;
+    int tempTaskId;
 
 public:
     TakeOffState(HWPlatform *platform, InputHolder *holder);
