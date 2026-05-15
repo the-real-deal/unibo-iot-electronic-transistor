@@ -37,7 +37,7 @@ The following values were chosen for the configurable parameters:
 ## 3. Architecture
 ### 3.1 Finite State Machines
 
-![Main FSM Diagram](Assignment#2-State.png)
+![FSMDiagram](Assignment#2-State.png)
 
 | State | Description | Transitions |
 |-------|-------------|-------------|
