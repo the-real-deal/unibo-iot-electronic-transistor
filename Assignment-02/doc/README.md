@@ -50,29 +50,29 @@ The following values were chosen for the configurable parameters:
 | `Warning` | High temp detected; new ops suspended. | temp < Temp1 → ``; temp ≥ Temp2 for T4 s → `Alarm` |
 | `Danger` | Full alarm. L3 on. All ops suspended. | `RESET` pressed → `Normal` |
 
-The system relies on a main handler class (`Context`) that maintains the two concurrent states:
+The system relies on a main handler class (`Context`) that maintains two concurrent states:
 - `HangarState` (`Idle`, `Operating`, `TakeOff`, `Landing`)
-- `Security State` (`Normal`, `Warning`, `Danger`)
-
+- `SecurityState` (`Normal`, `Warning`, `Danger`)
 
 #### 3.1.1 Hangar States
-> The hangar states are only able to iterate between each other in a loop:
-- `Idle`,  `TakeOff`, `Operating`, `Landing`, `Idle`, etc...
+> Hangar states transition in a fixed cycle: `Idle` → `TakeOff` → `Operating` → `Landing` → `Idle` → ...
 
-Upon entering in one state, the state itself adds to the scheduler the tasks it needs to operate.
+Upon entering a state, the state registers the tasks it needs into the scheduler.
 - E.g. `IdleState` adds the temperature reading task and the `DRUReceiver`.
-- The state keeps track of the tasks it created by adding the task id to a list, so they can be identified and removed later.
+- The state keeps track of the tasks it registered by storing their ids in a list, so they can be identified and removed later.
+- Some states (`TakeOff` and `Landing`) are divided in several smaller states to handle each section of the state.
 
-Once the tasks are initialized, the states starts checking for the condition to change state.
-After the condition are met, the current states it signals to the scheduler to remove the tasks it added and calls for a context switch.
+Once the tasks are initialized, the state begins checking its transition condition. When the condition is met, the state signals the scheduler to remove its tasks and triggers a context switch.
 
 #### 3.1.2 Security States
-> The security states iterates between each other but are able to change the hangar state.
+> Security states can transition between each other and are also able to override the current hangar state.
 
-If for some reason the security state becomes `Danger` the security state changes the hangar state (whatever it is) to be the stopped state, where everything is halted.security state
+If the security state becomes `Danger`, it forces the hangar state — regardless of what it currently is — into a stopped state where all operations are halted.
 
-Security states have a special function: `canReceiveMessage`.
-- This function is called every time the arduino receives a message, if the current states allows new oncoming messages then it will return `true`, `false` otherwise.
+Security states expose a special method: `canReceiveMessage`.
+- This method is called every time the Arduino receives a message. It returns `true` if the current security state allows incoming messages, `false` otherwise.
+
+---
 
 ### 3.2 Task-Based Architecture (Arduino)
 The Arduino software is structured around the following concurrent tasks:
@@ -88,8 +88,8 @@ The Arduino software is structured around the following concurrent tasks:
 | `DRUDistance` | 400 ms | Sends to the DRU the current distance from the drone |
 | `ButtonTask` | Every Scheduler Tick | Checks if a button is pressed |
 
-Some task are special task, these task can trigger a context switch, these task have a special parameter in its constructor:
-- `ContextType`, an `enum` class that indicates wich state should be called for the context switch check.
+Some tasks are special in that they can trigger a context switch. These tasks take an additional constructor parameter:
+- `ContextType`: an `enum` that indicates which state should be queried for the context switch check.
 
 ## 5. Hardware Schema
 
