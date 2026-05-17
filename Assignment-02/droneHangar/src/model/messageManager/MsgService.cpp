@@ -52,6 +52,10 @@ void serialEvent()
 		char ch = (char)Serial.read();
 		if (ch == '\n')
 		{
+			if (MsgService.currentMsg != nullptr)
+			{
+				delete MsgService.currentMsg;
+			}
 			MsgService.currentMsg = new Msg(content);
 			MsgService.msgAvailable = true;
 		}

@@ -77,13 +77,6 @@ public:
     void removeTaskFromScheduler(int id);
 };
 
-/**
- * Possible update: create a general state class containing:
- * - context and list oadded tasks
- * - destructor
- * - set context and add task methods
- * to avoid code duplications
- */
 /* State Class Definition */
 class HangarState
 {
@@ -116,6 +109,9 @@ public:
         this->taskAdded.add(t->getId());
     }
 
+    /**
+     * Removes from the scheduler the task added by the state
+     */
     void removeAddedTasks()
     {
         int listSize = this->taskAdded.size();
@@ -170,6 +166,9 @@ public:
         this->taskAdded.add(t->getId());
     }
 
+    /**
+     * Removes from the scheduler the task added by the state
+     */
     void removeAddedTasks()
     {
         int listSize = this->taskAdded.size();
