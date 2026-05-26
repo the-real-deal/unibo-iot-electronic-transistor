@@ -42,6 +42,7 @@ dependencies {
     implementation("io.vertx:vertx-mqtt:$vertxVersion")
     // Source: https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.13.2")
+
     // Serial library
     implementation("io.github.java-native:jssc:2.10.2")
 
