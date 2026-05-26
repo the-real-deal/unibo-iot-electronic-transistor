@@ -64,12 +64,8 @@ Each assignment has its own directory containing source code, documentation, and
 │   │   ├── build.gradle.kts
 │   │   ├── gradle
 │   │   └── src
-│   │       └── main
-│   │           └── java
-│   │               └── it
-│   │                   └── unibo
-│   │                       └── iot
-│   │                           └── Server.java
+│   │       └── main/java/it/unibo/iot
+│   │           └── Server.java
 │   │
 │   ├── DBS
 │   │   └── index.html
