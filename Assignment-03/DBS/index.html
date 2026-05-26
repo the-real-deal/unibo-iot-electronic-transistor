@@ -1,18 +1,176 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Subsystem</title>
+  <title>DBS — Tank Monitoring System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" href="favicon.svg">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="src/style.css">
 </head>
 
 <body>
-  <div id="app">
 
-  </div>
-  <script type="module" src="/src/main.ts"></script>
+  <header>
+    <div class="logo">
+      <div>
+        <div class="logo-badge">DBS</div>
+      </div>
+      <div>
+        <div class="logo-title">Tank Monitoring System</div>
+        <div class="logo-sub">Dashboard &amp; Visualisation Subsystem</div>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="status-pill status-AUTOMATIC" id="status-pill">
+        <div class="status-dot dot-AUTOMATIC" id="status-dot"></div>
+        <span id="status-label">AUTOMATIC</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── Chart card ── -->
+    <div class="card chart-card">
+      <div class="chart-header">
+        <div class="chart-title-group">
+          <div class="chart-title">Rainwater Level</div>
+          <div class="chart-subtitle" id="chart-subtitle">Last 20 measurements · live feed</div>
+        </div>
+        <div class="chart-controls">
+          <span class="n-label">N =</span>
+          <select class="n-select" id="n-select">
+            <option value="10">10</option>
+            <option value="20" selected>20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="chart-area">
+        <canvas id="levelChart" role="img"
+          aria-label="Line chart showing rainwater tank level over the last N measurements">
+          Rainwater tank level over time.
+        </canvas>
+      </div>
+
+      <div class="chart-stats">
+        <div class="stat-item">
+          <div class="stat-label">Current</div>
+          <div class="stat-value" id="stat-current">—<span class="stat-unit"> mm</span></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Average</div>
+          <div class="stat-value" id="stat-avg">—<span class="stat-unit"> mm</span></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Peak</div>
+          <div class="stat-value" id="stat-peak">—<span class="stat-unit"> mm</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Side panel ── -->
+    <div class="side-panel">
+
+      <!-- Valve gauge -->
+      <div class="card valve-card">
+        <div class="card-label">
+          <span>Valve Opening</span>
+          <span id="valve-badge"
+            style="font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(30,203,200,0.1);border:1px solid rgba(30,203,200,0.25);color:#1ecbc8;font-family:var(--font-mono);letter-spacing:0.1em;">WCS</span>
+        </div>
+        <div class="gauge-wrap">
+          <svg class="gauge-svg" viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg">
+            <!-- track arc -->
+            <path id="gauge-track" d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="#1e2638" stroke-width="8"
+              stroke-linecap="round" />
+            <!-- fill arc -->
+            <path id="gauge-fill" d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="#1ecbc8" stroke-width="8"
+              stroke-linecap="round" stroke-dasharray="190" stroke-dashoffset="190"
+              style="transition:stroke-dashoffset 0.5s ease;" />
+            <!-- needle -->
+            <line id="gauge-needle" x1="80" y1="80" x2="80" y2="28" stroke="#ffffff" stroke-width="2"
+              stroke-linecap="round"
+              style="transform-origin:80px 80px; transform:rotate(-90deg); transition: transform 0.5s ease;" />
+            <circle cx="80" cy="80" r="5" fill="#2a3347" stroke="#fff" stroke-width="1.5" />
+            <!-- tick marks -->
+            <text x="12" y="88" fill="#687090" font-size="9" font-family="IBM Plex Mono" text-anchor="middle">0</text>
+            <text x="148" y="88" fill="#687090" font-size="9" font-family="IBM Plex Mono"
+              text-anchor="middle">100</text>
+            <text x="80" y="22" fill="#687090" font-size="9" font-family="IBM Plex Mono" text-anchor="middle">50</text>
+          </svg>
+          <div class="gauge-value" id="gauge-display">0<span class="gauge-pct">%</span></div>
+          <div class="gauge-sublabel">current opening level</div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="card controls-card">
+        <div class="card-label"><span>System Control</span></div>
+
+        <div class="mode-toggle">
+          <button class="mode-btn active-auto" id="btn-auto">Automatic</button>
+          <button class="mode-btn" id="btn-manual">Manual</button>
+        </div>
+
+        <div class="valve-control disabled" id="valve-ctrl">
+          <div class="slider-header">
+            <span class="slider-title">Valve Opening</span>
+            <span class="slider-readout" id="slider-readout">0%</span>
+          </div>
+          <input type="range" id="valve-slider" min="0" max="100" step="1" value="0" />
+          <div class="slider-ticks">
+            <span>Closed</span>
+            <span>25%</span>
+            <span>50%</span>
+            <span>75%</span>
+            <span>Full</span>
+          </div>
+          <button class="apply-btn" id="apply-btn" disabled>Apply to WCS</button>
+        </div>
+      </div>
+
+      <!-- System info -->
+      <div class="card info-card">
+        <div class="card-label"><span>System Info</span></div>
+        <div class="info-row">
+          <span class="info-key">CUS Link</span>
+          <span class="info-val ok" id="info-cus">Connected</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">WCS Link</span>
+          <span class="info-val ok" id="info-wcs">Connected</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Last Update</span>
+          <span class="info-val" id="info-update">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Sample Rate</span>
+          <span class="info-val">2 s</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Uptime</span>
+          <span class="info-val" id="info-uptime">00:00:00</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
 </body>
+
+<script type="module" src="src/main.ts"></script>
+<script type="module" src="src/DOM.ts"></script>
 
 </html>
