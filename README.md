@@ -33,25 +33,55 @@ Each assignment has its own directory containing source code, documentation, and
 
 ## ⚙️ Repository Structure
 ```
-arduino-iot-project/
-│
-├── assignment#01/
-│ ├── *.ino
-| ├── *.cpp
-| ├── *.hpp
-│ └── README.md
-│
-├── assignment2/
-| ├── *.cpp
-| ├── *.hpp
-│ ├── *.ino
-│ └── README.md
-│
-├── assignment3/
-| ├── *.cpp
-| ├── *.hpp
-│ ├── *.ino
-│ └── README.md
-│
+├── Assignment-01
+│   ├── platformio.ini
+│   ├── src
+│   │   ├── main.cpp
+│   │   ├── model
+│   │   │   ├── TournOnSequence.cpp
+│   │   │   └── TournOnSequence.h
+│   │   ├── utils.cpp
+│   └── test
+│       └── README
+├── Assignment-02
+│   ├── doc
+│   │   └── README.md
+│   ├── droneHangar
+│   │   ├── platformio.ini
+│   │   └── src
+│   │       ├── config.h
+│   │       ├── devices
+│   │       ├── kernel
+│   │       ├── main.cpp
+│   │       └── model
+│   └── droneRemoteUnit
+│       └── src
+│           └── esiot
+│               └── serial
+│                   └── DroneRemoteUnitGUI.java
+├── Assignment-03
+│   ├── CUS
+│   │   ├── build.gradle.kts
+│   │   ├── gradle
+│   │   └── src
+│   │       └── main
+│   │           └── java
+│   │               └── it
+│   │                   └── unibo
+│   │                       └── iot
+│   │                           └── Server.java
+│   │
+│   ├── DBS
+│   │   └── index.html
+│   ├── doc
+│   │   └── README.md
+│   ├── TMS
+│   │   ├── platformio.ini
+│   │   └── src
+│   │       └── main.cpp
+│   └── WCS
+│       ├── platformio.ini
+│       └── src
+│           └── main.cpp
 └── README.md ← (this file)
 ```
