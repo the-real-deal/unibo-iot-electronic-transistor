@@ -25,6 +25,9 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
     private final SerialPort serialPort;
     private StringBuffer currentMsg = new StringBuffer("");
 
+    private final LocalMap<String, States> state;
+    private final LocalMap<String, Integer> valveLevel;
+
     @SuppressWarnings("LeakingThisInConstructor")
     public SerialAgent(String port, int rate) throws Exception {
         serialPort = new SerialPort(port);
@@ -40,6 +43,9 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
 
         // serialPort.addEventListener(this, SerialPort.MASK_RXCHAR);
         serialPort.addEventListener(this);
+
+        this.state = vertx.sharedData().getLocalMap(ChannelIdentifiers.CURRENT_STATE.value);
+        this.valveLevel = vertx.sharedData().getLocalMap(ChannelIdentifiers.VALVE_OPENING.value);
     }
 
     @Override
@@ -48,12 +54,12 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
         EventBus eb = vertx.eventBus();
 
         eb.<States>consumer(ChannelIdentifiers.STATE_CHANGED.value, msg -> {
-            // set the global variable state
+            state.put(MapKeys.CURRENT_STATE, msg.body());
             this.sendMsg(msg.body().stateValue);
         });
 
         eb.<Integer>consumer(ChannelIdentifiers.CONTROL_VALVE.value, msg -> {
-            // set the global variable state
+            valveLevel.put(MapKeys.VALVE_LEVEL, msg.body());
             this.sendMsg(Integer.toString(msg.body()));
         });
 
@@ -85,18 +91,14 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
                         try {
                             int valve = Integer.parseInt(message);
                             // Set the valve global variable value
-                            vertx.sharedData().getLocalMap(ChannelIdentifiers.VALVE_OPENING.value)
-                                    .put(MapKeys.VALVE_LEVEL, valve);
+                            valveLevel.put(MapKeys.VALVE_LEVEL, valve);
                         } catch (NumberFormatException e) {
                             // in case the parse is not successfull, its a state change message
-                            LocalMap<String, States> stateMap = vertx.sharedData()
-                                    .getLocalMap(ChannelIdentifiers.CURRENT_STATE.value);
-
                             if (message.contains(States.AUTOMATIC.stateValue)) {
-                                stateMap.put(MapKeys.CURRENT_STATE, States.AUTOMATIC);
+                                state.put(MapKeys.CURRENT_STATE, States.AUTOMATIC);
                                 vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value, States.AUTOMATIC);
                             } else if (message.contains(States.MANUAL.stateValue)) {
-                                stateMap.put(MapKeys.CURRENT_STATE, States.MANUAL);
+                                state.put(MapKeys.CURRENT_STATE, States.MANUAL);
                                 vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value, States.MANUAL);
                             }
                         }
