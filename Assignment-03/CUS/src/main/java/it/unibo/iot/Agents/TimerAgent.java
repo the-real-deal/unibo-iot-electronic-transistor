@@ -43,14 +43,13 @@ public class TimerAgent extends VerticleBase {
         this.eventBus = vertx.eventBus();
         SharedData sharedData = vertx.sharedData();
         LocalMap<String, States> stateMap = sharedData.getLocalMap(ChannelIdentifiers.CURRENT_STATE.value);
-        LocalMap<String, WaterLevel> waterLevel = sharedData.getLocalMap(ChannelIdentifiers.WATER_LEVEL.value);
 
         stateMap.put(MapKeys.CURRENT_STATE, States.AUTOMATIC);
 
         Runnable resetTimer = () -> {
             stateMap.put(MapKeys.PREVIOUS_STATE, stateMap.get(MapKeys.CURRENT_STATE));
             stateMap.put(MapKeys.CURRENT_STATE, States.UNCONNECTED);
-            eventBus.publish(ChannelIdentifiers.STATE_CHANGED.value, States.UNCONNECTED.stateValue);
+            eventBus.publish(ChannelIdentifiers.STATE_CHANGED.value, States.UNCONNECTED);
         };
 
         this.connectionTimerId = startWatchdog(this.connectionTimeout, resetTimer);
@@ -64,7 +63,6 @@ public class TimerAgent extends VerticleBase {
 
             this.connectionTimerId = stopWatchdog(this.connectionTimerId);
             this.connectionTimerId = startWatchdog(connectionTimeout, resetTimer);
-            waterLevel.put(MapKeys.WATER_LEVEL, message.body());
 
             // if the state is automatic check the water level and start timers
             if (stateMap.get(MapKeys.CURRENT_STATE) == States.AUTOMATIC) {
