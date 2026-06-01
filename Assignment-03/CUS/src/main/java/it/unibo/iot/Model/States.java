@@ -6,7 +6,8 @@ public enum States implements Shareable {
 
     MANUAL("manual"),
     AUTOMATIC("automatic"),
-    UNCONNECTED("unconnected");
+    UNCONNECTED("unconnected"),
+    UNKNOWN("unknown");
 
     public final String stateValue;
 

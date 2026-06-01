@@ -52,7 +52,8 @@ public class HttpAgent extends VerticleBase {
 
                     JsonObject request = ctx.body().asJsonObject();
                     if (request.containsKey(MapKeys.VALVE_LEVEL)) {
-                        // [TODO]
+                        Integer valveRequest = request.getInteger(MapKeys.VALVE_LEVEL);
+                        vertx.eventBus().publish(ChannelIdentifiers.CONTROL_VALVE.value, valveRequest);
                     }
                 });
         router
@@ -61,7 +62,15 @@ public class HttpAgent extends VerticleBase {
 
                     JsonObject request = ctx.body().asJsonObject();
                     if (request.containsKey(MapKeys.CURRENT_STATE)) {
-                        // [TODO]
+                        String state = request.getString(MapKeys.CURRENT_STATE);
+                        States s = States.UNKNOWN;
+                        if (state.equals(States.AUTOMATIC.stateValue))
+                            s = States.AUTOMATIC;
+                        else if (state.equals(States.MANUAL.stateValue))
+                            s = States.MANUAL;
+                        if (!s.equals(States.UNKNOWN)) {
+                            vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value, s);
+                        }
                     }
                 });
 
