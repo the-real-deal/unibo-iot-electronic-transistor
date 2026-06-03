@@ -1,20 +1,10 @@
 import { Chart, LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip } from 'chart.js';
 import type { ChartConfiguration } from 'chart.js';
 import type { AppState, Mode, ServerData, WaterLevel } from './data';
-import { pad } from './utility';
-import { getUpdatedData } from './api';
+import { isMode, pad } from './utility';
+import { changeState, changeValveLevel, getUpdatedData } from './api';
+import { applyUIForMode } from './DOM';
 
-
-const btnAuto = document.getElementById('btn-auto') as HTMLButtonElement;
-const btnManual = document.getElementById('btn-manual') as HTMLButtonElement;
-const valveCtrl = document.getElementById('valve-ctrl') as HTMLElement;
-const applyBtn = document.getElementById('apply-btn') as HTMLButtonElement;
-const pill = document.getElementById('status-pill') as HTMLElement;
-const dot = document.getElementById('status-dot') as HTMLElement;
-const label = document.getElementById('status-label') as HTMLElement;
-
-const infoCus = document.getElementById('info-cus') as HTMLElement;
-const infoWcs = document.getElementById('info-wcs') as HTMLElement;
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 
@@ -168,54 +158,17 @@ function setGauge(pct: number): void {
  * @param mode The state to switch to
  * Does not change the mode if the current state is unconnected or not available
  */
-function setMode(mode: Mode): void {
+async function setMode(mode: Mode) {
   if (STATE.mode === 'not_available' || STATE.mode === 'unconnected') return;
-  STATE.mode = mode;
-  applyUIForMode(mode);
-  showToast(mode === 'automatic' ? 'Switched to AUTOMATIC mode' : 'Switched to MANUAL mode');
-}
-
-/**
- * Updates the UI based on the given state
- * @param mode the state
- */
-function applyUIForMode(mode: Mode): void {
-  btnAuto.className = 'mode-btn';
-  btnManual.className = 'mode-btn';
-
-  pill.className = 'status-pill status-' + mode.replace(' ', '_');
-  dot.className = 'status-dot dot-' + mode.replace(' ', '_');
-  label.textContent = mode === 'not_available' ? 'NOT AVAILABLE' : mode.toUpperCase();
-
-  const inoperable = mode === 'not_available' || mode === 'unconnected';
-  btnAuto.disabled = inoperable;
-  btnManual.disabled = inoperable;
-
-  if (mode === 'automatic') {
-    btnAuto.classList.add('active-auto');
-    valveCtrl.classList.add('disabled');
-    applyBtn.disabled = true;
-    infoCus.textContent = 'Connected';
-    infoCus.className = 'info-val ok';
-    infoWcs.textContent = 'Connected';
-    infoWcs.className = 'info-val ok';
-  } else if (mode === 'manual') {
-    btnManual.classList.add('active-manual');
-    valveCtrl.classList.remove('disabled');
-    applyBtn.disabled = false;
-  } else if (mode === 'unconnected') {
-    valveCtrl.classList.add('disabled');
-    applyBtn.disabled = true;
-    infoCus.textContent = 'Disconnected';
-    infoCus.className = 'info-val warn';
-  } else if (mode === 'not_available') {
-    valveCtrl.classList.add('disabled');
-    applyBtn.disabled = true;
-    infoCus.textContent = 'Unreachable';
-    infoCus.className = 'info-val error';
-    infoWcs.textContent = 'Unreachable';
-    infoWcs.className = 'info-val error';
+  try {
+    STATE.mode = mode;
+    await changeState(mode);
+    showToast(mode === 'automatic' ? 'Switched to AUTOMATIC mode' : 'Switched to MANUAL mode');
+  } catch (error) {
+    STATE.mode = 'not_available';
+    showToast("Could not connect to the server");
   }
+  applyUIForMode(mode);
 }
 
 /**
@@ -230,11 +183,17 @@ function onSliderInput(val: string): void {
 /**
  * Changes the valve level
  */
-function applyValve(): void {
-  STATE.valveActual = STATE.valvePending;
-  setGauge(STATE.valveActual);
-  // call api post
-  showToast(`Valve set to ${STATE.valveActual}% — command sent to WCS`);
+async function applyValve() {
+  try {
+    STATE.valveActual = STATE.valvePending;
+    setGauge(STATE.valveActual);
+    await changeValveLevel(STATE.valveActual);
+    showToast(`Valve set to ${STATE.valveActual}% — command sent to WCS`);
+  } catch (error) {
+    STATE.mode = 'not_available';
+    showToast("Could not connect to the server");
+    applyUIForMode('not_available');
+  }
 }
 
 function updateClock(): void {
@@ -253,13 +212,12 @@ function updateUptime(): void {
 }
 
 function addMeasurement(waterReading: WaterLevel): void {
-  const last = STATE.measurements[STATE.measurements.length - 1].value;
-  let next = last + (Math.random() - 0.46) * 12;
-  next = Math.max(10, Math.min(300, next));
-  STATE.measurements.push({ value: Math.round(next * 10) / 10, measurementTime: Date.now.toString() });
-  if (STATE.measurements.length > 500) STATE.measurements.shift();
-
-
+  // old implementation for synthetic values, used to test the gui
+  // const last = STATE.measurements[STATE.measurements.length - 1].value;
+  // let next = last + (Math.random() - 0.46) * 12;
+  // next = Math.max(10, Math.min(300, next));
+  STATE.measurements.push(waterReading);
+  if (STATE.measurements.length > 200) STATE.measurements.shift();
 }
 
 async function updateUI() {
@@ -268,15 +226,19 @@ async function updateUI() {
     addMeasurement({ value: data.waterLevel, measurementTime: data.sampleTimestamp });
     setGauge(data.valveLevel);
 
-
+    if (isMode(data.currentState)) {
+      STATE.mode = data.currentState;
+    }
 
     const now = new Date();
     (document.getElementById('info-update') as HTMLElement).textContent =
       pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
   } catch (error) {
     STATE.mode = 'not_available';
+    showToast("Could not connect to the server");
   }
   updateChart();
+  applyUIForMode(STATE.mode);
 }
 
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
@@ -301,4 +263,4 @@ setInterval(updateUptime, 1000);
 setInterval(updateUI, 2000);
 updateClock();
 
-export { setMode, onSliderInput, applyValve, addMeasurement, setGauge };
+export { setMode, onSliderInput, applyValve };
