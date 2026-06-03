@@ -17,13 +17,9 @@ const STATE: AppState = {
   startTime: Date.now()
 };
 
-const TOTAL_MEASUREMENTS = 200;
-
 // Generate flat starter graph
 (function seedData(): void {
-  for (let i = 0; i < TOTAL_MEASUREMENTS; i++) {
-    STATE.measurements.push({ value: 0, measurementTime: Date.now.toString() });
-  }
+  STATE.measurements.push({ value: 0, measurementTime: new Date().toLocaleTimeString('it-IT') });
 })();
 
 let chart: Chart | undefined;
