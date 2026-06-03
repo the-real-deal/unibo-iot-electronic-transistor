@@ -179,11 +179,11 @@
     margin-top: 4px;
   }
 
-  .chart-controls {
+  /* .chart-controls {
     display: flex;
     align-items: center;
     gap: 8px;
-  }
+  } */
 
   .n-label {
     font-family: var(--font-mono);

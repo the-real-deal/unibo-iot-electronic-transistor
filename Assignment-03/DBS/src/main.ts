@@ -1,21 +1,25 @@
 import { Chart, LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip } from 'chart.js';
 import type { ChartConfiguration } from 'chart.js';
+import type { AppState, Mode, ServerData, WaterLevel } from './data';
+import { pad } from './utility';
+import { getUpdatedData } from './api';
+
+
+const btnAuto = document.getElementById('btn-auto') as HTMLButtonElement;
+const btnManual = document.getElementById('btn-manual') as HTMLButtonElement;
+const valveCtrl = document.getElementById('valve-ctrl') as HTMLElement;
+const applyBtn = document.getElementById('apply-btn') as HTMLButtonElement;
+const pill = document.getElementById('status-pill') as HTMLElement;
+const dot = document.getElementById('status-dot') as HTMLElement;
+const label = document.getElementById('status-label') as HTMLElement;
+
+const infoCus = document.getElementById('info-cus') as HTMLElement;
+const infoWcs = document.getElementById('info-wcs') as HTMLElement;
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 
-type Mode = 'AUTOMATIC' | 'MANUAL' | 'UNCONNECTED' | 'NOT_AVAILABLE';
-
-interface AppState {
-  mode: Mode;
-  valveActual: number;
-  valvePending: number;
-  measurements: number[];
-  N: number;
-  startTime: number;
-}
-
 const STATE: AppState = {
-  mode: 'AUTOMATIC',
+  mode: 'automatic',
   valveActual: 34,
   valvePending: 34,
   measurements: [],
@@ -25,13 +29,10 @@ const STATE: AppState = {
 
 const TOTAL_MEASUREMENTS = 200;
 
-// Generate synthetic history
+// Generate flat starter graph
 (function seedData(): void {
-  let level = 120;
   for (let i = 0; i < TOTAL_MEASUREMENTS; i++) {
-    level += (Math.random() - 0.46) * 12;
-    level = Math.max(10, Math.min(300, level));
-    STATE.measurements.push(Math.round(level * 10) / 10);
+    STATE.measurements.push({ value: 0, measurementTime: Date.now.toString() });
   }
 })();
 
@@ -41,9 +42,10 @@ let chart: Chart | undefined;
  * Displays the data as a line chart
  * @param data The information to display
  */
-function buildChart(data: number[]): void {
+function buildChart(data: WaterLevel[]): void {
   const ctx = document.getElementById('levelChart') as HTMLCanvasElement;
-  const labels = data.map((_, i) => `T-${data.length - 1 - i}`);
+  const labels = data.map(val => `${val.measurementTime}`);
+  const values = data.map(val => val.value);
 
   const gradient = ctx.getContext('2d')!.createLinearGradient(0, 0, 0, 280);
   gradient.addColorStop(0, 'rgba(61,159,255,0.35)');
@@ -55,7 +57,7 @@ function buildChart(data: number[]): void {
       labels,
       datasets: [{
         label: 'Level (mm)',
-        data,
+        data: values,
         borderColor: '#3d9fff',
         borderWidth: 2,
         backgroundColor: gradient,
@@ -114,20 +116,25 @@ function buildChart(data: number[]): void {
   chart = new Chart(ctx, config);
 }
 
-function getSlice(): number[] {
-  return STATE.measurements.slice(-STATE.N);
-}
-
+/**
+ * Updates the chart with the data in the global state object
+ * Does nothing if the chart is not initialized
+ */
 function updateChart(): void {
   if (!chart) return;
-  const data = getSlice();
-  const labels = data.map((_, i) => `T-${data.length - 1 - i}`);
+  const data = STATE.measurements.slice(-STATE.N);
+  const labels = data.map((_, i) => `${data[i].measurementTime}`);
   chart.data.labels = labels;
-  chart.data.datasets[0].data = data;
+  const values = data.map((_, i) => data[i].value);
+  chart.data.datasets[0].data = values;
   chart.update('none');
-  updateStats(data);
+  updateStats(values);
 }
 
+/**
+ * Updates the stats under the chart
+ * @param data The array of values currently displayed in the chart
+ */
 function updateStats(data: number[]): void {
   const cur = data[data.length - 1];
   const avg = data.reduce((s, v) => s + v, 0) / data.length;
@@ -137,6 +144,10 @@ function updateStats(data: number[]): void {
   document.getElementById('stat-peak')!.innerHTML = peak.toFixed(1) + '<span class="stat-unit"> mm</span>';
 }
 
+/**
+ * Changes the valve level display based on the given number
+ * @param pct The opening percentage of the valve
+ */
 function setGauge(pct: number): void {
   pct = Math.max(0, Math.min(100, pct));
   const ARC_LEN = 190;
@@ -152,87 +163,78 @@ function setGauge(pct: number): void {
   (document.querySelector('#gauge-needle') as SVGLineElement).setAttribute('stroke', hue);
 }
 
+/**
+ * Changes the system mode.
+ * @param mode The state to switch to
+ * Does not change the mode if the current state is unconnected or not available
+ */
 function setMode(mode: Mode): void {
-  if (STATE.mode === 'NOT_AVAILABLE' || STATE.mode === 'UNCONNECTED') return;
+  if (STATE.mode === 'not_available' || STATE.mode === 'unconnected') return;
   STATE.mode = mode;
   applyUIForMode(mode);
-  showToast(mode === 'AUTOMATIC' ? 'Switched to AUTOMATIC mode' : 'Switched to MANUAL mode');
+  showToast(mode === 'automatic' ? 'Switched to AUTOMATIC mode' : 'Switched to MANUAL mode');
 }
 
+/**
+ * Updates the UI based on the given state
+ * @param mode the state
+ */
 function applyUIForMode(mode: Mode): void {
-  const btnAuto = document.getElementById('btn-auto') as HTMLButtonElement;
-  const btnManual = document.getElementById('btn-manual') as HTMLButtonElement;
-  const valveCtrl = document.getElementById('valve-ctrl') as HTMLElement;
-  const applyBtn = document.getElementById('apply-btn') as HTMLButtonElement;
-  const pill = document.getElementById('status-pill') as HTMLElement;
-  const dot = document.getElementById('status-dot') as HTMLElement;
-  const label = document.getElementById('status-label') as HTMLElement;
-
   btnAuto.className = 'mode-btn';
   btnManual.className = 'mode-btn';
 
   pill.className = 'status-pill status-' + mode.replace(' ', '_');
   dot.className = 'status-dot dot-' + mode.replace(' ', '_');
-  label.textContent = mode === 'NOT_AVAILABLE' ? 'NOT AVAILABLE' : mode;
+  label.textContent = mode === 'not_available' ? 'NOT AVAILABLE' : mode.toUpperCase();
 
-  const inoperable = mode === 'NOT_AVAILABLE' || mode === 'UNCONNECTED';
+  const inoperable = mode === 'not_available' || mode === 'unconnected';
   btnAuto.disabled = inoperable;
   btnManual.disabled = inoperable;
 
-  if (mode === 'AUTOMATIC') {
+  if (mode === 'automatic') {
     btnAuto.classList.add('active-auto');
     valveCtrl.classList.add('disabled');
     applyBtn.disabled = true;
-    const infoCus = document.getElementById('info-cus') as HTMLElement;
     infoCus.textContent = 'Connected';
     infoCus.className = 'info-val ok';
-    const infoWcs = document.getElementById('info-wcs') as HTMLElement;
     infoWcs.textContent = 'Connected';
     infoWcs.className = 'info-val ok';
-  } else if (mode === 'MANUAL') {
+  } else if (mode === 'manual') {
     btnManual.classList.add('active-manual');
     valveCtrl.classList.remove('disabled');
     applyBtn.disabled = false;
-  } else if (mode === 'UNCONNECTED') {
+  } else if (mode === 'unconnected') {
     valveCtrl.classList.add('disabled');
     applyBtn.disabled = true;
-    const infoCus = document.getElementById('info-cus') as HTMLElement;
     infoCus.textContent = 'Disconnected';
     infoCus.className = 'info-val warn';
-  } else if (mode === 'NOT_AVAILABLE') {
+  } else if (mode === 'not_available') {
     valveCtrl.classList.add('disabled');
     applyBtn.disabled = true;
-    const infoCus = document.getElementById('info-cus') as HTMLElement;
     infoCus.textContent = 'Unreachable';
     infoCus.className = 'info-val error';
-    const infoWcs = document.getElementById('info-wcs') as HTMLElement;
     infoWcs.textContent = 'Unreachable';
     infoWcs.className = 'info-val error';
   }
 }
 
-// ── Slider ─────────────────────────────────────────────
+/**
+ * Sets the value to send to the server
+ * @param val the slider value
+ */
 function onSliderInput(val: string): void {
   STATE.valvePending = parseInt(val, 10);
   (document.getElementById('slider-readout') as HTMLElement).textContent = val + '%';
 }
 
+/**
+ * Changes the valve level
+ */
 function applyValve(): void {
   STATE.valveActual = STATE.valvePending;
   setGauge(STATE.valveActual);
+  // call api post
   showToast(`Valve set to ${STATE.valveActual}% — command sent to WCS`);
-}
-
-// ── N select ───────────────────────────────────────────
-(document.getElementById('n-select') as HTMLSelectElement).addEventListener('change', function (this: HTMLSelectElement) {
-  STATE.N = parseInt(this.value, 10);
-  (document.getElementById('chart-subtitle') as HTMLElement).textContent = `Last ${STATE.N} measurements · live feed`;
-  updateChart();
-});
-
-// ── Clock & live feed ──────────────────────────────────
-function pad(n: number): string {
-  return n.toString().padStart(2, '0');
 }
 
 function updateClock(): void {
@@ -250,22 +252,31 @@ function updateUptime(): void {
     pad(h) + ':' + pad(m) + ':' + pad(sec);
 }
 
-function addMeasurement(): void {
-  const last = STATE.measurements[STATE.measurements.length - 1];
+function addMeasurement(waterReading: WaterLevel): void {
+  const last = STATE.measurements[STATE.measurements.length - 1].value;
   let next = last + (Math.random() - 0.46) * 12;
   next = Math.max(10, Math.min(300, next));
-  STATE.measurements.push(Math.round(next * 10) / 10);
+  STATE.measurements.push({ value: Math.round(next * 10) / 10, measurementTime: Date.now.toString() });
   if (STATE.measurements.length > 500) STATE.measurements.shift();
 
-  if (STATE.mode === 'AUTOMATIC') {
-    STATE.valveActual = Math.round(Math.min(100, Math.max(0, (next / 300) * 100)));
-    setGauge(STATE.valveActual);
-  }
 
+}
+
+async function updateUI() {
+  try {
+    const data: ServerData = await getUpdatedData();
+    addMeasurement({ value: data.waterLevel, measurementTime: data.sampleTimestamp });
+    setGauge(data.valveLevel);
+
+
+
+    const now = new Date();
+    (document.getElementById('info-update') as HTMLElement).textContent =
+      pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+  } catch (error) {
+    STATE.mode = 'not_available';
+  }
   updateChart();
-  const now = new Date();
-  (document.getElementById('info-update') as HTMLElement).textContent =
-    pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
 }
 
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
@@ -278,16 +289,16 @@ function showToast(msg: string): void {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-buildChart(getSlice());
-updateStats(getSlice());
+buildChart(STATE.measurements.slice(-STATE.N));
+updateStats(STATE.measurements.slice(-STATE.N).map((reading) => reading.value));
 setGauge(STATE.valveActual);
 (document.getElementById('valve-slider') as HTMLInputElement).value = String(STATE.valveActual);
 (document.getElementById('slider-readout') as HTMLElement).textContent = STATE.valveActual + '%';
-applyUIForMode('AUTOMATIC');
+applyUIForMode('automatic');
 
 setInterval(updateClock, 1000);
 setInterval(updateUptime, 1000);
-setInterval(addMeasurement, 2000);
+setInterval(updateUI, 2000);
 updateClock();
 
-export { setMode, onSliderInput, applyValve };
+export { setMode, onSliderInput, applyValve, addMeasurement, setGauge };
