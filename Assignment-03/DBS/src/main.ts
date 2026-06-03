@@ -157,8 +157,8 @@ function setGauge(pct: number): void {
 async function setMode(mode: Mode) {
   if (STATE.mode === 'not_available' || STATE.mode === 'unconnected') return;
   try {
-    STATE.mode = mode;
     await changeState(mode);
+    STATE.mode = mode;
     showToast(mode === 'automatic' ? 'Switched to AUTOMATIC mode' : 'Switched to MANUAL mode');
   } catch (error) {
     STATE.mode = 'not_available';
@@ -182,8 +182,8 @@ function onSliderInput(val: string): void {
 async function applyValve() {
   try {
     STATE.valveActual = STATE.valvePending;
-    setGauge(STATE.valveActual);
     await changeValveLevel(STATE.valveActual);
+    setGauge(STATE.valveActual);
     showToast(`Valve set to ${STATE.valveActual}% — command sent to WCS`);
   } catch (error) {
     STATE.mode = 'not_available';
