@@ -102,7 +102,7 @@ void loop()
         float distance = sonar.getDistance();
 
         /* creating a msg in the buffer */
-        snprintf(msg, MSG_BUFFER_SIZE, "level:%f", distance);
+        snprintf(msg, MSG_BUFFER_SIZE, "%f", distance);
 
         Serial.println(String("Publishing message: ") + msg);
 
