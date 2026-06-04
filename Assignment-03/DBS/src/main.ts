@@ -192,12 +192,16 @@ async function applyValve() {
   }
 }
 
+
+/**
+ * Used to update the clock
+ * ----------------------------------------
+ */
+const d = new Date();
 function updateClock(): void {
-  const d = new Date();
   (document.getElementById('clock') as HTMLElement).textContent =
     pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
 }
-
 function updateUptime(): void {
   const s = Math.floor((Date.now() - STATE.startTime) / 1000);
   const h = Math.floor(s / 3600);
@@ -206,7 +210,14 @@ function updateUptime(): void {
   (document.getElementById('info-uptime') as HTMLElement).textContent =
     pad(h) + ':' + pad(m) + ':' + pad(sec);
 }
+/**
+ * ----------------------------------------
+ */
 
+/**
+ * Adds an element to the readings array
+ * @param waterReading the reading to add
+ */
 function addMeasurement(waterReading: WaterLevel): void {
   // old implementation for synthetic values, used to test the gui
   // const last = STATE.measurements[STATE.measurements.length - 1].value;
@@ -216,6 +227,9 @@ function addMeasurement(waterReading: WaterLevel): void {
   if (STATE.measurements.length > 200) STATE.measurements.shift();
 }
 
+/**
+ * Fetches the data from a remote server and updates the UI
+ */
 async function updateUI() {
   try {
     const data: ServerData = await getUpdatedData();
@@ -239,6 +253,10 @@ async function updateUI() {
 
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
 
+/**
+ * Function used to create a toast message in the ui
+ * @param msg The message to display
+ */
 function showToast(msg: string): void {
   const t = document.getElementById('toast') as HTMLElement;
   t.textContent = msg;
