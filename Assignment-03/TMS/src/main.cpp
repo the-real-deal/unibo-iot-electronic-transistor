@@ -18,10 +18,10 @@ const char *ssid = SSID;
 const char *password = PASSWORD;
 
 /* MQTT server address */
-const char *mqtt_server = "broker.mqtt-dashboard.com";
+const char *mqtt_server = SERVER;
 
 /* MQTT topic */
-const char *topic = "unibo-iot-didospita/hello";
+const char *topic = TOPIC;
 
 /* MQTT client management */
 WiFiClient espClient;
