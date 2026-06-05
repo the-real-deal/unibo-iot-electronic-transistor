@@ -30,6 +30,15 @@ public class TimerAgent extends VerticleBase {
     private long connectionTimerId = -1;
     private long waterLevelTimerId = -1;
 
+    /**
+     * Initializes the timer agent
+     * 
+     * @param timeout      The amount of time (ms) to confirm the TMS is not working
+     * @param waterTimeout The amount of time (ms) that has to pass with the water
+     *                     level > t1, to proceed to open the valve
+     * @param t1           The first water threshold
+     * @param t2           the second water threshold
+     */
     public TimerAgent(final long timeout, final long waterTimeout, final double t1, final double t2) {
         this.connectionTimeout = timeout;
         this.waterLevelTimeout = waterTimeout;
@@ -43,6 +52,7 @@ public class TimerAgent extends VerticleBase {
         this.eventBus = vertx.eventBus();
         SharedData sharedData = vertx.sharedData();
         LocalMap<String, States> stateMap = sharedData.getLocalMap(ChannelIdentifiers.CURRENT_STATE.value);
+        LocalMap<String, WaterLevel> waterLevel = sharedData.getLocalMap(ChannelIdentifiers.WATER_LEVEL.value);
 
         stateMap.put(MapKeys.CURRENT_STATE, States.AUTOMATIC);
 
@@ -54,19 +64,21 @@ public class TimerAgent extends VerticleBase {
 
         this.connectionTimerId = startWatchdog(this.connectionTimeout, resetTimer);
 
-        eventBus.<WaterLevel>consumer(ChannelIdentifiers.MESSAGE_RECEIVED.value, message -> {
+        eventBus.<String>consumer(ChannelIdentifiers.MESSAGE_RECEIVED.value, message -> {
             if (stateMap.get(MapKeys.CURRENT_STATE) == States.UNCONNECTED) {
                 States s = stateMap.get(MapKeys.PREVIOUS_STATE);
                 stateMap.put(MapKeys.CURRENT_STATE, s);
                 eventBus.publish(ChannelIdentifiers.STATE_CHANGED.value, s);
             }
 
+            WaterLevel current = waterLevel.get(MapKeys.WATER_LEVEL);
+
             this.connectionTimerId = stopWatchdog(this.connectionTimerId);
             this.connectionTimerId = startWatchdog(connectionTimeout, resetTimer);
 
             // if the state is automatic check the water level and start timers
             if (stateMap.get(MapKeys.CURRENT_STATE) == States.AUTOMATIC) {
-                double waterReading = message.body().waterReading();
+                double waterReading = current.waterReading();
                 switch (this.state) {
                     case InnerState.VALVE_CLOSED -> {
                         if (waterReading > this.waterThresholdMax) {

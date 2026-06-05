@@ -1,5 +1,8 @@
 package it.unibo.iot.Agents;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +15,8 @@ import it.unibo.iot.Model.MapKeys;
 import it.unibo.iot.Model.WaterLevel;
 
 public class MqttAgent extends VerticleBase {
+
+    private static final Logger logger = LoggerFactory.getLogger(MqttAgent.class);
 
     private MqttClient client;
     private final String hostName;
@@ -28,29 +33,29 @@ public class MqttAgent extends VerticleBase {
 
     @Override
     public Future<?> start() throws Exception {
-
-        Logger l = LoggerFactory.getLogger(MqttAgent.class);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         this.client = MqttClient.create(vertx);
 
-        client.subscribe(this.topic, qualityOfService.value());
+        return client.connect(this.port, this.hostName).onSuccess(handle -> {
 
-        return client.connect(this.port, this.hostName).onComplete(handle -> {
+            client.subscribe(this.topic, qualityOfService.value());
+
             client.publishHandler(s -> {
+                // logger.info("Message arrived: " + s.payload().toString());
                 try {
-                    String[] msg = s.payload().toString().split(":");
-                    double reading;
-                    long timestamp;
-                    reading = Double.parseDouble(msg[0]);
-                    timestamp = Long.parseLong(msg[1]);
-                    var waterLevel = new WaterLevel(reading, timestamp);
 
-                    vertx.eventBus().publish(ChannelIdentifiers.MESSAGE_RECEIVED.value, waterLevel);
+                    double reading = Double.parseDouble(s.payload().toString());
+                    LocalTime now = LocalTime.now();
+
+                    WaterLevel waterLevel = new WaterLevel(reading, now.format(formatter));
+
+                    vertx.eventBus().publish(ChannelIdentifiers.MESSAGE_RECEIVED.value, "message received");
                     vertx.sharedData()
                             .getLocalMap(ChannelIdentifiers.WATER_LEVEL.value)
                             .put(MapKeys.WATER_LEVEL, waterLevel);
                 } catch (NumberFormatException e) {
-                    l.error("Error receiving data: ", e);
+                    logger.error("Error receiving data: ", e);
                 }
             });
         });

@@ -42,7 +42,7 @@ function buildChart(data: WaterLevel[]): void {
     data: {
       labels,
       datasets: [{
-        label: 'Level (mm)',
+        label: 'Level (m)',
         data: values,
         borderColor: '#3d9fff',
         borderWidth: 2,
@@ -71,7 +71,7 @@ function buildChart(data: WaterLevel[]): void {
           titleFont: { family: "'IBM Plex Mono'", size: 10 },
           bodyFont: { family: "'IBM Plex Mono'", size: 12 },
           callbacks: {
-            label: (ctx) => ` ${(ctx.raw as number).toFixed(1)} mm`,
+            label: (ctx) => ` ${(ctx.raw as number).toFixed(1)} m`,
           },
         },
       },
@@ -91,7 +91,7 @@ function buildChart(data: WaterLevel[]): void {
           ticks: {
             color: '#687090',
             font: { family: "'IBM Plex Mono'", size: 10 },
-            callback: (v) => v + ' mm',
+            callback: (v) => v + ' m',
           },
           border: { color: 'rgba(255,255,255,0.06)' },
         },
@@ -125,9 +125,9 @@ function updateStats(data: number[]): void {
   const cur = data[data.length - 1];
   const avg = data.reduce((s, v) => s + v, 0) / data.length;
   const peak = Math.max(...data);
-  document.getElementById('stat-current')!.innerHTML = cur.toFixed(1) + '<span class="stat-unit"> mm</span>';
-  document.getElementById('stat-avg')!.innerHTML = avg.toFixed(1) + '<span class="stat-unit"> mm</span>';
-  document.getElementById('stat-peak')!.innerHTML = peak.toFixed(1) + '<span class="stat-unit"> mm</span>';
+  document.getElementById('stat-current')!.innerHTML = cur.toFixed(1) + '<span class="stat-unit"> m</span>';
+  document.getElementById('stat-avg')!.innerHTML = avg.toFixed(1) + '<span class="stat-unit"> m</span>';
+  document.getElementById('stat-peak')!.innerHTML = peak.toFixed(1) + '<span class="stat-unit"> m</span>';
 }
 
 /**
@@ -233,12 +233,15 @@ function addMeasurement(waterReading: WaterLevel): void {
 async function updateUI() {
   try {
     const data: ServerData = await getUpdatedData();
-    addMeasurement({ value: data.waterLevel, measurementTime: data.sampleTimestamp });
-    setGauge(data.valveLevel);
 
     if (isMode(data.currentState)) {
       STATE.mode = data.currentState;
     }
+
+    if (STATE.mode !== 'unconnected' && STATE.mode !== 'not_available')
+      addMeasurement({ value: data.waterLevel, measurementTime: data.sampleTimestamp });
+
+    setGauge(data.valveLevel);
 
     const now = new Date();
     (document.getElementById('info-update') as HTMLElement).textContent =

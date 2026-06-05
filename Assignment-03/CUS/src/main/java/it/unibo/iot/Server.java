@@ -3,8 +3,11 @@ package it.unibo.iot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.core.Vertx;
 import it.unibo.iot.Agents.HttpAgent;
+import it.unibo.iot.Agents.MqttAgent;
+import it.unibo.iot.Agents.TimerAgent;
 import it.unibo.iot.Model.ChannelIdentifiers;
 import it.unibo.iot.Model.MapKeys;
 import it.unibo.iot.Model.States;
@@ -32,7 +35,7 @@ public final class Server {
         // Create the shared variables and put default values
         vertx.sharedData().getLocalMap(ChannelIdentifiers.VALVE_OPENING.value).put(MapKeys.VALVE_LEVEL, 0);
         vertx.sharedData().getLocalMap(ChannelIdentifiers.WATER_LEVEL.value).put(MapKeys.WATER_LEVEL,
-                new WaterLevel(0, 0));
+                new WaterLevel(0, ""));
         // Set the global state
         vertx.sharedData().getLocalMap(ChannelIdentifiers.CURRENT_STATE.value).put(MapKeys.CURRENT_STATE,
                 States.AUTOMATIC);
@@ -44,5 +47,24 @@ public final class Server {
                 logger.error("Error starting web server: ", handle.cause());
             }
         });
+
+        vertx.deployVerticle(
+                new MqttAgent("broker.mqtt-dashboard.com", 1883, "waterLevel/readings", MqttQoS.AT_MOST_ONCE))
+                .onComplete(handle -> {
+                    if (!handle.failed()) {
+                        logger.info("Mqtt listener started!");
+                    } else {
+                        logger.error("Error starting mqtt listener: ", handle.cause());
+                    }
+                });
+
+        vertx.deployVerticle(
+                new TimerAgent(3000, 5000, 100, 100)).onComplete(handle -> {
+                    if (!handle.failed()) {
+                        logger.info("Timer agent started!");
+                    } else {
+                        logger.error("Error starting timer agent: ", handle.cause());
+                    }
+                });
     }
 }
