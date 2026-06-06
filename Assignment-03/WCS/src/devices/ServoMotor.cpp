@@ -1,35 +1,35 @@
 #include <Arduino.h>
 #include "ServoMotor.hpp"
 
-ServoMotorImpl::ServoMotorImpl(int pin)
+ServoMotor::ServoMotor(int pin)
 {
     this->pin = pin;
     this->angle = 0;
 }
 
-void ServoMotorImpl::on()
+void ServoMotor::on()
 {
     this->motor.attach(pin, 500, 2740);
 }
 
-void ServoMotorImpl::init()
+void ServoMotor::init()
 {
     this->motor.attach(pin, 500, 2740);
     this->motor.write(0);
 }
 
-void ServoMotorImpl::setPosition(int angle)
+void ServoMotor::setPosition(int angle)
 {
     this->angle = angle;
     this->motor.write(angle);
 }
 
-void ServoMotorImpl::off()
+void ServoMotor::off()
 {
     this->motor.detach();
 }
 
-int ServoMotorImpl::getPosition()
+int ServoMotor::getPosition()
 {
     return this->motor.read();
 }

@@ -1,0 +1,13 @@
+#include <Arduino.h>
+#pragma once
+
+// [TODO] check these to be correct
+#define BUTTON_PIN PIN0
+
+#define SERVO_PIN PIN3
+
+#define POTENTIOMETER_PIN A0
+
+#define LCD_ADDRESS 0x27
+#define LCD_COLUMNS 16
+#define LCD_ROWS 2

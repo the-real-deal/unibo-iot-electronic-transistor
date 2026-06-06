@@ -3,12 +3,12 @@
 #include "devices/Device.hpp"
 #include <Servo.h>
 
-class ServoMotorImpl : public Device
+class ServoMotor : public Device
 {
 
 public:
-    ServoMotorImpl(int pin);
-    ~ServoMotorImpl() = default;
+    ServoMotor(int pin);
+    ~ServoMotor() = default;
 
     void init() override;
     void on();
