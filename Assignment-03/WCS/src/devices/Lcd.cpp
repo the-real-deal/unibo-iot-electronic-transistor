@@ -1,6 +1,6 @@
 #include "devices/Lcd.hpp"
 
-LCD::LCD(int address, int columns, int rows_) : lcd(nullptr), address(address), columns(columns), rows(rows_)
+LCD::LCD(int address, int columns, int rows_) : lcd(nullptr), address(address), rows(rows_), columns(columns)
 {
 }
 
