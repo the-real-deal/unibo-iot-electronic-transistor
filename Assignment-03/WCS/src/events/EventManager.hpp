@@ -28,9 +28,9 @@ public:
     void subscribe(Event event);
 
     /**
-     * Unsubscribes the listener to an event
+     * Unsubscribes the listener to all events
      */
-    void unsubscribe(Event event);
+    void unsubscribeAll();
 
     /**
      * Notifies the listener to the subscribed event

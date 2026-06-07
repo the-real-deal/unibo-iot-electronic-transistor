@@ -3,8 +3,8 @@
 
 class AutomaticState : public State
 {
-private:
-    /* data */
 public:
-    ~AutomaticState();
+    ~AutomaticState() = default;
+
+    void manageEvents() override;
 };

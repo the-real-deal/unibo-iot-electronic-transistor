@@ -17,13 +17,9 @@ void EventManager::subscribe(Event event)
     }
 }
 
-void EventManager::unsubscribe(Event event)
+void EventManager::unsubscribeAll()
 {
-    int index = isSubscribed(event);
-    if (index >= 0)
-    {
-        this->subscribedEvents.remove(index);
-    }
+    this->subscribedEvents.clear();
 }
 
 void EventManager::notify(Event event)
