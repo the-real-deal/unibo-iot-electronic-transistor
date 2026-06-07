@@ -1,8 +1,9 @@
 #pragma once
 #include "model/states/State.hpp"
 #include "events/Event.hpp"
+#include "events/EventListener.hpp"
 
-class Context
+class Context : public EventListener
 {
 public:
     Context();
@@ -17,7 +18,7 @@ public:
      * Handles the given event
      * @param event the event to handle
      */
-    void handleEvent(Event *event);
+    void update(Event event) override;
 
 private:
     State *currentState;
