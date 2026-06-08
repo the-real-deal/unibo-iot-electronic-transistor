@@ -72,7 +72,6 @@ public class HttpAgent extends VerticleBase {
                         Integer valveRequest = request.getInteger(MapKeys.VALVE_LEVEL);
                         vertx.eventBus().publish(ChannelIdentifiers.CONTROL_VALVE.value, valveRequest.toString());
                         valveLevel.put(MapKeys.VALVE_LEVEL, valveRequest);
-                        // [TODO] decide who has to update the map
                         ctx.response().setStatusCode(200).end("OK");
                     } catch (Exception e) {
                         ctx.response().setStatusCode(500).end("Internal server error");
@@ -96,7 +95,6 @@ public class HttpAgent extends VerticleBase {
                         if (!s.equals(States.UNKNOWN)) {
                             vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value, s.stateValue);
                             currentState.put(MapKeys.CURRENT_STATE, s);
-                            // [TODO] decide who has to update the map
                         }
                         ctx.response().setStatusCode(200).end("OK");
                     } catch (Exception e) {
