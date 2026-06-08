@@ -12,7 +12,7 @@ void Potentiometer::init()
     // not needed
 }
 
-float Potentiometer::getValue()
+int Potentiometer::getValue()
 {
     return analogRead(pin);
 }

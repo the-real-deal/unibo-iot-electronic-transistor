@@ -10,17 +10,24 @@
 
 #include "events/EventListener.hpp"
 #include "events/Event.hpp"
+#include "model/HWPlatform.hpp"
 #include <LinkedList.h>
 
 class EventManager
 {
 public:
+    EventManager();
     ~EventManager() = default;
 
     /**
      * Sets the listener
      */
     void setListener(EventListener *context);
+
+    /**
+     * Sets the hardware devices
+     */
+    void setHwPlatform(HWPlatform *HWPlatform);
 
     /**
      * Subscribes the listener to an event
@@ -35,11 +42,14 @@ public:
     /**
      * Notifies the listener to the subscribed event
      */
-    void notify(Event event);
+    void notify();
+
+    /**
+     * Listens to the events
+     */
+    void checkEvents();
 
 private:
-    EventManager() : listener(nullptr) {};
-
     /**
      * Checks if the listener is subscribed to the given event
      * @returns the index of the event in the list, -1 if the listener is not subscribed
@@ -47,7 +57,16 @@ private:
     int isSubscribed(Event event);
 
     EventListener *listener;
+    HWPlatform *hwPlatform;
+
+    bool lastBtnValue = false;
+    bool btnEventPending = false;
+    int lastPotValue = -1;
+    unsigned long lastChangeTime = 0;
+    bool potEventPending = false;
+
     LinkedList<Event> subscribedEvents;
+    LinkedList<Event> events;
 };
 
 extern EventManager eventManager;

@@ -11,7 +11,7 @@ public:
      * Gets the current potentiometer value.
      * @return A value between 0 an 1023
      */
-    float getValue();
+    int getValue();
 
 private:
     int pin;

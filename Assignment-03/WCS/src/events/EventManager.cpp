@@ -1,11 +1,24 @@
 #include "events/EventManager.hpp"
 #include "EventManager.hpp"
+#include "utils/MsgService.hpp"
+
+#include "configs.h"
+
+EventManager::EventManager() : listener(nullptr), hwPlatform(nullptr) {}
 
 void EventManager::setListener(EventListener *context)
 {
     if (this->listener == nullptr)
     {
         this->listener = context;
+    }
+}
+
+void EventManager::setHwPlatform(HWPlatform *HWPlatform)
+{
+    if (this->hwPlatform == nullptr)
+    {
+        this->hwPlatform = hwPlatform;
     }
 }
 
@@ -22,11 +35,56 @@ void EventManager::unsubscribeAll()
     this->subscribedEvents.clear();
 }
 
-void EventManager::notify(Event event)
+void EventManager::notify()
 {
-    if (isSubscribed(event) >= 0)
+    int size = events.size();
+    while (events.size() > 0)
     {
-        this->listener->update(event);
+        Event e = events.shift();
+        if (isSubscribed(e))
+            this->listener->update(e);
+    }
+}
+
+void EventManager::checkEvents()
+{
+    int raw = hwPlatform->getPotentiometer()->getValue();
+    bool isPressed = hwPlatform->getButton()->isPressed();
+
+    /**
+     * Check potentiometer
+     * -----------------------
+     */
+    int value = map(raw, 0, 1023, 0, 100);
+    if (abs(value - lastPotValue) > 2)
+    {
+        lastPotValue = value;
+        lastChangeTime = millis();
+        potEventPending = true;
+    }
+    if (potEventPending && (millis() - lastChangeTime >= POT_DEBOUNCE_TIME))
+    {
+        potEventPending = false;
+        // stableValue = lastValue;
+        // fire event(last value);
+    }
+    /**
+     * -----------------------
+     * Check button
+     * -----------------------
+     */
+    if (isPressed && !lastBtnValue)
+    {
+        this->events.add(Event::BUTTON_EVENT);
+    }
+    lastBtnValue = isPressed;
+
+    /**
+     * Check messages
+     */
+    if (MsgService.isMsgAvailable())
+    {
+        this->events.add(Event::MESSAGE_EVENT);
     }
 }
 

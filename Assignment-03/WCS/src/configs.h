@@ -11,3 +11,5 @@
 #define LCD_ADDRESS 0x27
 #define LCD_COLUMNS 16
 #define LCD_ROWS 2
+
+#define POT_DEBOUNCE_TIME 300
