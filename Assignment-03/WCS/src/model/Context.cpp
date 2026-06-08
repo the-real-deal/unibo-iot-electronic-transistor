@@ -5,34 +5,41 @@
 #include "utils/utility.hpp"
 #include "utils/MsgService.hpp"
 #include "configs.h"
+#include "Context.hpp"
 
-Context::Context(HWPlatform *platform) : currentState(nullptr), hwPlatform(platform) {}
+Context::Context() : currentState(nullptr), hwPlatform(nullptr) {}
 
 Context::~Context() {}
 
 void Context::update(Event event)
 {
+    String msg;
+    int value;
+
     switch (event)
     {
-    case Event::POTENTIOMETER_EVENT:
-        int value = map(this->hwPlatform->getPotentiometer()->getValue(), 0, 1024, 0, 90);
-        this->hwPlatform->getServoMotor()->setPosition(value);
-        MsgService.sendMsg(String(value));
-        break;
     case Event::BUTTON_EVENT:
         if (this->currentState->getState() == StateEnum::AUTOMATIC)
         {
             MsgService.sendMsg(MANUAL_STATE);
             setCurrentState(new ManualState(StateEnum::MANUAL));
         }
-        else
+        else if (this->currentState->getState() == StateEnum::MANUAL)
         {
             MsgService.sendMsg(AUTOMATIC_STATE);
             setCurrentState(new AutomaticState(StateEnum::AUTOMATIC));
         }
         break;
+    case Event::POTENTIOMETER_EVENT:
+
+        value = this->hwPlatform->getPotentiometer()->getValue(); // map(this->hwPlatform->getPotentiometer()->getValue(), 0, 1024, 0, 90);
+        // this->hwPlatform->getServoMotor()->setPosition(value);
+        Serial.print("Potentiometer: ");
+        MsgService.sendMsg(String(value));
+        break;
+
     case Event::MESSAGE_EVENT:
-        String msg = MsgService.receiveMsg()->getContent();
+        msg = MsgService.receiveMsg()->getContent();
         if (isInteger(msg))
         {
             int value = msg.toInt();
@@ -66,4 +73,12 @@ void Context::setCurrentState(State *state)
     this->currentState = state;
     this->hwPlatform->getLCD()->print(this->currentState->getValue());
     this->currentState->manageEvents();
+}
+
+void Context::setHwPlatform(HWPlatform *plt)
+{
+    if (this->hwPlatform == nullptr)
+    {
+        this->hwPlatform = plt;
+    }
 }

@@ -54,7 +54,7 @@ private:
      * Checks if the listener is subscribed to the given event
      * @returns the index of the event in the list, -1 if the listener is not subscribed
      */
-    int isSubscribed(Event event);
+    int subscribedEventIndex(Event event);
 
     EventListener *listener;
     HWPlatform *hwPlatform;
@@ -69,4 +69,4 @@ private:
     LinkedList<Event> events;
 };
 
-extern EventManager eventManager;
+extern EventManager *eventManager;

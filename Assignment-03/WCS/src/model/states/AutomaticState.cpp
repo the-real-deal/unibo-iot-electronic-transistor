@@ -3,7 +3,7 @@
 
 void AutomaticState::manageEvents()
 {
-    eventManager.unsubscribeAll();
-    eventManager.subscribe(Event::BUTTON_EVENT);
-    eventManager.subscribe(Event::MESSAGE_EVENT);
+    eventManager->unsubscribeAll();
+    eventManager->subscribe(Event::BUTTON_EVENT);
+    eventManager->subscribe(Event::MESSAGE_EVENT);
 }

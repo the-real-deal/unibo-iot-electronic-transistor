@@ -8,7 +8,7 @@ bool isInteger(const String &s)
     int start = (s[0] == '-') ? 1 : 0;
     if (start == 1 && s.length() == 1)
         return false; // just a minus sign
-    for (int i = start; i < s.length(); i++)
+    for (unsigned int i = start; i < s.length(); i++)
     {
         if (!isDigit(s[i]))
             return false;

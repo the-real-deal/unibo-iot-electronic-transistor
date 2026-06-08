@@ -14,20 +14,23 @@ void EventManager::setListener(EventListener *context)
     }
 }
 
-void EventManager::setHwPlatform(HWPlatform *HWPlatform)
+void EventManager::setHwPlatform(HWPlatform *_HWPlatform)
 {
     if (this->hwPlatform == nullptr)
     {
-        this->hwPlatform = hwPlatform;
+        this->hwPlatform = _HWPlatform;
     }
 }
 
 void EventManager::subscribe(Event event)
 {
-    if (isSubscribed(event) < 0)
+    if (subscribedEventIndex(event) < 0)
     {
         this->subscribedEvents.add(event);
     }
+    Serial.print("Subscribing to: ");
+    Serial.println(event);
+    Serial.flush();
 }
 
 void EventManager::unsubscribeAll()
@@ -37,12 +40,14 @@ void EventManager::unsubscribeAll()
 
 void EventManager::notify()
 {
-    int size = events.size();
     while (events.size() > 0)
     {
         Event e = events.shift();
-        if (isSubscribed(e))
+        Serial.println(e);
+        if (subscribedEventIndex(e) >= 0)
+        {
             this->listener->update(e);
+        }
     }
 }
 
@@ -55,7 +60,7 @@ void EventManager::checkEvents()
      * Check potentiometer
      * -----------------------
      */
-    int value = map(raw, 0, 1023, 0, 100);
+    int value = raw; // map(raw, 0, 1023, 0, 100);
     if (abs(value - lastPotValue) > POT_DEBOUNCE_VALUE)
     {
         lastPotValue = value;
@@ -87,7 +92,7 @@ void EventManager::checkEvents()
     }
 }
 
-int EventManager::isSubscribed(Event event)
+int EventManager::subscribedEventIndex(Event event)
 {
     for (int i = 0; i < this->subscribedEvents.size(); i++)
     {

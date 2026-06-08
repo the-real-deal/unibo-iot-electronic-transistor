@@ -3,6 +3,6 @@
 
 void UnconnectedState::manageEvents()
 {
-    eventManager.unsubscribeAll();
-    eventManager.subscribe(Event::MESSAGE_EVENT);
+    eventManager->unsubscribeAll();
+    eventManager->subscribe(Event::MESSAGE_EVENT);
 }

@@ -13,7 +13,7 @@ class State
 public:
     State(StateEnum state)
     {
-        this->state = state;
+        this->_state = state;
     }
     virtual ~State() = default;
 
@@ -25,22 +25,26 @@ public:
 
     StateEnum getState()
     {
-        return this->state;
+        return this->_state;
     }
 
     String getValue()
     {
-        switch (this->state)
+        if (this->_state == StateEnum::AUTOMATIC)
         {
-        case StateEnum::UNCONNECTED:
-            return UNCONNECTED_STATE;
-        case StateEnum::AUTOMATIC:
             return AUTOMATIC_STATE;
-        case StateEnum::MANUAL:
+        }
+        if (this->_state == StateEnum::MANUAL)
+        {
             return MANUAL_STATE;
         }
+        if (this->_state == StateEnum::UNCONNECTED)
+        {
+            return UNCONNECTED_STATE;
+        }
+        return F("");
     }
 
 private:
-    StateEnum state;
+    StateEnum _state;
 };

@@ -2,7 +2,7 @@
 #pragma once
 
 // [TODO] check these to be correct
-#define BUTTON_PIN PIN0
+#define BUTTON_PIN PIN7
 
 #define SERVO_PIN PIN3
 
@@ -11,6 +11,8 @@
 #define LCD_ADDRESS 0x27
 #define LCD_COLUMNS 16
 #define LCD_ROWS 2
+
+#define PERIOD 100
 
 #define POT_DEBOUNCE_TIME 400
 #define POT_DEBOUNCE_VALUE 10

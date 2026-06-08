@@ -7,13 +7,18 @@
 class Context : public EventListener
 {
 public:
-    Context(HWPlatform *platform);
+    Context();
     ~Context();
 
     /*
      * Changes the current state, method called by the states themselves
      */
     void setCurrentState(State *state);
+
+    /**
+     * Sets the hw platform class
+     */
+    void setHwPlatform(HWPlatform *plt);
 
     /**
      * Handles the given event
