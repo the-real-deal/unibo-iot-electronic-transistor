@@ -4,5 +4,6 @@
 class UnconnectedState : public State
 {
 public:
+    UnconnectedState(StateEnum state) : State(state) {}
     void manageEvents() override;
 };

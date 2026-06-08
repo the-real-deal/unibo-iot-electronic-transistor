@@ -19,6 +19,6 @@ void setup()
 
 void loop()
 {
-    // Read inputs (btn potentiometer and serial message) and add events (btn pressed, pot moved, msg Recv)
-    // context.Handle events
+    eventManager.checkEvents();
+    eventManager.notify();
 }

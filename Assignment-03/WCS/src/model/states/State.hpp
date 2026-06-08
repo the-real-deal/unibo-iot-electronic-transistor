@@ -1,8 +1,20 @@
 #pragma once
+#include "configs.h"
+enum StateEnum
+{
+    MANUAL,
+    AUTOMATIC,
+    UNCONNECTED
+};
+
 class State
 {
 
 public:
+    State(StateEnum state)
+    {
+        this->state = state;
+    }
     virtual ~State() = default;
 
     /**
@@ -11,6 +23,24 @@ public:
      */
     virtual void manageEvents() = 0;
 
+    StateEnum getState()
+    {
+        return this->state;
+    }
+
+    String getValue()
+    {
+        switch (this->state)
+        {
+        case StateEnum::UNCONNECTED:
+            return UNCONNECTED_STATE;
+        case StateEnum::AUTOMATIC:
+            return AUTOMATIC_STATE;
+        case StateEnum::MANUAL:
+            return MANUAL_STATE;
+        }
+    }
+
 private:
-    /* data */
+    StateEnum state;
 };

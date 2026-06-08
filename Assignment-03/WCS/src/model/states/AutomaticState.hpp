@@ -4,6 +4,7 @@
 class AutomaticState : public State
 {
 public:
+    AutomaticState(StateEnum state) : State(state) {}
     ~AutomaticState() = default;
 
     void manageEvents() override;

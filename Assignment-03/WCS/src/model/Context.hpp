@@ -2,11 +2,12 @@
 #include "model/states/State.hpp"
 #include "events/Event.hpp"
 #include "events/EventListener.hpp"
+#include "model/HWPlatform.hpp"
 
 class Context : public EventListener
 {
 public:
-    Context();
+    Context(HWPlatform *platform);
     ~Context();
 
     /*
@@ -22,4 +23,5 @@ public:
 
 private:
     State *currentState;
+    HWPlatform *hwPlatform;
 };
