@@ -28,9 +28,6 @@ void EventManager::subscribe(Event event)
     {
         this->subscribedEvents.add(event);
     }
-    Serial.print("Subscribing to: ");
-    Serial.println(event);
-    Serial.flush();
 }
 
 void EventManager::unsubscribeAll()
@@ -43,7 +40,6 @@ void EventManager::notify()
     while (events.size() > 0)
     {
         Event e = events.shift();
-        Serial.println(e);
         if (subscribedEventIndex(e) >= 0)
         {
             this->listener->update(e);
@@ -60,7 +56,7 @@ void EventManager::checkEvents()
      * Check potentiometer
      * -----------------------
      */
-    int value = raw; // map(raw, 0, 1023, 0, 100);
+    int value = raw;
     if (abs(value - lastPotValue) > POT_DEBOUNCE_VALUE)
     {
         lastPotValue = value;

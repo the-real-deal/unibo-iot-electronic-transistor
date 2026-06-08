@@ -7,6 +7,7 @@ import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.core.Vertx;
 import it.unibo.iot.Agents.HttpAgent;
 import it.unibo.iot.Agents.MqttAgent;
+import it.unibo.iot.Agents.SerialAgent;
 import it.unibo.iot.Agents.TimerAgent;
 import it.unibo.iot.Model.ChannelIdentifiers;
 import it.unibo.iot.Model.MapKeys;
@@ -59,12 +60,24 @@ public final class Server {
                 });
 
         vertx.deployVerticle(
-                new TimerAgent(3000, 5000, 100, 100)).onComplete(handle -> {
+                new TimerAgent(3000, 4000, 0.3, 0.6)).onComplete(handle -> {
                     if (!handle.failed()) {
                         logger.info("Timer agent started!");
                     } else {
                         logger.error("Error starting timer agent: ", handle.cause());
                     }
                 });
+
+        try {
+            vertx.deployVerticle(new SerialAgent("/dev/ttyACM0", 9600)).onComplete(handle -> {
+                if (!handle.failed()) {
+                    logger.info("Serial agent started!");
+                } else {
+                    logger.error("Error starting serial agent: ", handle.cause());
+                }
+            });
+        } catch (Exception e) {
+            logger.error("Error starting serial agent: ", e);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package it.unibo.iot.Agents;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;
 import io.vertx.core.eventbus.EventBus;
@@ -11,6 +14,8 @@ import it.unibo.iot.Model.States;
 import it.unibo.iot.Model.WaterLevel;
 
 public class TimerAgent extends VerticleBase {
+
+    private static final Logger logger = LoggerFactory.getLogger(TimerAgent.class);
 
     private enum InnerState {
         VALVE_CLOSED,
@@ -83,28 +88,32 @@ public class TimerAgent extends VerticleBase {
                     case InnerState.VALVE_CLOSED -> {
                         if (waterReading > this.waterThresholdMax) {
                             this.waterLevelTimerId = stopWatchdog(waterLevelTimerId);
-                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "100");
+                            eventBus.publish(ChannelIdentifiers.CONTROL_VALVE.value, "100");
                             this.state = InnerState.VALVE_OPEN_FULL;
                         } else if (waterReading > this.waterThreshold) {
+                            logger.info("STARTING TIMER");
                             waterLevelTimerId = startWatchdog(this.waterLevelTimeout, () -> {
-                                eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "50");
+                                eventBus.publish(ChannelIdentifiers.CONTROL_VALVE.value, "50");
                                 this.state = InnerState.VALVE_OPEN_50;
                             });
+                        } else {
+                            this.waterLevelTimerId = stopWatchdog(waterLevelTimerId);
                         }
                     }
                     case InnerState.VALVE_OPEN_50 -> {
                         if (waterReading > this.waterThresholdMax) {
                             this.waterLevelTimerId = stopWatchdog(waterLevelTimerId);
-                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "100");
+                            eventBus.publish(ChannelIdentifiers.CONTROL_VALVE.value, "100");
                             this.state = InnerState.VALVE_OPEN_FULL;
                         } else if (waterReading < this.waterThreshold) {
-                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "0");
+                            eventBus.publish(ChannelIdentifiers.CONTROL_VALVE.value, "0");
                             this.state = InnerState.VALVE_CLOSED;
                         }
                     }
                     case InnerState.VALVE_OPEN_FULL -> {
+                        this.waterLevelTimerId = stopWatchdog(waterLevelTimerId);
                         if (waterReading < this.waterThresholdMax) {
-                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "50");
+                            eventBus.publish(ChannelIdentifiers.CONTROL_VALVE.value, "50");
                             this.state = InnerState.VALVE_OPEN_50;
                         }
                     }

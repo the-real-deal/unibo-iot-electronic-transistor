@@ -25,8 +25,8 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
     private final SerialPort serialPort;
     private StringBuffer currentMsg = new StringBuffer("");
 
-    private final LocalMap<String, States> state;
-    private final LocalMap<String, Integer> valveLevel;
+    private LocalMap<String, States> state;
+    private LocalMap<String, Integer> valveLevel;
 
     @SuppressWarnings("LeakingThisInConstructor")
     public SerialAgent(String port, int rate) throws Exception {
@@ -44,12 +44,13 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
         // serialPort.addEventListener(this, SerialPort.MASK_RXCHAR);
         serialPort.addEventListener(this);
 
-        this.state = vertx.sharedData().getLocalMap(ChannelIdentifiers.CURRENT_STATE.value);
-        this.valveLevel = vertx.sharedData().getLocalMap(ChannelIdentifiers.VALVE_OPENING.value);
     }
 
     @Override
     public Future<?> start() throws Exception {
+
+        this.state = vertx.sharedData().getLocalMap(ChannelIdentifiers.CURRENT_STATE.value);
+        this.valveLevel = vertx.sharedData().getLocalMap(ChannelIdentifiers.VALVE_OPENING.value);
 
         EventBus eb = vertx.eventBus();
 
@@ -88,6 +89,7 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
                     if (index >= 0) {
                         String message = msg.substring(0, index);
                         // if the value is succesfully parsed the value is the valve opening
+                        logger.info("Message from serial: [" + msg + "]");
                         try {
                             int valve = Integer.parseInt(message);
                             // Set the valve global variable value
@@ -96,10 +98,14 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
                             // in case the parse is not successfull, its a state change message
                             if (message.contains(States.AUTOMATIC.stateValue)) {
                                 state.put(MapKeys.CURRENT_STATE, States.AUTOMATIC);
-                                vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value, States.AUTOMATIC);
+                                vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value,
+                                        States.AUTOMATIC.stateValue);
+                                logger.info("Updating state: " + States.AUTOMATIC.stateValue);
                             } else if (message.contains(States.MANUAL.stateValue)) {
                                 state.put(MapKeys.CURRENT_STATE, States.MANUAL);
-                                vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value, States.MANUAL);
+                                vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value,
+                                        States.MANUAL.stateValue);
+                                logger.info("Updating state: " + States.MANUAL.stateValue);
                             }
                         }
                         currentMsg = new StringBuffer("");

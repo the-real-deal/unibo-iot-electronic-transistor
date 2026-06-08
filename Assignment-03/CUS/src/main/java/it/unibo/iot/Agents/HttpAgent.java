@@ -70,7 +70,7 @@ public class HttpAgent extends VerticleBase {
                             return;
                         }
                         Integer valveRequest = request.getInteger(MapKeys.VALVE_LEVEL);
-                        vertx.eventBus().publish(ChannelIdentifiers.CONTROL_VALVE.value, valveRequest);
+                        vertx.eventBus().publish(ChannelIdentifiers.CONTROL_VALVE.value, valveRequest.toString());
                         valveLevel.put(MapKeys.VALVE_LEVEL, valveRequest);
                         // [TODO] decide who has to update the map
                         ctx.response().setStatusCode(200).end("OK");
@@ -94,7 +94,7 @@ public class HttpAgent extends VerticleBase {
                         else if (state.equals(States.MANUAL.stateValue))
                             s = States.MANUAL;
                         if (!s.equals(States.UNKNOWN)) {
-                            vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value, s);
+                            vertx.eventBus().publish(ChannelIdentifiers.STATE_CHANGED.value, s.stateValue);
                             currentState.put(MapKeys.CURRENT_STATE, s);
                             // [TODO] decide who has to update the map
                         }

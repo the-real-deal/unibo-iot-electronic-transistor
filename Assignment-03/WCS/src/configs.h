@@ -6,7 +6,7 @@
 
 #define SERVO_PIN PIN3
 
-#define POTENTIOMETER_PIN A0
+#define POTENTIOMETER_PIN A1
 
 #define LCD_ADDRESS 0x27
 #define LCD_COLUMNS 16

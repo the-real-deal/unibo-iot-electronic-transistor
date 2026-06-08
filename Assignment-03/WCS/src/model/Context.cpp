@@ -33,16 +33,15 @@ void Context::update(Event event)
     case Event::POTENTIOMETER_EVENT:
 
         value = this->hwPlatform->getPotentiometer()->getValue(); // map(this->hwPlatform->getPotentiometer()->getValue(), 0, 1024, 0, 90);
-        // this->hwPlatform->getServoMotor()->setPosition(value);
-        Serial.print("Potentiometer: ");
-        MsgService.sendMsg(String(value));
+        this->hwPlatform->getServoMotor()->setPosition(map(value, 0, 1024, 0, 90));
+        MsgService.sendMsg(String(map(value, 0, 1024, 0, 100)));
         break;
 
     case Event::MESSAGE_EVENT:
         msg = MsgService.receiveMsg()->getContent();
         if (isInteger(msg))
         {
-            int value = msg.toInt();
+            int value = map(msg.toInt(), 0, 100, 0, 90);
             this->hwPlatform->getServoMotor()->setPosition(value);
         }
         else
