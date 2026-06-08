@@ -53,14 +53,14 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
 
         EventBus eb = vertx.eventBus();
 
-        eb.<States>consumer(ChannelIdentifiers.STATE_CHANGED.value, msg -> {
-            state.put(MapKeys.CURRENT_STATE, msg.body());
-            this.sendMsg(msg.body().stateValue);
+        eb.<String>consumer(ChannelIdentifiers.STATE_CHANGED.value, msg -> {
+            this.sendMsg(msg.body());
         });
 
-        eb.<Integer>consumer(ChannelIdentifiers.CONTROL_VALVE.value, msg -> {
-            valveLevel.put(MapKeys.VALVE_LEVEL, msg.body());
-            this.sendMsg(Integer.toString(msg.body()));
+        eb.<String>consumer(ChannelIdentifiers.CONTROL_VALVE.value, msg -> {
+            int value = Integer.parseInt(msg.body());
+            valveLevel.put(MapKeys.VALVE_LEVEL, value);
+            this.sendMsg(Integer.toString(value));
         });
 
         return super.start();

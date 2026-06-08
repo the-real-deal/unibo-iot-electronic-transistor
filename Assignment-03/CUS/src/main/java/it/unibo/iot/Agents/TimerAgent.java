@@ -59,7 +59,7 @@ public class TimerAgent extends VerticleBase {
         Runnable resetTimer = () -> {
             stateMap.put(MapKeys.PREVIOUS_STATE, stateMap.get(MapKeys.CURRENT_STATE));
             stateMap.put(MapKeys.CURRENT_STATE, States.UNCONNECTED);
-            eventBus.publish(ChannelIdentifiers.STATE_CHANGED.value, States.UNCONNECTED);
+            eventBus.publish(ChannelIdentifiers.STATE_CHANGED.value, States.UNCONNECTED.stateValue);
         };
 
         this.connectionTimerId = startWatchdog(this.connectionTimeout, resetTimer);
@@ -68,7 +68,7 @@ public class TimerAgent extends VerticleBase {
             if (stateMap.get(MapKeys.CURRENT_STATE) == States.UNCONNECTED) {
                 States s = stateMap.get(MapKeys.PREVIOUS_STATE);
                 stateMap.put(MapKeys.CURRENT_STATE, s);
-                eventBus.publish(ChannelIdentifiers.STATE_CHANGED.value, s);
+                eventBus.publish(ChannelIdentifiers.STATE_CHANGED.value, s.stateValue);
             }
 
             WaterLevel current = waterLevel.get(MapKeys.WATER_LEVEL);
@@ -83,11 +83,11 @@ public class TimerAgent extends VerticleBase {
                     case InnerState.VALVE_CLOSED -> {
                         if (waterReading > this.waterThresholdMax) {
                             this.waterLevelTimerId = stopWatchdog(waterLevelTimerId);
-                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, 100);
+                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "100");
                             this.state = InnerState.VALVE_OPEN_FULL;
                         } else if (waterReading > this.waterThreshold) {
                             waterLevelTimerId = startWatchdog(this.waterLevelTimeout, () -> {
-                                eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, 50);
+                                eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "50");
                                 this.state = InnerState.VALVE_OPEN_50;
                             });
                         }
@@ -95,16 +95,16 @@ public class TimerAgent extends VerticleBase {
                     case InnerState.VALVE_OPEN_50 -> {
                         if (waterReading > this.waterThresholdMax) {
                             this.waterLevelTimerId = stopWatchdog(waterLevelTimerId);
-                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, 100);
+                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "100");
                             this.state = InnerState.VALVE_OPEN_FULL;
                         } else if (waterReading < this.waterThreshold) {
-                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, 0);
+                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "0");
                             this.state = InnerState.VALVE_CLOSED;
                         }
                     }
                     case InnerState.VALVE_OPEN_FULL -> {
                         if (waterReading < this.waterThresholdMax) {
-                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, 50);
+                            eventBus.publish(ChannelIdentifiers.VALVE_OPENING.value, "50");
                             this.state = InnerState.VALVE_OPEN_50;
                         }
                     }

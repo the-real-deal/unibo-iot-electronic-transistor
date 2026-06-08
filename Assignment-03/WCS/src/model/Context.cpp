@@ -32,7 +32,7 @@ void Context::update(Event event)
         }
         break;
     case Event::MESSAGE_EVENT:
-        String msg = MsgService.currentMsg->getContent();
+        String msg = MsgService.receiveMsg()->getContent();
         if (isInteger(msg))
         {
             int value = msg.toInt();

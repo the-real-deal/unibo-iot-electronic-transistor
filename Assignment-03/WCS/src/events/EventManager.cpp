@@ -56,7 +56,7 @@ void EventManager::checkEvents()
      * -----------------------
      */
     int value = map(raw, 0, 1023, 0, 100);
-    if (abs(value - lastPotValue) > 2)
+    if (abs(value - lastPotValue) > POT_DEBOUNCE_VALUE)
     {
         lastPotValue = value;
         lastChangeTime = millis();
@@ -65,8 +65,7 @@ void EventManager::checkEvents()
     if (potEventPending && (millis() - lastChangeTime >= POT_DEBOUNCE_TIME))
     {
         potEventPending = false;
-        // stableValue = lastValue;
-        // fire event(last value);
+        this->events.add(Event::POTENTIOMETER_EVENT);
     }
     /**
      * -----------------------
