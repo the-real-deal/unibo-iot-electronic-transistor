@@ -43,22 +43,12 @@ void reconnect()
     // Loop until we're reconnected
     while (!client.connected())
     {
-        Serial.print("Attempting MQTT connection...");
-
         // Create a random client ID
         String clientId = String("esiot-2025-client-") + String(random(0xffff), HEX);
 
         // Attempt to connect
-        if (client.connect(clientId.c_str()))
+        if (!client.connect(clientId.c_str()))
         {
-            Serial.println("connected");
-        }
-        else
-        {
-            Serial.print("failed, rc=");
-            Serial.print(client.state());
-            Serial.println(" try again in 5 seconds");
-            // Wait 5 seconds before retrying
             delay(5000);
         }
     }
@@ -103,8 +93,6 @@ void loop()
 
         /* creating a msg in the buffer */
         snprintf(msg, MSG_BUFFER_SIZE, "%f", distance);
-
-        Serial.println(String("Publishing message: ") + msg);
 
         /* publishing the msg */
         client.publish(topic, msg);
