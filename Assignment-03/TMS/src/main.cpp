@@ -12,7 +12,11 @@
 
 /**
  * !! ATTENTION !!
- * This information is contained in a ignored file, you will need to define it yourself
+ * Some information is contained in a ignored file, you will need to define it yourself:
+ * - SSID
+ * - PASSWORD
+ * - SERVER
+ * - TOPIC
  */
 const char *ssid = SSID;
 const char *password = PASSWORD;
