@@ -50,7 +50,9 @@ public final class Server {
         });
 
         vertx.deployVerticle(
-                new MqttAgent("broker.mqtt-dashboard.com", 1883, "waterLevel/readings", MqttQoS.AT_MOST_ONCE))
+                // broker.mqtt-dashboard.com
+                new MqttAgent("192.168.63.170", 1883, "waterLevel/readings",
+                        MqttQoS.AT_MOST_ONCE))
                 .onComplete(handle -> {
                     if (!handle.failed()) {
                         logger.info("Mqtt listener started!");
@@ -60,7 +62,7 @@ public final class Server {
                 });
 
         vertx.deployVerticle(
-                new TimerAgent(3000, 4000, 0.3, 0.6)).onComplete(handle -> {
+                new TimerAgent(10000, 4000, 0.5, 1.2)).onComplete(handle -> {
                     if (!handle.failed()) {
                         logger.info("Timer agent started!");
                     } else {

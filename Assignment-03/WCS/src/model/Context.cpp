@@ -6,6 +6,7 @@
 #include "utils/MsgService.hpp"
 #include "configs.h"
 #include "Context.hpp"
+#include "events/EventManager.hpp"
 
 Context::Context() : currentState(nullptr), hwPlatform(nullptr) {}
 
@@ -31,7 +32,6 @@ void Context::update(Event event)
         }
         break;
     case Event::POTENTIOMETER_EVENT:
-
         value = this->hwPlatform->getPotentiometer()->getValue(); // map(this->hwPlatform->getPotentiometer()->getValue(), 0, 1024, 0, 90);
         this->hwPlatform->getServoMotor()->setPosition(map(value, 0, 1024, 0, 90));
         MsgService.sendMsg(String(map(value, 0, 1024, 0, 100)));

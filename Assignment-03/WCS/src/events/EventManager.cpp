@@ -63,6 +63,7 @@ void EventManager::checkEvents()
         lastChangeTime = millis();
         potEventPending = true;
     }
+
     if (potEventPending && (millis() - lastChangeTime >= POT_DEBOUNCE_TIME))
     {
         potEventPending = false;

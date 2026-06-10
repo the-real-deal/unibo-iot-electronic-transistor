@@ -49,6 +49,8 @@ public:
      */
     void checkEvents();
 
+    void printDebug();
+
 private:
     /**
      * Checks if the listener is subscribed to the given event

@@ -62,6 +62,7 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
             int value = Integer.parseInt(msg.body());
             valveLevel.put(MapKeys.VALVE_LEVEL, value);
             this.sendMsg(Integer.toString(value));
+            logger.info("Sending message to serial");
         });
 
         return super.start();
@@ -89,7 +90,7 @@ public class SerialAgent extends VerticleBase implements SerialPortEventListener
                     if (index >= 0) {
                         String message = msg.substring(0, index);
                         // if the value is succesfully parsed the value is the valve opening
-                        logger.info("Message from serial: [" + msg + "]");
+                        logger.info("Message from serial: [" + message + "]");
                         try {
                             int valve = Integer.parseInt(message);
                             // Set the valve global variable value

@@ -94,7 +94,10 @@ void loop()
         lastMsgTime = now;
 
         float distance = sonar.getDistance();
-
+        if (connectingSignal.isOn())
+            connectingSignal.switchOff();
+        else
+            connectingSignal.switchOn();
         /* creating a msg in the buffer */
         snprintf(msg, MSG_BUFFER_SIZE, "%f", distance);
 

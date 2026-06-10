@@ -50,10 +50,15 @@ public class MqttAgent extends VerticleBase {
 
                     WaterLevel waterLevel = new WaterLevel(reading, now.format(formatter));
 
+                    logger.info("Mqtt message received!");
+
                     vertx.eventBus().publish(ChannelIdentifiers.MESSAGE_RECEIVED.value, "message received");
-                    vertx.sharedData()
-                            .getLocalMap(ChannelIdentifiers.WATER_LEVEL.value)
-                            .put(MapKeys.WATER_LEVEL, waterLevel);
+
+                    if (reading > 0) {
+                        vertx.sharedData()
+                                .getLocalMap(ChannelIdentifiers.WATER_LEVEL.value)
+                                .put(MapKeys.WATER_LEVEL, waterLevel);
+                    }
                 } catch (NumberFormatException e) {
                     logger.error("Error receiving data: ", e);
                 }
