@@ -98,4 +98,4 @@ Some tasks are special in that they can trigger a context switch. These tasks ta
 
 ## 8. Demo Video
 
-> See `doc/assignment-02.mp4` (not present in the remote repository for dimension problems)
+> See `doc/assignment-02.mp4` (not present in the remote repository to reduce repository dimensions).

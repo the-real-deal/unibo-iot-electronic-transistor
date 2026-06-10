@@ -114,3 +114,7 @@ The DBS is a web-based interface that allows remote operators to monitor system 
 - **Polling:** Periodically calls the CUS `GET /updateUI` endpoint to retrieve and display the latest water level, timestamp, system state, and valve level.
 - **Valve control:** Sends a `POST /interaction/valve` request to update the valve opening level.
 - **State control:** Sends a `POST /interaction/state` request to change the system's operational state.
+
+## 8. Demo Video
+
+> See `doc/assignment-03.mp4` (not present in the remote repository to reduce repository dimensions).
